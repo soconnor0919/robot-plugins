@@ -1,0 +1,7 @@
+<svg width="400" height="400" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="400" height="400" fill="#F3F4F6"/>
+  <path d="M200 150C177.909 150 160 167.909 160 190C160 212.091 177.909 230 200 230C222.091 230 240 212.091 240 190C240 167.909 222.091 150 200 150ZM200 220C183.458 220 170 206.542 170 190C170 173.458 183.458 160 200 160C216.542 160 230 173.458 230 190C230 206.542 216.542 220 200 220Z" fill="#9CA3AF"/>
+  <path d="M200 180C194.477 180 190 184.477 190 190C190 195.523 194.477 200 200 200C205.523 200 210 195.523 210 190C210 184.477 205.523 180 200 180Z" fill="#9CA3AF"/>
+  <text x="200" y="270" text-anchor="middle" font-family="system-ui" font-size="16" fill="#6B7280">Image Coming Soon</text>
+  <text x="200" y="290" text-anchor="middle" font-family="system-ui" font-size="14" fill="#9CA3AF">TurtleBot3 Burger</text>
+</svg> 

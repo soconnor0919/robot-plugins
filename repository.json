@@ -1,0 +1,24 @@
+{
+  "id": "hristudio-official",
+  "name": "HRIStudio Official Robot Plugins",
+  "description": "Official collection of robot plugins maintained by the HRIStudio team",
+  "url": "https://github.com/soconnor0919/robot-plugins",
+  "official": true,
+  "author": {
+    "name": "HRIStudio Team",
+    "email": "team@hristudio.org",
+    "url": "https://hristudio.org",
+    "organization": "HRIStudio"
+  },
+  "maintainers": [
+    {
+      "name": "Sean O'Connor",
+      "url": "https://github.com/soconnor0919"
+    }
+  ],
+  "homepage": "https://hristudio.org/plugins",
+  "license": "MIT",
+  "defaultBranch": "main",
+  "lastUpdated": "2024-02-12T00:00:00Z",
+  "trust": "official"
+} 
