@@ -20,5 +20,26 @@
   "license": "MIT",
   "defaultBranch": "main",
   "lastUpdated": "2024-02-12T00:00:00Z",
-  "trust": "official"
+  "trust": "official",
+  "compatibility": {
+    "hristudio": {
+      "min": "0.1.0",
+      "recommended": "0.1.0"
+    },
+    "ros2": {
+      "distributions": ["humble", "iron"],
+      "recommended": "iron"
+    }
+  },
+  "tags": [
+    "official",
+    "mobile-robots",
+    "ros2",
+    "turtlebot"
+  ],
+  "stats": {
+    "downloads": 0,
+    "stars": 0,
+    "plugins": 1
+  }
 } 
