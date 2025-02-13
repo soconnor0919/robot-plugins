@@ -2,8 +2,9 @@
   "id": "hristudio-official",
   "name": "HRIStudio Official Robot Plugins",
   "description": "Official collection of robot plugins maintained by the HRIStudio team",
-  "url": "https://github.com/soconnor0919/robot-plugins",
+  "url": "https://soconnor0919.github.io/robot-plugins",
   "official": true,
+  "trust": "official",
   "author": {
     "name": "HRIStudio Team",
     "email": "team@hristudio.org",
@@ -19,13 +20,7 @@
   "homepage": "https://hristudio.org/plugins",
   "license": "MIT",
   "defaultBranch": "main",
-  "lastUpdated": "2024-02-12T00:00:00Z",
-  "trust": "official",
-  "assets": {
-    "icon": "assets/repository-icon.png",
-    "logo": "assets/repository-logo.png",
-    "banner": "assets/repository-banner.png"
-  },
+  "lastUpdated": "2025-02-13T00:00:00Z",
   "compatibility": {
     "hristudio": {
       "min": "0.1.0",
@@ -35,6 +30,11 @@
       "distributions": ["humble", "iron"],
       "recommended": "iron"
     }
+  },
+  "assets": {
+    "icon": "assets/repository-icon.png",
+    "logo": "assets/repository-logo.png",
+    "banner": "assets/repository-banner.png"
   },
   "tags": [
     "official",
