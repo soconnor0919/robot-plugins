@@ -27,7 +27,7 @@
         "side": "assets/turtlebot3-burger/side.png",
         "top": "assets/turtlebot3-burger/top.png"
       },
-      "dimensions": "assets/turtlebot3-burger/dimensions.png"
+      "logo": "assets/turtlebot3-burger/logo.png"
     },
     "model": {
       "format": "URDF",

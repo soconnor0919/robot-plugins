@@ -21,6 +21,10 @@
   "defaultBranch": "main",
   "lastUpdated": "2024-02-12T00:00:00Z",
   "trust": "official",
+  "assets": {
+    "icon": "assets/repository-icon.png",
+    "banner": "assets/repository-banner.png"
+  },
   "compatibility": {
     "hristudio": {
       "min": "0.1.0",
