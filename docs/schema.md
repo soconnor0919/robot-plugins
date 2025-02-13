@@ -2,7 +2,60 @@
 
 This document describes the schema for HRIStudio robot plugins.
 
-## Overview
+## Repository Metadata
+
+The repository itself is defined by a `repository.json` file with the following structure:
+
+```json
+{
+  "id": string,
+  "name": string,
+  "description": string?,
+  "url": string (URL),
+  "official": boolean,
+  "author": {
+    "name": string,
+    "email": string (email)?,
+    "url": string (URL)?,
+    "organization": string?
+  },
+  "maintainers": [
+    {
+      "name": string,
+      "email": string (email)?,
+      "url": string (URL)?
+    }
+  ]?,
+  "homepage": string (URL)?,
+  "license": string,
+  "defaultBranch": string,
+  "lastUpdated": string (ISO date),
+  "trust": "official" | "verified" | "community",
+  "assets": {
+    "icon": string?,
+    "logo": string?,
+    "banner": string?
+  },
+  "compatibility": {
+    "hristudio": {
+      "min": string,
+      "recommended": string?
+    },
+    "ros2": {
+      "distributions": string[],
+      "recommended": string?
+    }?
+  },
+  "tags": string[],
+  "stats": {
+    "downloads": number,
+    "stars": number,
+    "plugins": number
+  }?
+}
+```
+
+## Plugin Schema
 
 Each plugin is defined in a JSON file with the following top-level structure:
 
@@ -40,7 +93,7 @@ Each plugin is defined in a JSON file with the following top-level structure:
 ```json
 "manufacturer": {
   "name": string,
-  "website": string (URL),
+  "website": string (URL)?,
   "support": string (URL)?
 }
 ```
@@ -61,14 +114,14 @@ Each plugin is defined in a JSON file with the following top-level structure:
 ```json
 "assets": {
   "thumbnailUrl": string,
+  "logo": string?,
   "images": {
     "main": string,
     "angles": {
       "front": string?,
       "side": string?,
       "top": string?
-    },
-    "dimensions": string?
+    }
   },
   "model": {
     "format": "URDF" | "glTF" | "other",
@@ -89,8 +142,7 @@ Each plugin is defined in a JSON file with the following top-level structure:
   },
   "capabilities": string[],
   "maxSpeed": number,
-  "batteryLife": number,
-  "payload": number?
+  "batteryLife": number
 }
 ```
 

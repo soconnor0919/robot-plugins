@@ -8,6 +8,9 @@ This repository contains robot plugins for use with HRIStudio, a platform for de
 robot-plugins/
 ├── plugins/         # Robot plugin definitions (JSON)
 ├── assets/         # Robot images and 3D models
+│   ├── repository-icon.png  # Repository icon (256x256px)
+│   ├── repository-logo.png  # Repository logo (512x512px)
+│   ├── repository-banner.png  # Repository banner (optional)
 │   └── {robotId}/  # Assets for each robot
 └── docs/           # Plugin documentation
 ```
@@ -28,12 +31,17 @@ For each robot plugin, you need:
 
 ### Assets
 - `assets/{robotId}/thumb.png` - Thumbnail image (160x160px)
+- `assets/{robotId}/logo.png` - Robot logo (512x512px, transparent background)
 - `assets/{robotId}/main.png` - Main image (16:9 aspect ratio)
-- `assets/{robotId}/dimensions.png` - Technical drawing (optional)
 - Additional views (optional):
   - `assets/{robotId}/front.png`
   - `assets/{robotId}/side.png`
   - `assets/{robotId}/top.png`
+
+### Repository Assets
+- `assets/repository-icon.png` - Repository icon (256x256px, square)
+- `assets/repository-logo.png` - Repository logo (512x512px, transparent background)
+- `assets/repository-banner.png` - Repository banner (optional, 1280x640px)
 
 ## Plugin Schema
 

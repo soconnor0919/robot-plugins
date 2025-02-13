@@ -23,6 +23,7 @@
   "trust": "official",
   "assets": {
     "icon": "assets/repository-icon.png",
+    "logo": "assets/repository-logo.png",
     "banner": "assets/repository-banner.png"
   },
   "compatibility": {

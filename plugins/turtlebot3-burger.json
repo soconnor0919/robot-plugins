@@ -21,7 +21,7 @@
   "assets": {
     "thumbnailUrl": "assets/turtlebot3-burger/thumb.png",
     "images": {
-      "main": "assets/turtlebot3-burger/main.png",
+      "main": "assets/turtlebot3-burger/main.jpg",
       "angles": {
         "front": "assets/turtlebot3-burger/front.png",
         "side": "assets/turtlebot3-burger/side.png",
