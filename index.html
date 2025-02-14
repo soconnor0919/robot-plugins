@@ -29,12 +29,12 @@
                     <!-- Tabs -->
                     <div class="tabs">
                         <div class="tabs-list" role="tablist">
-                            <button class="tab" role="tab" data-state="active" data-tab="overview">Overview</button>
-                            <button class="tab" role="tab" data-tab="plugins">Available Plugins</button>
+                            <button class="tab" role="tab" aria-selected="true" data-state="active" data-tab="overview">Overview</button>
+                            <button class="tab" role="tab" aria-selected="false" data-tab="plugins">Available Plugins</button>
                         </div>
 
                         <!-- Overview Tab -->
-                        <div class="tab-content" data-state="active" role="tabpanel" data-tab="overview">
+                        <div class="tab-content" data-state="active" role="tabpanel" data-tab="overview" aria-hidden="false">
                             <div class="grid grid-cols-2">
                                 <!-- Author Info -->
                                 <div class="card">
@@ -75,7 +75,7 @@
                                         </div>
                                         <div id="ros2Container" class="hidden">
                                             <h3>ROS 2</h3>
-                                            <div id="ros2Distributions"></div>
+                                            <div id="ros2Distributions" style="margin: 0.5rem 0;"></div>
                                             <div id="ros2RecommendedContainer" class="hidden">
                                                 <span>Recommended:</span>
                                                 <span id="ros2Recommended"></span>
@@ -91,13 +91,13 @@
                                     <h2>Tags</h2>
                                 </div>
                                 <div class="card-content">
-                                    <div id="tags"></div>
+                                    <div id="tags" style="margin: -0.25rem;"></div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- Plugins Tab -->
-                        <div class="tab-content" role="tabpanel" data-tab="plugins">
+                        <div class="tab-content" role="tabpanel" data-tab="plugins" aria-hidden="true">
                             <div class="card">
                                 <div class="card-header">
                                     <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -123,15 +123,19 @@
         document.querySelectorAll('.tab').forEach(tab => {
             tab.addEventListener('click', () => {
                 // Update tab states
-                document.querySelectorAll('.tab').forEach(t => t.setAttribute('data-state', ''));
+                document.querySelectorAll('.tab').forEach(t => {
+                    t.setAttribute('data-state', '');
+                    t.setAttribute('aria-selected', 'false');
+                });
                 tab.setAttribute('data-state', 'active');
+                tab.setAttribute('aria-selected', 'true');
 
                 // Update content states
                 const tabId = tab.getAttribute('data-tab');
                 document.querySelectorAll('.tab-content').forEach(content => {
-                    content.setAttribute('data-state', 
-                        content.getAttribute('data-tab') === tabId ? 'active' : ''
-                    );
+                    const isActive = content.getAttribute('data-tab') === tabId;
+                    content.setAttribute('data-state', isActive ? 'active' : '');
+                    content.setAttribute('aria-hidden', isActive ? 'false' : 'true');
                 });
             });
         });
