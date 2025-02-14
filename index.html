@@ -4,136 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HRIStudio Robot Plugins</title>
-    <style>
-        /* Base styles */
-        :root {
-            --primary: #0066cc;
-            --primary-light: #e6f0ff;
-            --text: #1a1a1a;
-            --text-muted: #666666;
-            --border: #e5e7eb;
-            --background: #f9fafb;
-            --card: #ffffff;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        body {
-            font-family: system-ui, -apple-system, sans-serif;
-            line-height: 1.5;
-            color: var(--text);
-            background: var(--background);
-        }
-
-        /* Layout */
-        .container {
-            max-width: 64rem;
-            margin: 0 auto;
-            padding: 1.5rem;
-        }
-
-        .grid {
-            display: grid;
-            gap: 1.5rem;
-        }
-
-        .grid-cols-2 {
-            grid-template-columns: repeat(2, 1fr);
-        }
-
-        /* Components */
-        .card {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 1.5rem;
-            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .header img {
-            width: 4rem;
-            height: 4rem;
-            border-radius: 0.5rem;
-            object-fit: contain;
-            background: var(--primary-light);
-            padding: 0.5rem;
-        }
-
-        .banner {
-            width: 100%;
-            height: 12rem;
-            border-radius: 0.75rem;
-            object-fit: cover;
-            margin-bottom: 1.5rem;
-        }
-
-        .title {
-            font-size: 1.875rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
-        }
-
-        .description {
-            color: var(--text-muted);
-            margin-bottom: 1rem;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            font-weight: 500;
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .stat {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            color: var(--text-muted);
-            font-size: 0.875rem;
-        }
-
-        .tag {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 9999px;
-            font-size: 0.875rem;
-            background: var(--background);
-            color: var(--text-muted);
-            margin: 0.25rem;
-        }
-
-        code {
-            font-family: ui-monospace, monospace;
-            background: var(--background);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.25rem;
-            font-size: 0.875rem;
-        }
-
-        .hidden { display: none; }
-    </style>
+    <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
     <div class="container">
-        <div id="loading" class="text-center py-12">Loading repository data...</div>
+        <div id="loading">Loading repository data...</div>
         <div id="content" class="hidden">
             <!-- Header -->
-            <div class="header">
-                <img id="repoIcon" alt="Repository Icon" class="hidden">
-                <div>
-                    <h1 id="repoName" class="title"></h1>
-                    <p id="repoDescription" class="description"></p>
+            <div class="card header-card">
+                <div class="card-header">
+                    <img id="repoIcon" alt="Repository Icon" class="hidden">
+                    <div>
+                        <h3 id="repoName" class="card-title"></h3>
+                        <p id="repoDescription" class="card-description"></p>
+                    </div>
                 </div>
             </div>
 
@@ -141,9 +25,15 @@
 
             <!-- Stats -->
             <div class="card">
-                <div class="stat">
-                    <span>Plugins:</span>
-                    <span id="pluginCount"></span>
+                <div class="card-header">
+                    <h3 class="card-title">Statistics</h3>
+                    <p class="card-description">Repository information and metrics</p>
+                </div>
+                <div class="card-content">
+                    <div class="stat">
+                        <span>Available Plugins:</span>
+                        <span id="pluginCount"></span>
+                    </div>
                 </div>
             </div>
 
@@ -151,42 +41,54 @@
             <div class="grid grid-cols-2">
                 <!-- Author Info -->
                 <div class="card">
-                    <h2>Author</h2>
-                    <div class="content">
-                        <div>
-                            <span>Name:</span>
-                            <span id="authorName"></span>
-                        </div>
-                        <div id="authorOrgContainer" class="hidden">
-                            <span>Organization:</span>
-                            <span id="authorOrg"></span>
-                        </div>
-                        <div id="authorUrlContainer" class="hidden">
-                            <a id="authorUrl" class="text-primary hover:underline" target="_blank">View Profile</a>
+                    <div class="card-header">
+                        <h3 class="card-title">Author</h3>
+                        <p class="card-description">Repository maintainer information</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="content">
+                            <div>
+                                <span>Name:</span>
+                                <span id="authorName"></span>
+                            </div>
+                            <div id="authorOrgContainer" class="hidden">
+                                <span>Organization:</span>
+                                <span id="authorOrg"></span>
+                            </div>
+                            <div id="authorUrlContainer" class="hidden">
+                                <a id="authorUrl" target="_blank">View Profile</a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Compatibility -->
                 <div class="card">
-                    <h2>Compatibility</h2>
-                    <div>
-                        <h3>HRIStudio</h3>
-                        <div>
-                            <span>Min Version:</span>
-                            <code id="hriMin"></code>
-                        </div>
-                        <div id="hriRecommendedContainer" class="hidden">
-                            <span>Recommended:</span>
-                            <code id="hriRecommended"></code>
-                        </div>
+                    <div class="card-header">
+                        <h3 class="card-title">Compatibility</h3>
+                        <p class="card-description">Version requirements and support</p>
                     </div>
-                    <div id="ros2Container" class="hidden">
-                        <h3>ROS 2</h3>
-                        <div id="ros2Distributions"></div>
-                        <div id="ros2RecommendedContainer" class="hidden">
-                            <span>Recommended:</span>
-                            <code id="ros2Recommended"></code>
+                    <div class="card-content">
+                        <div class="content">
+                            <div>
+                                <h4>HRIStudio</h4>
+                                <div>
+                                    <span>Min Version:</span>
+                                    <code id="hriMin"></code>
+                                </div>
+                                <div id="hriRecommendedContainer" class="hidden">
+                                    <span>Recommended:</span>
+                                    <code id="hriRecommended"></code>
+                                </div>
+                            </div>
+                            <div id="ros2Container" class="hidden">
+                                <h4>ROS 2</h4>
+                                <div id="ros2Distributions"></div>
+                                <div id="ros2RecommendedContainer" class="hidden">
+                                    <span>Recommended:</span>
+                                    <code id="ros2Recommended"></code>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -194,8 +96,13 @@
 
             <!-- Tags -->
             <div class="card">
-                <h2>Tags</h2>
-                <div id="tags"></div>
+                <div class="card-header">
+                    <h3 class="card-title">Tags</h3>
+                    <p class="card-description">Repository categories and features</p>
+                </div>
+                <div class="card-content">
+                    <div id="tags"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -239,8 +146,9 @@
                     const distributionsDiv = document.getElementById('ros2Distributions');
                     data.compatibility.ros2.distributions.forEach(dist => {
                         const badge = document.createElement('span');
-                        badge.className = 'badge';
+                        badge.className = 'badge secondary';
                         badge.textContent = dist;
+                        badge.style.marginRight = '0.5rem';
                         distributionsDiv.appendChild(badge);
                     });
                     
