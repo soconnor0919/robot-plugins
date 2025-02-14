@@ -10,158 +10,181 @@
     <div class="container">
         <div id="loading" class="loading">Loading repository data...</div>
 
-        <div id="content" class="content hidden">
-            <header class="header">
-                <div class="header-content">
+        <div id="content" class="hidden">
+            <!-- Header -->
+            <div class="card mb-8">
+                <div class="flex items-center gap-6 p-6">
                     <img id="repoIcon" alt="Repository Icon" class="header-icon hidden">
-                    <div class="header-text">
-                        <h1 id="repoName" class="header-title"></h1>
-                        <p id="repoDescription" class="header-description"></p>
+                    <div>
+                        <h1 id="repoName" class="card-title"></h1>
+                        <p id="repoDescription" class="card-description"></p>
                     </div>
                 </div>
-            </header>
+            </div>
 
-            <img id="repoBanner" class="banner hidden">
-
-            <main class="main">
-                <div class="stats">
-                    <div class="stat">
-                        <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                            <path d="M3.3 7l8.7 5 8.7-5"></path>
-                        </svg>
-                        <div class="stat-content">
-                            <div class="stat-label">Available Plugins</div>
-                            <div id="pluginCount" class="stat-value">0</div>
-                        </div>
+            <!-- Stats -->
+            <div class="grid grid-cols-1 mb-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Statistics</h2>
+                        <p class="card-description">Repository information and metrics</p>
                     </div>
-                </div>
-
-                <div class="grid">
-                    <section class="card">
-                        <h2 class="card-title">Author</h2>
-                        <div class="card-content">
-                            <div class="info-list">
-                                <div class="info">
-                                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                        <circle cx="12" cy="7" r="4"></circle>
-                                    </svg>
-                                    <div class="info-content">
-                                        <div class="info-label">Name</div>
-                                        <div id="authorName" class="info-value"></div>
-                                    </div>
-                                </div>
-
-                                <div id="authorOrgContainer" class="info hidden">
-                                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-                                        <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-                                    </svg>
-                                    <div class="info-content">
-                                        <div class="info-label">Organization</div>
-                                        <div id="authorOrg" class="info-value"></div>
-                                    </div>
-                                </div>
-
-                                <div id="authorUrlContainer" class="info hidden">
-                                    <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-                                        <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-                                    </svg>
-                                    <div class="info-content">
-                                        <div class="info-label">Profile</div>
-                                        <a id="authorUrl" class="info-link" target="_blank">View Profile</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-
-                    <section class="card">
-                        <h2 class="card-title">Compatibility</h2>
-                        <div class="card-content">
-                            <div class="info-list">
-                                <div class="info-group">
-                                    <div class="info-group-header">
-                                        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
-                                            <path d="m3.3 7 8.7 5 8.7-5"></path>
-                                        </svg>
-                                        <h3 class="info-group-title">HRIStudio</h3>
-                                    </div>
-
-                                    <div class="info">
-                                        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M12 2v20"></path>
-                                            <path d="M2 12h20"></path>
-                                        </svg>
-                                        <div class="info-content">
-                                            <div class="info-label">Min Version</div>
-                                            <code id="hriMin" class="info-value"></code>
-                                        </div>
-                                    </div>
-
-                                    <div id="hriRecommendedContainer" class="info hidden">
-                                        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-                                            <path d="m9 12 2 2 4-4"></path>
-                                        </svg>
-                                        <div class="info-content">
-                                            <div class="info-label">Recommended</div>
-                                            <code id="hriRecommended" class="info-value"></code>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div id="ros2Container" class="info-group hidden">
-                                    <div class="info-group-header">
-                                        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <circle cx="12" cy="12" r="10"></circle>
-                                            <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"></path>
-                                            <path d="M7.8 7.8c-2.3 2.3-2.3 6.1 0 8.4"></path>
-                                        </svg>
-                                        <h3 class="info-group-title">ROS 2</h3>
-                                    </div>
-
-                                    <div class="info">
-                                        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M8 2h8"></path>
-                                            <path d="M8 6h8"></path>
-                                            <path d="M8 10h8"></path>
-                                            <path d="M8 14h8"></path>
-                                            <path d="M8 18h8"></path>
-                                            <path d="M3 22h18"></path>
-                                        </svg>
-                                        <div class="info-content">
-                                            <div class="info-label">Distributions</div>
-                                            <div id="ros2Distributions" class="badge-list"></div>
-                                        </div>
-                                    </div>
-
-                                    <div id="ros2RecommendedContainer" class="info hidden">
-                                        <svg class="info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
-                                            <path d="m9 12 2 2 4-4"></path>
-                                        </svg>
-                                        <div class="info-content">
-                                            <div class="info-label">Recommended</div>
-                                            <code id="ros2Recommended" class="info-value"></code>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
-
-                <section class="card">
-                    <h2 class="card-title">Tags</h2>
                     <div class="card-content">
-                        <div id="tags" class="tag-list"></div>
+                        <div class="grid grid-cols-4">
+                            <div class="flex items-center gap-4">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    <path d="M3.3 7l8.7 5 8.7-5"></path>
+                                </svg>
+                                <div>
+                                    <div class="text-sm text-muted-foreground">Available Plugins</div>
+                                    <div id="pluginCount" class="text-2xl font-semibold">0</div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </section>
-            </main>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <!-- Author Info -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Author</h2>
+                        <p class="card-description">Repository maintainer information</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="flex flex-col gap-4">
+                            <div class="flex items-center gap-4">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                                <div>
+                                    <div class="text-sm text-muted-foreground">Name</div>
+                                    <div id="authorName" class="text-sm"></div>
+                                </div>
+                            </div>
+
+                            <div id="authorOrgContainer" class="flex items-center gap-4 hidden">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                    <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                </svg>
+                                <div>
+                                    <div class="text-sm text-muted-foreground">Organization</div>
+                                    <div id="authorOrg" class="text-sm"></div>
+                                </div>
+                            </div>
+
+                            <div id="authorUrlContainer" class="flex items-center gap-4 hidden">
+                                <svg class="icon" viewBox="0 0 24 24">
+                                    <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                    <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                </svg>
+                                <div>
+                                    <div class="text-sm text-muted-foreground">Profile</div>
+                                    <a id="authorUrl" class="text-sm text-primary hover:underline" target="_blank">View Profile</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Compatibility -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Compatibility</h2>
+                        <p class="card-description">Version requirements and support</p>
+                    </div>
+                    <div class="card-content">
+                        <div class="flex flex-col gap-6">
+                            <!-- HRIStudio -->
+                            <div class="flex flex-col gap-4">
+                                <div class="flex items-center gap-2">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                        <path d="m3.3 7 8.7 5 8.7-5"></path>
+                                    </svg>
+                                    <h3 class="text-base font-semibold">HRIStudio</h3>
+                                </div>
+
+                                <div class="flex items-center gap-4">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M12 2v20"></path>
+                                        <path d="M2 12h20"></path>
+                                    </svg>
+                                    <div>
+                                        <div class="text-sm text-muted-foreground">Min Version</div>
+                                        <code id="hriMin" class="text-sm"></code>
+                                    </div>
+                                </div>
+
+                                <div id="hriRecommendedContainer" class="flex items-center gap-4 hidden">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                                        <path d="m9 12 2 2 4-4"></path>
+                                    </svg>
+                                    <div>
+                                        <div class="text-sm text-muted-foreground">Recommended</div>
+                                        <code id="hriRecommended" class="text-sm"></code>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- ROS 2 -->
+                            <div id="ros2Container" class="flex flex-col gap-4 hidden">
+                                <div class="flex items-center gap-2">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"></path>
+                                        <path d="M7.8 7.8c-2.3 2.3-2.3 6.1 0 8.4"></path>
+                                    </svg>
+                                    <h3 class="text-base font-semibold">ROS 2</h3>
+                                </div>
+
+                                <div class="flex items-center gap-4">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M8 2h8"></path>
+                                        <path d="M8 6h8"></path>
+                                        <path d="M8 10h8"></path>
+                                        <path d="M8 14h8"></path>
+                                        <path d="M8 18h8"></path>
+                                        <path d="M3 22h18"></path>
+                                    </svg>
+                                    <div>
+                                        <div class="text-sm text-muted-foreground">Distributions</div>
+                                        <div id="ros2Distributions" class="flex flex-wrap gap-2 mt-2"></div>
+                                    </div>
+                                </div>
+
+                                <div id="ros2RecommendedContainer" class="flex items-center gap-4 hidden">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                                        <path d="m9 12 2 2 4-4"></path>
+                                    </svg>
+                                    <div>
+                                        <div class="text-sm text-muted-foreground">Recommended</div>
+                                        <code id="ros2Recommended" class="text-sm"></code>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tags -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Tags</h2>
+                    <p class="card-description">Repository categories and features</p>
+                </div>
+                <div class="card-content">
+                    <div id="tags" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -204,9 +227,8 @@
                     const distributionsDiv = document.getElementById('ros2Distributions');
                     data.compatibility.ros2.distributions.forEach(dist => {
                         const badge = document.createElement('span');
-                        badge.className = 'badge secondary';
+                        badge.className = 'badge';
                         badge.textContent = dist;
-                        badge.style.marginRight = '0.5rem';
                         distributionsDiv.appendChild(badge);
                     });
                     
@@ -220,7 +242,7 @@
                 const tagsContainer = document.getElementById('tags');
                 data.tags.forEach(tag => {
                     const badge = document.createElement('span');
-                    badge.className = 'tag';
+                    badge.className = 'badge badge-secondary';
                     badge.textContent = tag;
                     tagsContainer.appendChild(badge);
                 });
@@ -230,12 +252,6 @@
                     const iconImg = document.getElementById('repoIcon');
                     iconImg.src = data.assets.icon;
                     iconImg.classList.remove('hidden');
-                }
-                
-                if (data.assets?.banner) {
-                    const banner = document.getElementById('repoBanner');
-                    banner.src = data.assets.banner;
-                    banner.classList.remove('hidden');
                 }
                 
                 // Show content
@@ -249,9 +265,6 @@
 
         // Load data when page loads
         loadRepositoryData();
-    </script>
-</body>
-</html> 
     </script>
 </body>
 </html> 
