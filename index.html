@@ -32,6 +32,10 @@
                 <div class="card-content">
                     <div class="stats-grid">
                         <div class="stat-item">
+                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <path d="M3.3 7l8.7 5 8.7-5"></path>
+                            </svg>
                             <span class="stat-label">Available Plugins</span>
                             <span id="pluginCount" class="stat-value"></span>
                         </div>
@@ -49,17 +53,39 @@
                     </div>
                     <div class="card-content">
                         <div class="info-grid">
-                            <div class="info-item">
-                                <span class="info-label">Name</span>
-                                <span id="authorName" class="info-value"></span>
-                            </div>
-                            <div id="authorOrgContainer" class="info-item hidden">
-                                <span class="info-label">Organization</span>
-                                <span id="authorOrg" class="info-value"></span>
-                            </div>
-                            <div id="authorUrlContainer" class="info-item hidden">
-                                <span class="info-label">Profile</span>
-                                <a id="authorUrl" target="_blank" class="info-link">View Profile</a>
+                            <div class="sub-card">
+                                <div class="sub-card-content">
+                                    <div class="info-item">
+                                        <div class="info-header">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                                <circle cx="12" cy="7" r="4"></circle>
+                                            </svg>
+                                            <span class="info-label">Name</span>
+                                        </div>
+                                        <span id="authorName" class="info-value"></span>
+                                    </div>
+                                    <div id="authorOrgContainer" class="info-item hidden">
+                                        <div class="info-header">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                                            </svg>
+                                            <span class="info-label">Organization</span>
+                                        </div>
+                                        <span id="authorOrg" class="info-value"></span>
+                                    </div>
+                                    <div id="authorUrlContainer" class="info-item hidden">
+                                        <div class="info-header">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+                                                <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+                                            </svg>
+                                            <span class="info-label">Profile</span>
+                                        </div>
+                                        <a id="authorUrl" target="_blank" class="info-link">View Profile</a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -73,26 +99,71 @@
                     </div>
                     <div class="card-content">
                         <div class="info-grid">
-                            <div class="info-section">
-                                <h4 class="info-title">HRIStudio</h4>
-                                <div class="info-item">
-                                    <span class="info-label">Min Version</span>
-                                    <code id="hriMin" class="info-value"></code>
-                                </div>
-                                <div id="hriRecommendedContainer" class="info-item hidden">
-                                    <span class="info-label">Recommended</span>
-                                    <code id="hriRecommended" class="info-value"></code>
-                                </div>
-                            </div>
-                            <div id="ros2Container" class="info-section hidden">
-                                <h4 class="info-title">ROS 2</h4>
-                                <div class="info-item">
-                                    <span class="info-label">Distributions</span>
-                                    <div id="ros2Distributions" class="badge-list"></div>
-                                </div>
-                                <div id="ros2RecommendedContainer" class="info-item hidden">
-                                    <span class="info-label">Recommended</span>
-                                    <code id="ros2Recommended" class="info-value"></code>
+                            <div class="sub-card">
+                                <div class="sub-card-content">
+                                    <div class="info-section">
+                                        <div class="info-section-header">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                                <path d="m3.3 7 8.7 5 8.7-5"></path>
+                                            </svg>
+                                            <h4 class="info-title">HRIStudio</h4>
+                                        </div>
+                                        <div class="info-item">
+                                            <div class="info-header">
+                                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M12 2v20"></path>
+                                                    <path d="M2 12h20"></path>
+                                                </svg>
+                                                <span class="info-label">Min Version</span>
+                                            </div>
+                                            <code id="hriMin" class="info-value"></code>
+                                        </div>
+                                        <div id="hriRecommendedContainer" class="info-item hidden">
+                                            <div class="info-header">
+                                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                                                    <path d="m9 12 2 2 4-4"></path>
+                                                </svg>
+                                                <span class="info-label">Recommended</span>
+                                            </div>
+                                            <code id="hriRecommended" class="info-value"></code>
+                                        </div>
+                                    </div>
+                                    <div id="ros2Container" class="info-section hidden">
+                                        <div class="info-section-header">
+                                            <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                <circle cx="12" cy="12" r="10"></circle>
+                                                <path d="M16.2 7.8c2.3 2.3 2.3 6.1 0 8.4"></path>
+                                                <path d="M7.8 7.8c-2.3 2.3-2.3 6.1 0 8.4"></path>
+                                            </svg>
+                                            <h4 class="info-title">ROS 2</h4>
+                                        </div>
+                                        <div class="info-item">
+                                            <div class="info-header">
+                                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M8 2h8"></path>
+                                                    <path d="M8 6h8"></path>
+                                                    <path d="M8 10h8"></path>
+                                                    <path d="M8 14h8"></path>
+                                                    <path d="M8 18h8"></path>
+                                                    <path d="M3 22h18"></path>
+                                                </svg>
+                                                <span class="info-label">Distributions</span>
+                                            </div>
+                                            <div id="ros2Distributions" class="badge-list"></div>
+                                        </div>
+                                        <div id="ros2RecommendedContainer" class="info-item hidden">
+                                            <div class="info-header">
+                                                <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path>
+                                                    <path d="m9 12 2 2 4-4"></path>
+                                                </svg>
+                                                <span class="info-label">Recommended</span>
+                                            </div>
+                                            <code id="ros2Recommended" class="info-value"></code>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -107,7 +178,11 @@
                     <p class="card-description">Repository categories and features</p>
                 </div>
                 <div class="card-content">
-                    <div id="tags" class="badge-list"></div>
+                    <div class="sub-card">
+                        <div class="sub-card-content">
+                            <div id="tags" class="badge-list"></div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -199,5 +274,4 @@
         loadRepositoryData();
     </script>
 </body>
-</html> 
 </html> 
