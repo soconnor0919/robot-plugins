@@ -11,7 +11,10 @@ The repository itself is defined by a `repository.json` file with the following 
   "id": string,
   "name": string,
   "description": string?,
-  "url": string (URL),
+  "urls": {
+    "repository": string (URL),
+    "git": string (URL)?
+  },
   "official": boolean,
   "author": {
     "name": string,
@@ -48,8 +51,6 @@ The repository itself is defined by a `repository.json` file with the following 
   },
   "tags": string[],
   "stats": {
-    "downloads": number,
-    "stars": number,
     "plugins": number
   }?
 }

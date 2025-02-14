@@ -13,17 +13,17 @@ plugins/             # Directory containing all plugin files
   plugin2.json       # Individual plugin definition
   ...
 assets/              # Optional directory for repository assets
-  icon.png          # Repository icon
-  banner.jpg        # Repository banner
-  logo.svg          # Repository logo
+  repository-icon.png    # Repository icon
+  repository-logo.png    # Repository logo
+  repository-banner.png  # Repository banner
 ```
 
 ## Web Interface
 
-The repository includes a built-in web interface (`index.html`) that provides a user-friendly way to view repository information. When hosting your repository on GitHub Pages or any web server, this interface will automatically:
+The repository includes a built-in web interface (`index.html`) that provides a user-friendly way to view repository information. When hosting your repository, this interface will automatically:
 
 - Display repository name, description, and metadata
-- Show repository statistics (plugin count, downloads, stars)
+- Show repository statistics (plugin count)
 - List author information and compatibility details
 - Display repository tags and categories
 - Show repository assets (icon, banner, logo)
@@ -39,7 +39,12 @@ The `repository.json` file contains the repository's metadata and configuration:
   "id": "unique-repository-id",
   "name": "Repository Name",
   "description": "Repository description",
-  "url": "https://example.com/repository",
+  "urls": {
+    "repository": "https://example.com/repository",
+    "git": "https://github.com/user/repo.git"
+  },
+  "official": false,
+  "trust": "community",
   "author": {
     "name": "Author Name",
     "organization": "Organization Name",
@@ -52,18 +57,16 @@ The `repository.json` file contains the repository's metadata and configuration:
     },
     "ros2": {
       "distributions": ["humble", "iron"],
-      "recommended": "humble"
+      "recommended": "iron"
     }
   },
   "assets": {
-    "icon": "assets/icon.png",
-    "banner": "assets/banner.jpg",
-    "logo": "assets/logo.svg"
+    "icon": "assets/repository-icon.png",
+    "banner": "assets/repository-banner.png",
+    "logo": "assets/repository-logo.png"
   },
   "stats": {
-    "plugins": 0,
-    "downloads": 0,
-    "stars": 0
+    "plugins": 0
   },
   "tags": ["robots", "simulation", "education"]
 }
@@ -77,13 +80,12 @@ For detailed information about plugin structure and requirements, see the [Plugi
 
 ## Contributing
 
-1. Fork this repository
-2. Create your plugin branch (`git checkout -b my-new-plugin`)
+1. Fork or clone this repository
+2. Create your plugin branch
 3. Add your plugin JSON file to the `plugins` directory
 4. Update `plugins/index.json` to include your plugin
-5. Commit your changes (`git commit -am 'Add new plugin'`)
-6. Push to the branch (`git push origin my-new-plugin`)
-7. Create a new Pull Request
+5. Test your changes locally
+6. Submit your changes
 
 ## License
 

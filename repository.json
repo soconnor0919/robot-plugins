@@ -2,7 +2,9 @@
   "id": "hristudio-official",
   "name": "HRIStudio Official Robot Plugins",
   "description": "Official collection of robot plugins maintained by the HRIStudio team",
-  "url": "https://soconnor0919.github.io/robot-plugins",
+  "urls": {
+    "repository": "https://soconnor0919.github.io/robot-plugins"
+  },
   "official": true,
   "trust": "official",
   "author": {
@@ -43,8 +45,6 @@
     "turtlebot"
   ],
   "stats": {
-    "downloads": 0,
-    "stars": 0,
     "plugins": 1
   }
 } 
