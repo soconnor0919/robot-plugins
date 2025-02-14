@@ -3,14 +3,15 @@
   "name": "HRIStudio Official Robot Plugins",
   "description": "Official collection of robot plugins maintained by the HRIStudio team",
   "urls": {
-    "repository": "https://soconnor0919.github.io/robot-plugins"
+    "git": "https://github.com/soconnor0919/robot-plugins",
+    "repository": "https://repo.hristudio.com"
   },
   "official": true,
   "trust": "official",
   "author": {
     "name": "HRIStudio Team",
-    "email": "team@hristudio.org",
-    "url": "https://hristudio.org",
+    "email": "support@hristudio.com",
+    "url": "https://hristudio.com",
     "organization": "HRIStudio"
   },
   "maintainers": [
