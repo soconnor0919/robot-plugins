@@ -126,6 +126,10 @@ body::after {
     backdrop-filter: blur(16px);
 }
 
+.card + .card {
+    margin-top: 1.5rem;
+}
+
 .card-header {
     display: flex;
     flex-direction: column;
@@ -160,7 +164,7 @@ body::after {
 }
 
 .sub-card-content {
-    padding: 1rem;
+    padding: 1.25rem;
 }
 
 /* Header Card */
@@ -206,9 +210,15 @@ body::after {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    padding: 1rem;
+    padding: 1.25rem;
     background: hsl(var(--secondary));
     border-radius: var(--radius);
+}
+
+.stat-item .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    color: hsl(var(--primary));
 }
 
 .stat-label {
@@ -269,12 +279,14 @@ body::after {
 .info-value {
     font-size: 0.875rem;
     color: hsl(var(--card-foreground));
+    padding-left: 1.75rem;
 }
 
 .info-link {
     color: hsl(var(--primary));
     text-decoration: none;
     font-size: 0.875rem;
+    padding-left: 1.75rem;
 }
 
 .info-link:hover {
@@ -289,11 +301,17 @@ body::after {
     flex-shrink: 0;
 }
 
+.info-header .icon {
+    position: absolute;
+    margin-left: 0.25rem;
+}
+
 /* Badge List */
 .badge-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
+    padding-left: 1.75rem;
 }
 
 /* Badges and Tags */
