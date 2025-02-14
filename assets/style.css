@@ -106,6 +106,10 @@ body::after {
     grid-template-columns: repeat(2, 1fr);
 }
 
+.space-y-6 > * + * {
+    margin-top: 1.5rem;
+}
+
 @media (max-width: 768px) {
     .grid-cols-2 {
         grid-template-columns: 1fr;
@@ -178,6 +182,86 @@ body::after {
     background: hsl(var(--secondary));
 }
 
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    background: hsl(var(--secondary));
+    border-radius: var(--radius);
+}
+
+.stat-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: hsl(var(--muted-foreground));
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: hsl(var(--card-foreground));
+    line-height: 1;
+}
+
+/* Info Grid */
+.info-grid {
+    display: grid;
+    gap: 1.5rem;
+}
+
+.info-section {
+    display: grid;
+    gap: 1rem;
+}
+
+.info-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: hsl(var(--card-foreground));
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid hsl(var(--border));
+}
+
+.info-item {
+    display: grid;
+    gap: 0.5rem;
+}
+
+.info-label {
+    font-size: 0.875rem;
+    color: hsl(var(--muted-foreground));
+}
+
+.info-value {
+    font-size: 0.875rem;
+    color: hsl(var(--card-foreground));
+}
+
+.info-link {
+    color: hsl(var(--primary));
+    text-decoration: none;
+    font-size: 0.875rem;
+}
+
+.info-link:hover {
+    text-decoration: underline;
+}
+
+/* Badge List */
+.badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
 /* Badges and Tags */
 .badge {
     display: inline-flex;
@@ -208,39 +292,6 @@ body::after {
     line-height: 1;
     background: hsl(var(--secondary));
     color: hsl(var(--secondary-foreground));
-    margin: 0.25rem;
-}
-
-/* Stats */
-.stat {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    color: hsl(var(--muted-foreground));
-    font-size: 0.875rem;
-}
-
-/* Content */
-.content {
-    display: grid;
-    gap: 0.75rem;
-}
-
-.content h4 {
-    font-size: 0.875rem;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: hsl(var(--card-foreground));
-}
-
-.content a {
-    color: hsl(var(--primary));
-    text-decoration: none;
-    font-size: 0.875rem;
-}
-
-.content a:hover {
-    text-decoration: underline;
 }
 
 /* Code */

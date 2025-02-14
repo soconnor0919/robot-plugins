@@ -9,7 +9,7 @@
 <body>
     <div class="container">
         <div id="loading">Loading repository data...</div>
-        <div id="content" class="hidden">
+        <div id="content" class="hidden space-y-6">
             <!-- Header -->
             <div class="card header-card">
                 <div class="card-header">
@@ -30,9 +30,11 @@
                     <p class="card-description">Repository information and metrics</p>
                 </div>
                 <div class="card-content">
-                    <div class="stat">
-                        <span>Available Plugins:</span>
-                        <span id="pluginCount"></span>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <span class="stat-label">Available Plugins</span>
+                            <span id="pluginCount" class="stat-value"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -46,17 +48,18 @@
                         <p class="card-description">Repository maintainer information</p>
                     </div>
                     <div class="card-content">
-                        <div class="content">
-                            <div>
-                                <span>Name:</span>
-                                <span id="authorName"></span>
+                        <div class="info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Name</span>
+                                <span id="authorName" class="info-value"></span>
                             </div>
-                            <div id="authorOrgContainer" class="hidden">
-                                <span>Organization:</span>
-                                <span id="authorOrg"></span>
+                            <div id="authorOrgContainer" class="info-item hidden">
+                                <span class="info-label">Organization</span>
+                                <span id="authorOrg" class="info-value"></span>
                             </div>
-                            <div id="authorUrlContainer" class="hidden">
-                                <a id="authorUrl" target="_blank">View Profile</a>
+                            <div id="authorUrlContainer" class="info-item hidden">
+                                <span class="info-label">Profile</span>
+                                <a id="authorUrl" target="_blank" class="info-link">View Profile</a>
                             </div>
                         </div>
                     </div>
@@ -69,24 +72,27 @@
                         <p class="card-description">Version requirements and support</p>
                     </div>
                     <div class="card-content">
-                        <div class="content">
-                            <div>
-                                <h4>HRIStudio</h4>
-                                <div>
-                                    <span>Min Version:</span>
-                                    <code id="hriMin"></code>
+                        <div class="info-grid">
+                            <div class="info-section">
+                                <h4 class="info-title">HRIStudio</h4>
+                                <div class="info-item">
+                                    <span class="info-label">Min Version</span>
+                                    <code id="hriMin" class="info-value"></code>
                                 </div>
-                                <div id="hriRecommendedContainer" class="hidden">
-                                    <span>Recommended:</span>
-                                    <code id="hriRecommended"></code>
+                                <div id="hriRecommendedContainer" class="info-item hidden">
+                                    <span class="info-label">Recommended</span>
+                                    <code id="hriRecommended" class="info-value"></code>
                                 </div>
                             </div>
-                            <div id="ros2Container" class="hidden">
-                                <h4>ROS 2</h4>
-                                <div id="ros2Distributions"></div>
-                                <div id="ros2RecommendedContainer" class="hidden">
-                                    <span>Recommended:</span>
-                                    <code id="ros2Recommended"></code>
+                            <div id="ros2Container" class="info-section hidden">
+                                <h4 class="info-title">ROS 2</h4>
+                                <div class="info-item">
+                                    <span class="info-label">Distributions</span>
+                                    <div id="ros2Distributions" class="badge-list"></div>
+                                </div>
+                                <div id="ros2RecommendedContainer" class="info-item hidden">
+                                    <span class="info-label">Recommended</span>
+                                    <code id="ros2Recommended" class="info-value"></code>
                                 </div>
                             </div>
                         </div>
@@ -101,7 +107,7 @@
                     <p class="card-description">Repository categories and features</p>
                 </div>
                 <div class="card-content">
-                    <div id="tags"></div>
+                    <div id="tags" class="badge-list"></div>
                 </div>
             </div>
         </div>
@@ -193,4 +199,5 @@
         loadRepositoryData();
     </script>
 </body>
+</html> 
 </html> 
