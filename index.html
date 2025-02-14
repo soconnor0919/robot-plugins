@@ -24,74 +24,110 @@
     <div class="container">
         <div id="loading">Loading repository data...</div>
         <div id="content" class="hidden">
-            <!-- Header -->
-            <div class="header">
-                <img id="repoIcon" alt="Repository Icon" class="hidden">
-                <div>
-                    <h1 id="repoName" class="title"></h1>
-                    <p id="repoDescription" class="description"></p>
-                </div>
+            <!-- Banner -->
+            <div id="repoBanner" class="header-banner hidden">
+                <img alt="Repository Banner">
             </div>
 
-            <img id="repoBanner" class="banner hidden">
-
-            <!-- Stats -->
+            <!-- Header Card -->
             <div class="card">
-                <div class="stat">
-                    <span>Plugins:</span>
-                    <span id="pluginCount"></span>
-                </div>
-            </div>
-
-            <!-- Details -->
-            <div class="grid grid-cols-2">
-                <!-- Author Info -->
-                <div class="card">
-                    <h2>Author</h2>
-                    <div class="content">
+                <div class="card-content">
+                    <div class="header-content">
+                        <img id="repoIcon" alt="Repository Icon" class="header-icon hidden">
                         <div>
-                            <span>Name:</span>
-                            <span id="authorName"></span>
+                            <h1 id="repoName" class="title"></h1>
+                            <p id="repoDescription" class="description"></p>
                         </div>
-                        <div id="authorOrgContainer" class="hidden">
-                            <span>Organization:</span>
-                            <span id="authorOrg"></span>
+                    </div>
+
+                    <!-- Tabs -->
+                    <div class="tabs">
+                        <div class="tabs-list" role="tablist">
+                            <button class="tab" role="tab" data-state="active" data-tab="overview">Overview</button>
+                            <button class="tab" role="tab" data-tab="plugins">Available Plugins</button>
                         </div>
-                        <div id="authorUrlContainer" class="hidden">
-                            <a id="authorUrl" target="_blank">View Profile</a>
+
+                        <!-- Overview Tab -->
+                        <div class="tab-content" data-state="active" role="tabpanel" data-tab="overview">
+                            <div class="grid grid-cols-2">
+                                <!-- Author Info -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2>Author</h2>
+                                    </div>
+                                    <div class="card-content">
+                                        <div>
+                                            <span>Name:</span>
+                                            <span id="authorName"></span>
+                                        </div>
+                                        <div id="authorOrgContainer" class="hidden">
+                                            <span>Organization:</span>
+                                            <span id="authorOrg"></span>
+                                        </div>
+                                        <div id="authorUrlContainer" class="hidden">
+                                            <a id="authorUrl" target="_blank">View Profile</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Compatibility -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h2>Compatibility</h2>
+                                    </div>
+                                    <div class="card-content">
+                                        <div>
+                                            <h3>HRIStudio</h3>
+                                            <div>
+                                                <span>Min Version:</span>
+                                                <span id="hriMin"></span>
+                                            </div>
+                                            <div id="hriRecommendedContainer" class="hidden">
+                                                <span>Recommended:</span>
+                                                <span id="hriRecommended"></span>
+                                            </div>
+                                        </div>
+                                        <div id="ros2Container" class="hidden">
+                                            <h3>ROS 2</h3>
+                                            <div id="ros2Distributions"></div>
+                                            <div id="ros2RecommendedContainer" class="hidden">
+                                                <span>Recommended:</span>
+                                                <span id="ros2Recommended"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tags -->
+                            <div class="card" style="margin-top: 1.5rem;">
+                                <div class="card-header">
+                                    <h2>Tags</h2>
+                                </div>
+                                <div class="card-content">
+                                    <div id="tags"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Plugins Tab -->
+                        <div class="tab-content" role="tabpanel" data-tab="plugins">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <h2 style="margin: 0;">Available Plugins</h2>
+                                        <span class="badge badge-secondary" id="pluginCount"></span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div id="pluginGrid" class="plugin-grid">
+                                        <!-- Plugins will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-
-                <!-- Compatibility -->
-                <div class="card">
-                    <h2>Compatibility</h2>
-                    <div>
-                        <h3>HRIStudio</h3>
-                        <div>
-                            <span>Min Version:</span>
-                            <code id="hriMin"></code>
-                        </div>
-                        <div id="hriRecommendedContainer" class="hidden">
-                            <span>Recommended:</span>
-                            <code id="hriRecommended"></code>
-                        </div>
-                    </div>
-                    <div id="ros2Container" class="hidden">
-                        <h3>ROS 2</h3>
-                        <div id="ros2Distributions"></div>
-                        <div id="ros2RecommendedContainer" class="hidden">
-                            <span>Recommended:</span>
-                            <code id="ros2Recommended"></code>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tags -->
-            <div class="card">
-                <h2>Tags</h2>
-                <div id="tags"></div>
             </div>
         </div>
     </div>
@@ -142,6 +178,23 @@
             setTheme(newTheme);
         });
 
+        // Tab management
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Update tab states
+                document.querySelectorAll('.tab').forEach(t => t.setAttribute('data-state', ''));
+                tab.setAttribute('data-state', 'active');
+
+                // Update content states
+                const tabId = tab.getAttribute('data-tab');
+                document.querySelectorAll('.tab-content').forEach(content => {
+                    content.setAttribute('data-state', 
+                        content.getAttribute('data-tab') === tabId ? 'active' : ''
+                    );
+                });
+            });
+        });
+
         // Repository data loading
         async function loadRepositoryData() {
             try {
@@ -156,7 +209,7 @@
                 document.getElementById('repoDescription').textContent = data.description || '';
                 
                 // Update stats
-                document.getElementById('pluginCount').textContent = data.stats?.plugins || 0;
+                document.getElementById('pluginCount').textContent = `${data.stats?.plugins || 0} plugins`;
                 
                 // Update author info
                 document.getElementById('authorName').textContent = data.author.name;
@@ -196,7 +249,7 @@
                 const tagsContainer = document.getElementById('tags');
                 data.tags.forEach(tag => {
                     const badge = document.createElement('span');
-                    badge.className = 'tag';
+                    badge.className = 'badge badge-secondary';
                     badge.textContent = tag;
                     tagsContainer.appendChild(badge);
                 });
@@ -210,8 +263,34 @@
                 
                 if (data.assets?.banner) {
                     const banner = document.getElementById('repoBanner');
-                    banner.src = data.assets.banner;
                     banner.classList.remove('hidden');
+                    banner.querySelector('img').src = data.assets.banner;
+                }
+
+                // Load plugins
+                const pluginGrid = document.getElementById('pluginGrid');
+                const pluginsResponse = await fetch('plugins/index.json');
+                const pluginFiles = await pluginsResponse.json();
+
+                for (const pluginFile of pluginFiles) {
+                    const pluginResponse = await fetch(`plugins/${pluginFile}`);
+                    const plugin = await pluginResponse.json();
+
+                    const card = document.createElement('div');
+                    card.className = 'plugin-card';
+                    card.innerHTML = `
+                        <div class="plugin-header">
+                            <img src="${plugin.assets.thumbnailUrl}" alt="${plugin.name}" class="plugin-icon">
+                            <div class="plugin-info">
+                                <div class="plugin-title">${plugin.name}</div>
+                                <div class="plugin-description">${plugin.description || ''}</div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="badge badge-secondary">${plugin.platform}</span>
+                        </div>
+                    `;
+                    pluginGrid.appendChild(card);
                 }
                 
                 // Show content
