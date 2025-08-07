@@ -1,0 +1,62 @@
+{
+  "name": "hristudio-robot-plugins",
+  "version": "1.0.0",
+  "description": "Official HRIStudio robot plugins repository",
+  "main": "index.html",
+  "scripts": {
+    "validate": "node scripts/validate-plugin.js validate-all",
+    "update-index": "node scripts/validate-plugin.js update-index",
+    "serve": "python3 -m http.server 8080",
+    "test": "./validate.sh test",
+    "build": "./validate.sh build",
+    "lint": "eslint scripts/*.js",
+    "format": "prettier --write '**/*.{json,md,js}'",
+    "check-format": "prettier --check '**/*.{json,md,js}'",
+    "validate-json": "find . -name '*.json' -not -path './node_modules/*' | xargs -I {} sh -c 'echo \"Validating {}\" && node -e \"JSON.parse(require(\\\"fs\\\").readFileSync(\\\"{}\\\", \\\"utf8\\\"))\"'",
+    "optimize": "find . -name '*.json' -not -path './node_modules/*' | xargs -I {} node -e 'const fs=require(\"fs\");const data=JSON.parse(fs.readFileSync(\"{}\",\"utf8\"));fs.writeFileSync(\"{}\",JSON.stringify(data,null,2));console.log(\"Optimized {}\");'",
+    "stats": "node -e 'const fs=require(\"fs\");const index=JSON.parse(fs.readFileSync(\"plugins/index.json\",\"utf8\"));console.log(`Repository contains ${index.length} plugins`);index.forEach(f=>{const p=JSON.parse(fs.readFileSync(`plugins/${f}`,\"utf8\"));console.log(`- ${p.name} (${p.robotId}) - ${p.actions.length} actions`)});'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/soconnor0919/robot-plugins.git"
+  },
+  "keywords": [
+    "robotics",
+    "ros2",
+    "hri",
+    "wizard-of-oz",
+    "research",
+    "plugins"
+  ],
+  "author": {
+    "name": "HRIStudio Team",
+    "email": "support@hristudio.com",
+    "url": "https://hristudio.com"
+  },
+  "license": "MIT",
+  "homepage": "https://repo.hristudio.com",
+  "bugs": {
+    "url": "https://github.com/soconnor0919/robot-plugins/issues"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "devDependencies": {
+    "ajv": "^8.12.0",
+    "ajv-cli": "^5.0.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0"
+  },
+  "files": [
+    "repository.json",
+    "index.html",
+    "plugins/",
+    "assets/",
+    "docs/",
+    "scripts/",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
+}

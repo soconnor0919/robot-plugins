@@ -4,7 +4,11 @@
   "description": "A compact, affordable, programmable, ROS2-based mobile robot for education and research",
   "platform": "ROS2",
   "version": "2.0.0",
-  
+  "pluginApiVersion": "1.0",
+  "hriStudioVersion": ">=0.1.0",
+  "trustLevel": "official",
+  "category": "mobile-robot",
+
   "manufacturer": {
     "name": "ROBOTIS",
     "website": "https://www.robotis.com/",
@@ -42,12 +46,7 @@
       "height": 0.192,
       "weight": 1.0
     },
-    "capabilities": [
-      "differential_drive",
-      "lidar",
-      "imu",
-      "odometry"
-    ],
+    "capabilities": ["differential_drive", "lidar", "imu", "odometry"],
     "maxSpeed": 0.22,
     "batteryLife": 2.5
   },
@@ -66,31 +65,29 @@
 
   "actions": [
     {
-      "actionId": "move-velocity",
-      "type": "move",
-      "title": "Set Velocity",
+      "id": "move_velocity",
+      "name": "Set Velocity",
       "description": "Control the robot's linear and angular velocity",
+      "category": "movement",
       "icon": "navigation",
-      "parameters": {
+      "timeout": 30000,
+      "retryable": true,
+      "parameterSchema": {
         "type": "object",
         "properties": {
           "linear": {
             "type": "number",
-            "title": "Linear Velocity",
-            "description": "Forward/backward velocity",
-            "default": 0,
             "minimum": -0.22,
             "maximum": 0.22,
-            "unit": "m/s"
+            "default": 0,
+            "description": "Forward/backward velocity in m/s"
           },
           "angular": {
             "type": "number",
-            "title": "Angular Velocity",
-            "description": "Rotational velocity",
-            "default": 0,
             "minimum": -2.84,
             "maximum": 2.84,
-            "unit": "rad/s"
+            "default": 0,
+            "description": "Rotational velocity in rad/s"
           }
         },
         "required": ["linear", "angular"]
@@ -111,34 +108,30 @@
       }
     },
     {
-      "actionId": "move-to-pose",
-      "type": "move",
-      "title": "Move to Position",
+      "id": "move_to_pose",
+      "name": "Move to Position",
       "description": "Navigate to a specific position on the map",
+      "category": "movement",
       "icon": "target",
-      "parameters": {
+      "timeout": 60000,
+      "retryable": true,
+      "parameterSchema": {
         "type": "object",
         "properties": {
           "x": {
             "type": "number",
-            "title": "X Position",
-            "description": "X coordinate in meters",
             "default": 0,
-            "unit": "m"
+            "description": "X coordinate in meters"
           },
           "y": {
             "type": "number",
-            "title": "Y Position",
-            "description": "Y coordinate in meters",
             "default": 0,
-            "unit": "m"
+            "description": "Y coordinate in meters"
           },
           "theta": {
             "type": "number",
-            "title": "Orientation",
-            "description": "Final orientation",
             "default": 0,
-            "unit": "rad"
+            "description": "Final orientation in radians"
           }
         },
         "required": ["x", "y", "theta"]
@@ -151,6 +144,37 @@
           "transformFn": "transformToPoseStamped"
         }
       }
+    },
+    {
+      "id": "stop_robot",
+      "name": "Stop Robot",
+      "description": "Immediately stop all robot movement",
+      "category": "movement",
+      "icon": "square",
+      "timeout": 5000,
+      "retryable": false,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "linear": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "angular": { "x": 0.0, "y": 0.0, "z": 0.0 }
+          }
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        }
+      }
     }
   ]
-} 
+}

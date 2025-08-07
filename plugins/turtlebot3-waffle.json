@@ -1,0 +1,367 @@
+{
+  "robotId": "turtlebot3-waffle",
+  "name": "TurtleBot3 Waffle",
+  "description": "Extended TurtleBot3 platform with additional sensors and computing power for advanced research applications",
+  "platform": "ROS2",
+  "version": "2.0.0",
+  "pluginApiVersion": "1.0",
+  "hriStudioVersion": ">=0.1.0",
+  "trustLevel": "official",
+  "category": "mobile-robot",
+
+  "manufacturer": {
+    "name": "ROBOTIS",
+    "website": "https://www.robotis.com/",
+    "support": "https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/"
+  },
+
+  "documentation": {
+    "mainUrl": "https://emanual.robotis.com/docs/en/platform/turtlebot3/overview/",
+    "apiReference": "https://emanual.robotis.com/docs/en/platform/turtlebot3/ros2_manipulation/",
+    "wikiUrl": "https://wiki.ros.org/turtlebot3",
+    "videoUrl": "https://www.youtube.com/watch?v=rVM994ZhsEM"
+  },
+
+  "assets": {
+    "thumbnailUrl": "assets/turtlebot3-waffle/thumb.png",
+    "images": {
+      "main": "assets/turtlebot3-waffle/main.jpg",
+      "angles": {
+        "front": "assets/turtlebot3-waffle/front.png",
+        "side": "assets/turtlebot3-waffle/side.png",
+        "top": "assets/turtlebot3-waffle/top.png"
+      },
+      "logo": "assets/turtlebot3-waffle/logo.png"
+    },
+    "model": {
+      "format": "URDF",
+      "url": "https://raw.githubusercontent.com/ROBOTIS-GIT/turtlebot3/master/turtlebot3_description/urdf/turtlebot3_waffle.urdf"
+    }
+  },
+
+  "specs": {
+    "dimensions": {
+      "length": 0.281,
+      "width": 0.306,
+      "height": 0.141,
+      "weight": 1.8
+    },
+    "capabilities": [
+      "differential_drive",
+      "lidar",
+      "imu",
+      "odometry",
+      "camera",
+      "manipulation"
+    ],
+    "maxSpeed": 0.26,
+    "batteryLife": 2.8
+  },
+
+  "ros2Config": {
+    "namespace": "turtlebot3",
+    "nodePrefix": "hri_studio",
+    "defaultTopics": {
+      "cmd_vel": "/cmd_vel",
+      "odom": "/odom",
+      "scan": "/scan",
+      "imu": "/imu",
+      "joint_states": "/joint_states",
+      "camera": "/camera/image_raw",
+      "camera_info": "/camera/camera_info"
+    }
+  },
+
+  "actions": [
+    {
+      "id": "move_velocity",
+      "name": "Set Velocity",
+      "description": "Control the robot's linear and angular velocity",
+      "category": "movement",
+      "icon": "navigation",
+      "timeout": 30000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "linear": {
+            "type": "number",
+            "minimum": -0.26,
+            "maximum": 0.26,
+            "default": 0,
+            "description": "Forward/backward velocity in m/s"
+          },
+          "angular": {
+            "type": "number",
+            "minimum": -1.82,
+            "maximum": 1.82,
+            "default": 0,
+            "description": "Rotational velocity in rad/s"
+          }
+        },
+        "required": ["linear", "angular"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToTwist"
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        }
+      }
+    },
+    {
+      "id": "move_to_pose",
+      "name": "Navigate to Position",
+      "description": "Navigate to a specific position on the map using autonomous navigation",
+      "category": "movement",
+      "icon": "target",
+      "timeout": 120000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "x": {
+            "type": "number",
+            "default": 0,
+            "description": "X coordinate in meters"
+          },
+          "y": {
+            "type": "number",
+            "default": 0,
+            "description": "Y coordinate in meters"
+          },
+          "theta": {
+            "type": "number",
+            "default": 0,
+            "description": "Final orientation in radians"
+          }
+        },
+        "required": ["x", "y", "theta"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/PoseStamped",
+        "action": "/navigate_to_pose",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToPoseStamped"
+        }
+      }
+    },
+    {
+      "id": "capture_image",
+      "name": "Capture Image",
+      "description": "Capture an image from the robot's camera",
+      "category": "sensors",
+      "icon": "camera",
+      "timeout": 10000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "filename": {
+            "type": "string",
+            "default": "image_{timestamp}.jpg",
+            "description": "Filename for the captured image"
+          },
+          "quality": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 85,
+            "description": "JPEG quality (1-100)"
+          }
+        },
+        "required": ["filename"]
+      },
+      "ros2": {
+        "messageType": "sensor_msgs/msg/Image",
+        "topic": "/camera/image_raw",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "captureAndSaveImage"
+        }
+      }
+    },
+    {
+      "id": "scan_environment",
+      "name": "Scan Environment",
+      "description": "Perform a 360-degree scan of the environment using LIDAR",
+      "category": "sensors",
+      "icon": "radar",
+      "timeout": 15000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "duration": {
+            "type": "number",
+            "minimum": 1.0,
+            "maximum": 10.0,
+            "default": 3.0,
+            "description": "Scan duration in seconds"
+          },
+          "save_data": {
+            "type": "boolean",
+            "default": true,
+            "description": "Save scan data to file"
+          }
+        },
+        "required": ["duration"]
+      },
+      "ros2": {
+        "messageType": "sensor_msgs/msg/LaserScan",
+        "topic": "/scan",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "collectLaserScan"
+        }
+      }
+    },
+    {
+      "id": "rotate_in_place",
+      "name": "Rotate in Place",
+      "description": "Rotate the robot by a specific angle",
+      "category": "movement",
+      "icon": "rotate-cw",
+      "timeout": 30000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "angle": {
+            "type": "number",
+            "minimum": -6.28,
+            "maximum": 6.28,
+            "default": 1.57,
+            "description": "Rotation angle in radians (positive = counterclockwise)"
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 1.0,
+            "default": 0.5,
+            "description": "Rotation speed as fraction of maximum"
+          }
+        },
+        "required": ["angle"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToRotation"
+        }
+      }
+    },
+    {
+      "id": "follow_wall",
+      "name": "Follow Wall",
+      "description": "Follow a wall using LIDAR sensor feedback",
+      "category": "movement",
+      "icon": "move-3d",
+      "timeout": 60000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "side": {
+            "type": "string",
+            "enum": ["left", "right"],
+            "default": "right",
+            "description": "Which side wall to follow"
+          },
+          "distance": {
+            "type": "number",
+            "minimum": 0.2,
+            "maximum": 1.0,
+            "default": 0.3,
+            "description": "Desired distance from wall in meters"
+          },
+          "duration": {
+            "type": "number",
+            "minimum": 5.0,
+            "maximum": 120.0,
+            "default": 30.0,
+            "description": "Duration to follow wall in seconds"
+          }
+        },
+        "required": ["side", "distance", "duration"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "wallFollowing"
+        }
+      }
+    },
+    {
+      "id": "emergency_stop",
+      "name": "Emergency Stop",
+      "description": "Immediately stop all robot movement and disable motors",
+      "category": "movement",
+      "icon": "octagon",
+      "timeout": 2000,
+      "retryable": false,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "linear": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "angular": { "x": 0.0, "y": 0.0, "z": 0.0 }
+          }
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        }
+      }
+    },
+    {
+      "id": "get_robot_state",
+      "name": "Get Robot State",
+      "description": "Retrieve current robot position, orientation, and status",
+      "category": "sensors",
+      "icon": "info",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "include_sensor_data": {
+            "type": "boolean",
+            "default": false,
+            "description": "Include latest sensor readings in response"
+          }
+        },
+        "required": []
+      },
+      "ros2": {
+        "messageType": "nav_msgs/msg/Odometry",
+        "topic": "/odom",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "extractRobotState"
+        }
+      }
+    }
+  ]
+}

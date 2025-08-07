@@ -196,120 +196,100 @@
                                         <!-- Plugin Details -->
                                         <div class="plugin-details">
                                             <div id="pluginDetails" class="hidden">
+                                                <!-- Header -->
                                                 <div class="plugin-details-header">
-                                                    <div class="mb-4 flex items-start justify-between">
-                                                        <div class="flex items-center gap-4">
-                                                            <div class="plugin-details-icon">
-                                                                <img id="detailsIcon" alt="" class="plugin-icon">
-                                                            </div>
-                                                            <div class="flex-1 min-w-0">
-                                                                <h3 id="detailsTitle" class="text-xl font-semibold"></h3>
-                                                                <p id="detailsDescription" class="mt-1 text-muted-foreground"></p>
-                                                                <div class="mt-4 flex items-center gap-2">
-                                                                    <span id="detailsSpeed" class="badge badge-secondary"></span>
-                                                                    <span id="detailsBattery" class="badge badge-secondary"></span>
-                                                                    <span id="detailsWeight" class="badge badge-secondary"></span>
+                                                    <div class="plugin-details-header-content">
+                                                        <div class="plugin-details-icon">
+                                                            <img id="detailsIcon" alt="" class="plugin-icon">
+                                                        </div>
+                                                        <div class="flex-1 min-w-0">
+                                                            <h3 id="detailsTitle" class="text-xl font-semibold">Plugin Title</h3>
+                                                            <p id="detailsDescription" class="mt-1 text-muted-foreground">Plugin description goes here.</p>
+                                                            <div class="flex flex-wrap items-center gap-4 mt-4 text-sm">
+                                                                <div class="flex items-center gap-1.5">
+                                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground">
+                                                                        <path d="m5 8 6 6"></path>
+                                                                        <path d="m4 14 2-2-2-2"></path>
+                                                                        <path d="M2 14h4"></path>
+                                                                        <path d="M19 8v8"></path>
+                                                                        <path d="M22 8h-6"></path>
+                                                                    </svg>
+                                                                    <span id="detailsSpeed"></span>
+                                                                </div>
+                                                                <div class="flex items-center gap-1.5">
+                                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground">
+                                                                        <path d="M3 7v10c0 2 1 3 3 3h12"></path>
+                                                                        <path d="M6 10h14"></path>
+                                                                        <path d="M6 14h14"></path>
+                                                                        <path d="M3 3h18"></path>
+                                                                    </svg>
+                                                                    <span id="detailsBattery"></span>
+                                                                </div>
+                                                                <div class="flex items-center gap-1.5">
+                                                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted-foreground">
+                                                                        <path d="M12 20v-8"></path>
+                                                                        <path d="M18 20V4"></path>
+                                                                        <path d="M6 20v-4"></path>
+                                                                    </svg>
+                                                                    <span id="detailsWeight"></span>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="flex items-center gap-2">
-                                                            <a id="detailsDocsButton" href="#" target="_blank" rel="noopener noreferrer" class="button button-outline">
-                                                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-                                                                    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-                                                                </svg>
-                                                                Documentation
-                                                            </a>
                                                         </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="p-6">
-                                                    <div class="plugin-details-tabs">
-                                                        <div class="plugin-details-tabs-list" role="tablist">
-                                                            <button class="plugin-details-tab" role="tab" aria-selected="true" data-state="active" data-plugin-tab="plugin-overview">Overview</button>
-                                                            <button class="plugin-details-tab" role="tab" aria-selected="false" data-plugin-tab="plugin-specs">Specifications</button>
-                                                            <button class="plugin-details-tab" role="tab" aria-selected="false" data-plugin-tab="plugin-actions">Actions</button>
+                                                <!-- Tabs -->
+                                                <div class="plugin-details-tabs">
+                                                    <div class="plugin-details-tabs-list" role="tablist">
+                                                        <button class="plugin-details-tab" role="tab" aria-selected="true" data-state="active" data-plugin-tab="overview">Overview</button>
+                                                        <button class="plugin-details-tab" role="tab" aria-selected="false" data-plugin-tab="specifications">Specifications</button>
+                                                        <button class="plugin-details-tab" role="tab" aria-selected="false" data-plugin-tab="actions">Actions</button>
+                                                    </div>
+
+                                                    <!-- Overview Tab -->
+                                                    <div class="plugin-details-tab-content" data-state="active" role="tabpanel" data-plugin-tab="overview">
+                                                        <div class="content-section">
+                                                            <h3>Robot Images</h3>
+                                                            <div class="image-gallery" id="detailsImages"></div>
                                                         </div>
-
-                                                        <div class="plugin-details-tab-content" data-state="active" role="tabpanel" data-plugin-tab="plugin-overview">
-                                                            <div id="detailsImages" class="relative mb-6">
-                                                                <!-- Images will be loaded here -->
-                                                            </div>
-                                                            <div class="card-secondary">
-                                                                <h4>Documentation</h4>
-                                                                <div class="grid gap-2 text-sm">
-                                                                    <a id="detailsMainDocs" href="#" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">
-                                                                        User Manual
-                                                                    </a>
-                                                                    <a id="detailsApiDocs" href="#" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline hidden">
-                                                                        API Reference
-                                                                    </a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="plugin-details-tab-content" role="tabpanel" data-plugin-tab="plugin-specs">
-                                                            <div class="space-y-6">
-                                                                <div class="card-secondary">
-                                                                    <h4>Physical Specifications</h4>
-                                                                    <div class="grid gap-4 md:grid-cols-2">
-                                                                        <div class="flex items-center gap-2">
-                                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                                <path d="M19 21l2-2v-6"/><path d="M12 3v18"/><path d="m5 21-2-2v-6"/>
-                                                                                <path d="M3 7V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v2"/>
-                                                                                <path d="M3 17v2a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/>
-                                                                            </svg>
-                                                                            <span id="detailsDimensions" class="text-sm"></span>
-                                                                        </div>
-                                                                        <div class="flex items-center gap-2">
-                                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                                <path d="m5 8 6 6"/><path d="m4 14 6 6 10-10-6-6-10 10z"/>
-                                                                            </svg>
-                                                                            <span id="detailsSpeedFull" class="text-sm"></span>
-                                                                        </div>
-                                                                        <div class="flex items-center gap-2">
-                                                                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                                                                <path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/>
-                                                                            </svg>
-                                                                            <span id="detailsBatteryFull" class="text-sm"></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="card-secondary">
-                                                                    <h4>Capabilities</h4>
-                                                                    <div id="detailsCapabilities" class="flex flex-wrap gap-2">
-                                                                        <!-- Capabilities will be loaded here -->
-                                                                    </div>
-                                                                </div>
-
-                                                                <div class="card-secondary">
-                                                                    <h4>ROS 2 Configuration</h4>
-                                                                    <div class="grid gap-3 text-sm">
-                                                                        <div>
-                                                                            <span class="text-muted-foreground">Namespace: </span>
-                                                                            <code id="detailsNamespace" class="rounded bg-muted px-1.5 py-0.5"></code>
-                                                                        </div>
-                                                                        <div>
-                                                                            <span class="text-muted-foreground">Node Prefix: </span>
-                                                                            <code id="detailsNodePrefix" class="rounded bg-muted px-1.5 py-0.5"></code>
-                                                                        </div>
-                                                                        <div class="grid gap-2">
-                                                                            <span class="text-muted-foreground">Default Topics:</span>
-                                                                            <div id="detailsTopics" class="pl-4">
-                                                                                <!-- Topics will be loaded here -->
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                        <div class="content-section">
+                                                            <h3>Documentation</h3>
+                                                            <div class="grid gap-2 text-sm">
+                                                                <a
+                                                                    id="detailsMainDocs"
+                                                                    href="#"
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    class="text-primary hover:underline"
+                                                                >
+                                                                    User Manual
+                                                                </a>
+                                                                <a
+                                                                    id="detailsApiDocs"
+                                                                    href="#"
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    class="text-primary hover:underline hidden"
+                                                                >
+                                                                    API Reference
+                                                                </a>
                                                             </div>
                                                         </div>
+                                                    </div>
 
-                                                        <div class="plugin-details-tab-content" role="tabpanel" data-plugin-tab="plugin-actions">
-                                                            <div id="detailsActions" class="space-y-4">
-                                                                <!-- Actions will be loaded here -->
-                                                            </div>
+                                                    <!-- Specifications Tab -->
+                                                    <div class="plugin-details-tab-content" role="tabpanel" data-plugin-tab="specifications">
+                                                        <div class="content-section">
+                                                            <h3>Robot Images</h3>
+                                                            <div class="image-gallery" id="specsImageGallery"></div>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Actions Tab -->
+                                                    <div class="plugin-details-tab-content" role="tabpanel" data-plugin-tab="actions">
+                                                        <div class="content-section">
+                                                            <h3>Actions Tab</h3>
+                                                            <p>Actions content will go here.</p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -334,6 +314,19 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Image Zoom Modal -->
+    <div class="zoom-modal" id="imageZoomModal" aria-modal="true" role="dialog">
+        <div class="zoom-modal-content">
+            <img id="zoomImage" class="zoom-modal-image" alt="Zoomed image">
+            <button class="zoom-modal-close" id="closeZoomModal" aria-label="Close modal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M18 6 6 18"></path>
+                    <path d="m6 6 12 12"></path>
+                </svg>
+            </button>
         </div>
     </div>
 
@@ -552,8 +545,11 @@
                             actionsContainer.appendChild(div);
                         });
 
+                        // Update specifications tab with image gallery
+                        updateSpecsImageGallery(plugin);
+
                         // Trigger click on the Overview tab to show it by default
-                        document.querySelector('.plugin-details-tabs-list .plugin-details-tab[data-plugin-tab="plugin-overview"]').click();
+                        document.querySelector('.plugin-details-tabs-list .plugin-details-tab[data-plugin-tab="overview"]').click();
                     });
 
                     pluginList.appendChild(card);
@@ -656,6 +652,75 @@
 
         // Load data when page loads
         loadRepositoryData();
+
+        // Image zoom functionality
+        const modal = document.getElementById('imageZoomModal');
+        const zoomImage = document.getElementById('zoomImage');
+        const closeButton = document.getElementById('closeZoomModal');
+
+        function openImageModal(imageUrl, altText) {
+            zoomImage.src = imageUrl;
+            zoomImage.alt = altText;
+            modal.setAttribute('data-state', 'open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            modal.removeAttribute('data-state');
+            document.body.style.overflow = '';
+        }
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeImageModal();
+            }
+        });
+
+        // Close modal with escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.hasAttribute('data-state')) {
+                closeImageModal();
+            }
+        });
+
+        closeButton.addEventListener('click', closeImageModal);
+
+        // Update the click handler to include the image gallery
+        function updateSpecsImageGallery(plugin) {
+            const gallery = document.getElementById('specsImageGallery');
+            gallery.innerHTML = '';
+
+            // Add main image
+            const mainImageItem = document.createElement('div');
+            mainImageItem.className = 'image-gallery-item';
+            mainImageItem.innerHTML = `
+                <img src="${plugin.assets.images.main}" alt="${plugin.name} main view">
+                <div class="image-gallery-label">Main View</div>
+            `;
+            mainImageItem.addEventListener('click', () => {
+                openImageModal(plugin.assets.images.main, `${plugin.name} main view`);
+            });
+            gallery.appendChild(mainImageItem);
+
+            // Add angle images
+            if (plugin.assets.images.angles) {
+                Object.entries(plugin.assets.images.angles)
+                    .filter(([_, url]) => url)
+                    .forEach(([angle, url]) => {
+                        const angleImageItem = document.createElement('div');
+                        angleImageItem.className = 'image-gallery-item';
+                        angleImageItem.innerHTML = `
+                            <img src="${url}" alt="${plugin.name} ${angle} view">
+                            <div class="image-gallery-label">${angle} View</div>
+                        `;
+                        angleImageItem.addEventListener('click', () => {
+                            openImageModal(url, `${plugin.name} ${angle} view`);
+                        });
+                        gallery.appendChild(angleImageItem);
+                    });
+            }
+        }
     </script>
 </body>
 </html> 

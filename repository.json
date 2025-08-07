@@ -8,6 +8,8 @@
   },
   "official": true,
   "trust": "official",
+  "apiVersion": "1.0",
+  "pluginApiVersion": "1.0",
   "author": {
     "name": "HRIStudio Team",
     "email": "support@hristudio.com",
@@ -24,6 +26,28 @@
   "license": "MIT",
   "defaultBranch": "main",
   "lastUpdated": "2025-02-13T00:00:00Z",
+  "categories": [
+    {
+      "id": "mobile-robots",
+      "name": "Mobile Robots",
+      "description": "Wheeled and tracked mobile platforms"
+    },
+    {
+      "id": "manipulators",
+      "name": "Manipulators",
+      "description": "Robotic arms and end effectors"
+    },
+    {
+      "id": "humanoids",
+      "name": "Humanoid Robots",
+      "description": "Human-like robots for social interaction"
+    },
+    {
+      "id": "drones",
+      "name": "Aerial Vehicles",
+      "description": "Quadcopters and fixed-wing UAVs"
+    }
+  ],
   "compatibility": {
     "hristudio": {
       "min": "0.1.0",
@@ -39,13 +63,8 @@
     "logo": "assets/repository-logo.png",
     "banner": "assets/repository-banner.png"
   },
-  "tags": [
-    "official",
-    "mobile-robots",
-    "ros2",
-    "turtlebot"
-  ],
+  "tags": ["official", "mobile-robots", "ros2", "turtlebot"],
   "stats": {
-    "plugins": 1
+    "plugins": 3
   }
-} 
+}

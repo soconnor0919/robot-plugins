@@ -1,0 +1,247 @@
+name: Validate Plugins
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          npm install -g ajv-cli
+          npm install -g jsonlint
+
+      - name: Validate JSON syntax
+        run: |
+          echo "Validating repository.json..."
+          jsonlint repository.json
+
+          echo "Validating plugins/index.json..."
+          jsonlint plugins/index.json
+
+          echo "Validating plugin files..."
+          for file in plugins/*.json; do
+            if [ "$file" != "plugins/index.json" ]; then
+              echo "Validating $file..."
+              jsonlint "$file"
+            fi
+          done
+
+      - name: Check plugin index consistency
+        run: |
+          echo "Checking plugin index consistency..."
+          node -e "
+            const fs = require('fs');
+            const index = JSON.parse(fs.readFileSync('plugins/index.json', 'utf8'));
+            const files = fs.readdirSync('plugins').filter(f => f.endsWith('.json') && f !== 'index.json');
+
+            console.log('Index files:', index);
+            console.log('Actual files:', files);
+
+            const missing = files.filter(f => !index.includes(f));
+            const extra = index.filter(f => !files.includes(f));
+
+            if (missing.length > 0) {
+              console.error('Files missing from index:', missing);
+              process.exit(1);
+            }
+
+            if (extra.length > 0) {
+              console.error('Extra files in index:', extra);
+              process.exit(1);
+            }
+
+            console.log('Plugin index is consistent ✓');
+          "
+
+      - name: Validate plugin schemas
+        run: |
+          echo "Validating plugin schemas..."
+          node -e "
+            const fs = require('fs');
+
+            // Basic plugin schema validation
+            function validatePlugin(pluginPath) {
+              const plugin = JSON.parse(fs.readFileSync(pluginPath, 'utf8'));
+              const errors = [];
+
+              // Required fields
+              const required = ['robotId', 'name', 'platform', 'version', 'pluginApiVersion', 'hriStudioVersion', 'trustLevel', 'category'];
+              for (const field of required) {
+                if (!plugin[field]) {
+                  errors.push(\`Missing required field: \${field}\`);
+                }
+              }
+
+              // Validate trustLevel enum
+              if (plugin.trustLevel && !['official', 'verified', 'community'].includes(plugin.trustLevel)) {
+                errors.push(\`Invalid trustLevel: \${plugin.trustLevel}\`);
+              }
+
+              // Validate actions
+              if (plugin.actions && Array.isArray(plugin.actions)) {
+                plugin.actions.forEach((action, i) => {
+                  if (!action.id) errors.push(\`Action \${i}: missing id\`);
+                  if (!action.name) errors.push(\`Action \${i}: missing name\`);
+                  if (!action.category) errors.push(\`Action \${i}: missing category\`);
+                  if (action.category && !['movement', 'interaction', 'sensors', 'logic'].includes(action.category)) {
+                    errors.push(\`Action \${i}: invalid category \${action.category}\`);
+                  }
+                  if (!action.parameterSchema) errors.push(\`Action \${i}: missing parameterSchema\`);
+                });
+              }
+
+              return errors;
+            }
+
+            const index = JSON.parse(fs.readFileSync('plugins/index.json', 'utf8'));
+            let hasErrors = false;
+
+            for (const pluginFile of index) {
+              console.log(\`Validating \${pluginFile}...\`);
+              const errors = validatePlugin(\`plugins/\${pluginFile}\`);
+
+              if (errors.length > 0) {
+                console.error(\`Errors in \${pluginFile}:\`);
+                errors.forEach(error => console.error(\`  - \${error}\`));
+                hasErrors = true;
+              } else {
+                console.log(\`  ✓ Valid\`);
+              }
+            }
+
+            if (hasErrors) {
+              process.exit(1);
+            }
+
+            console.log('All plugins are valid ✓');
+          "
+
+      - name: Check asset references
+        run: |
+          echo "Checking asset references..."
+          node -e "
+            const fs = require('fs');
+            const path = require('path');
+
+            function checkAssets(pluginPath) {
+              const plugin = JSON.parse(fs.readFileSync(pluginPath, 'utf8'));
+              const errors = [];
+
+              if (plugin.assets) {
+                const checkAsset = (assetPath, description) => {
+                  if (assetPath && assetPath.startsWith('assets/')) {
+                    const fullPath = assetPath;
+                    if (!fs.existsSync(fullPath)) {
+                      errors.push(\`\${description}: \${assetPath} not found\`);
+                    }
+                  }
+                };
+
+                checkAsset(plugin.assets.thumbnailUrl, 'Thumbnail');
+
+                if (plugin.assets.images) {
+                  checkAsset(plugin.assets.images.main, 'Main image');
+                  checkAsset(plugin.assets.images.logo, 'Logo');
+
+                  if (plugin.assets.images.angles) {
+                    Object.entries(plugin.assets.images.angles).forEach(([angle, path]) => {
+                      checkAsset(path, \`\${angle} angle image\`);
+                    });
+                  }
+                }
+              }
+
+              return errors;
+            }
+
+            const index = JSON.parse(fs.readFileSync('plugins/index.json', 'utf8'));
+            let hasErrors = false;
+
+            for (const pluginFile of index) {
+              console.log(\`Checking assets for \${pluginFile}...\`);
+              const errors = checkAssets(\`plugins/\${pluginFile}\`);
+
+              if (errors.length > 0) {
+                console.error(\`Asset errors in \${pluginFile}:\`);
+                errors.forEach(error => console.error(\`  - \${error}\`));
+                hasErrors = true;
+              } else {
+                console.log(\`  ✓ All assets found\`);
+              }
+            }
+
+            if (hasErrors) {
+              console.warn('Some assets are missing - this may cause display issues');
+            } else {
+              console.log('All assets are available ✓');
+            }
+          "
+
+      - name: Validate repository metadata
+        run: |
+          echo "Validating repository metadata..."
+          node -e "
+            const fs = require('fs');
+            const repo = JSON.parse(fs.readFileSync('repository.json', 'utf8'));
+            const index = JSON.parse(fs.readFileSync('plugins/index.json', 'utf8'));
+
+            // Check plugin count matches
+            const actualCount = index.length;
+            const reportedCount = repo.stats?.plugins || 0;
+
+            if (actualCount !== reportedCount) {
+              console.error(\`Plugin count mismatch: reported \${reportedCount}, actual \${actualCount}\`);
+              process.exit(1);
+            }
+
+            console.log(\`Plugin count is correct: \${actualCount} ✓\`);
+
+            // Check required repository fields
+            const required = ['id', 'name', 'apiVersion', 'pluginApiVersion', 'trust'];
+            for (const field of required) {
+              if (!repo[field]) {
+                console.error(\`Missing required repository field: \${field}\`);
+                process.exit(1);
+              }
+            }
+
+            console.log('Repository metadata is valid ✓');
+          "
+
+      - name: Test web interface
+        run: |
+          echo "Testing web interface..."
+          # Start a simple HTTP server
+          python3 -m http.server 8000 &
+          SERVER_PID=$!
+
+          # Wait for server to start
+          sleep 2
+
+          # Test that index.html loads
+          curl -f http://localhost:8000/index.html > /dev/null
+
+          # Test that repository.json is accessible
+          curl -f http://localhost:8000/repository.json > /dev/null
+
+          # Test that plugins/index.json is accessible
+          curl -f http://localhost:8000/plugins/index.json > /dev/null
+
+          # Clean up
+          kill $SERVER_PID
+
+          echo "Web interface test passed ✓"

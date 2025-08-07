@@ -793,13 +793,18 @@ img {
 }
 
 .plugin-details-header {
-    padding: 1.5rem;
     border-bottom: 1px solid hsl(var(--border));
 }
 
+.plugin-details-header-content {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: auto 1fr;
+}
+
 .plugin-details-icon {
-    width: 4rem;
-    height: 4rem;
+    width: 5rem;
+    height: 5rem;
     flex-shrink: 0;
     border-radius: calc(var(--radius) - 0.25rem);
     overflow: hidden;
@@ -811,7 +816,24 @@ img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 0.5rem;
+    padding: 0.75rem;
+}
+
+@media (max-width: 640px) {
+    .plugin-details-header-content {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .plugin-details-icon {
+        width: 4rem;
+        height: 4rem;
+        margin: 0 auto;
+    }
+
+    .plugin-details-header .flex-wrap {
+        justify-content: center;
+    }
 }
 
 /* Plugin Images */
@@ -1076,5 +1098,114 @@ code {
     .image-item.angle {
         width: 100%;
         height: 200px;
+    }
+}
+
+/* Image Zoom Modal */
+.zoom-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(8px);
+}
+
+.zoom-modal[data-state="open"] {
+    display: flex;
+    animation: modal-in 0.3s ease-out;
+}
+
+.zoom-modal-content {
+    position: relative;
+    width: 100%;
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: hsl(var(--card));
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.zoom-modal-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.zoom-modal-close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    color: hsl(var(--foreground));
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.zoom-modal-close:hover {
+    background: hsl(var(--accent) / 0.1);
+    color: hsl(var(--accent));
+}
+
+/* Update image gallery styles */
+.image-gallery {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.image-gallery-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid hsl(var(--border));
+    background: hsl(var(--muted));
+    cursor: zoom-in;
+    transition: all 0.15s ease;
+}
+
+.image-gallery-item:hover {
+    border-color: hsl(var(--primary));
+    transform: scale(1.02);
+}
+
+.image-gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.image-gallery-label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+@keyframes modal-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 } 
