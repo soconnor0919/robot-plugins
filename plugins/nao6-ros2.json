@@ -1,0 +1,491 @@
+{
+  "robotId": "nao6-ros2",
+  "name": "NAO6 Robot (ROS2 Integration)",
+  "description": "NAO V6 humanoid robot with full ROS2 integration via naoqi_driver2, supporting motion control, speech, vision, and sensor data",
+  "platform": "ROS2",
+  "version": "2.0.0",
+  "pluginApiVersion": "1.0",
+  "hriStudioVersion": ">=0.1.0",
+  "trustLevel": "verified",
+  "category": "humanoid-robot",
+
+  "manufacturer": {
+    "name": "SoftBank Robotics",
+    "website": "https://www.softbankrobotics.com/",
+    "support": "https://developer.softbankrobotics.com/"
+  },
+
+  "documentation": {
+    "mainUrl": "https://developer.softbankrobotics.com/nao6/nao-documentation",
+    "apiReference": "https://github.com/ros-naoqi/naoqi_driver2",
+    "wikiUrl": "https://en.wikipedia.org/wiki/Nao_(robot)",
+    "videoUrl": "https://www.youtube.com/watch?v=nNbj2G3GmAg"
+  },
+
+  "assets": {
+    "thumbnailUrl": "assets/nao6-ros2/thumb.png",
+    "images": {
+      "main": "assets/nao6-ros2/main.jpg",
+      "angles": {
+        "front": "assets/nao6-ros2/front.png",
+        "side": "assets/nao6-ros2/side.png",
+        "top": "assets/nao6-ros2/top.png"
+      },
+      "logo": "assets/nao6-ros2/logo.png"
+    },
+    "model": {
+      "format": "URDF",
+      "url": "https://github.com/ros-naoqi/nao_robot/raw/master/nao_description/urdf/nao.urdf"
+    }
+  },
+
+  "specs": {
+    "dimensions": {
+      "length": 0.275,
+      "width": 0.311,
+      "height": 0.574,
+      "weight": 5.4
+    },
+    "capabilities": [
+      "bipedal_walking",
+      "speech_synthesis",
+      "speech_recognition",
+      "computer_vision",
+      "gestures",
+      "led_control",
+      "tactile_sensing",
+      "ultrasonic_ranging",
+      "inertial_measurement"
+    ],
+    "maxSpeed": 0.55,
+    "batteryLife": 1.5
+  },
+
+  "ros2Config": {
+    "namespace": "nao",
+    "nodePrefix": "hri_studio",
+    "defaultTopics": {
+      "cmd_vel": "/cmd_vel",
+      "odom": "/odom",
+      "joint_states": "/joint_states",
+      "joint_angles": "/joint_angles",
+      "camera_front": "/camera/front/image_raw",
+      "camera_bottom": "/camera/bottom/image_raw",
+      "imu": "/imu/torso",
+      "speech": "/speech",
+      "bumper": "/bumper",
+      "hand_touch": "/hand_touch",
+      "head_touch": "/head_touch",
+      "sonar_left": "/sonar/left",
+      "sonar_right": "/sonar/right",
+      "info": "/info"
+    }
+  },
+
+  "actions": [
+    {
+      "id": "walk_velocity",
+      "name": "Walk with Velocity",
+      "description": "Control robot walking with linear and angular velocities",
+      "category": "movement",
+      "icon": "navigation",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "linear": {
+            "type": "number",
+            "minimum": -0.55,
+            "maximum": 0.55,
+            "default": 0.0,
+            "description": "Forward velocity in m/s"
+          },
+          "angular": {
+            "type": "number",
+            "minimum": -2.0,
+            "maximum": 2.0,
+            "default": 0.0,
+            "description": "Angular velocity in rad/s"
+          }
+        },
+        "required": ["linear", "angular"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToTwist"
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        }
+      }
+    },
+    {
+      "id": "stop_walking",
+      "name": "Stop Walking",
+      "description": "Immediately stop robot movement",
+      "category": "movement",
+      "icon": "square",
+      "timeout": 3000,
+      "retryable": false,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "linear": { "x": 0.0, "y": 0.0, "z": 0.0 },
+            "angular": { "x": 0.0, "y": 0.0, "z": 0.0 }
+          }
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile",
+          "history": "keep_last",
+          "depth": 1
+        }
+      }
+    },
+    {
+      "id": "say_text",
+      "name": "Say Text",
+      "description": "Make the robot speak using text-to-speech",
+      "category": "interaction",
+      "icon": "volume-2",
+      "timeout": 15000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "default": "Hello from NAO!",
+            "description": "Text to speak"
+          }
+        },
+        "required": ["text"]
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToStringMessage"
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile"
+        }
+      }
+    },
+    {
+      "id": "set_joint_angle",
+      "name": "Set Joint Angle",
+      "description": "Control individual joint angles",
+      "category": "movement",
+      "icon": "settings",
+      "timeout": 10000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "joint_name": {
+            "type": "string",
+            "enum": [
+              "HeadYaw",
+              "HeadPitch",
+              "LShoulderPitch",
+              "LShoulderRoll",
+              "LElbowYaw",
+              "LElbowRoll",
+              "LWristYaw",
+              "RShoulderPitch",
+              "RShoulderRoll",
+              "RElbowYaw",
+              "RElbowRoll",
+              "RWristYaw",
+              "LHipYawPitch",
+              "LHipRoll",
+              "LHipPitch",
+              "LKneePitch",
+              "LAnklePitch",
+              "LAnkleRoll",
+              "RHipRoll",
+              "RHipPitch",
+              "RKneePitch",
+              "RAnklePitch",
+              "RAnkleRoll"
+            ],
+            "default": "HeadYaw",
+            "description": "Joint to control"
+          },
+          "angle": {
+            "type": "number",
+            "minimum": -3.14159,
+            "maximum": 3.14159,
+            "default": 0.0,
+            "description": "Target angle in radians"
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 1.0,
+            "default": 0.2,
+            "description": "Movement speed (fraction of max)"
+          }
+        },
+        "required": ["joint_name", "angle"]
+      },
+      "ros2": {
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/joint_angles",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToJointAngles"
+        }
+      }
+    },
+    {
+      "id": "turn_head",
+      "name": "Turn Head",
+      "description": "Control head orientation",
+      "category": "movement",
+      "icon": "rotate-ccw",
+      "timeout": 8000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "yaw": {
+            "type": "number",
+            "minimum": -2.0857,
+            "maximum": 2.0857,
+            "default": 0.0,
+            "description": "Head yaw angle in radians (left-right)"
+          },
+          "pitch": {
+            "type": "number",
+            "minimum": -0.672,
+            "maximum": 0.5149,
+            "default": 0.0,
+            "description": "Head pitch angle in radians (up-down)"
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 1.0,
+            "default": 0.3,
+            "description": "Movement speed fraction"
+          }
+        },
+        "required": ["yaw", "pitch"]
+      },
+      "ros2": {
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/joint_angles",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToHeadMovement"
+        }
+      }
+    },
+    {
+      "id": "get_camera_image",
+      "name": "Get Camera Image",
+      "description": "Capture image from front or bottom camera",
+      "category": "sensors",
+      "icon": "camera",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "camera": {
+            "type": "string",
+            "enum": ["front", "bottom"],
+            "default": "front",
+            "description": "Camera to use"
+          }
+        },
+        "required": ["camera"]
+      },
+      "ros2": {
+        "messageType": "sensor_msgs/msg/Image",
+        "topic": "/camera/{camera}/image_raw",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "getCameraImage"
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile"
+        }
+      }
+    },
+    {
+      "id": "get_joint_states",
+      "name": "Get Joint States",
+      "description": "Read current joint positions and velocities",
+      "category": "sensors",
+      "icon": "activity",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "ros2": {
+        "messageType": "sensor_msgs/msg/JointState",
+        "topic": "/joint_states",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "getJointStates"
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile"
+        }
+      }
+    },
+    {
+      "id": "get_imu_data",
+      "name": "Get IMU Data",
+      "description": "Read inertial measurement unit data from torso",
+      "category": "sensors",
+      "icon": "compass",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "ros2": {
+        "messageType": "sensor_msgs/msg/Imu",
+        "topic": "/imu/torso",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "getImuData"
+        },
+        "qos": {
+          "reliability": "reliable",
+          "durability": "volatile"
+        }
+      }
+    },
+    {
+      "id": "get_bumper_status",
+      "name": "Get Bumper Status",
+      "description": "Read foot bumper contact sensors",
+      "category": "sensors",
+      "icon": "zap",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "ros2": {
+        "messageType": "naoqi_bridge_msgs/msg/Bumper",
+        "topic": "/bumper",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "getBumperStatus"
+        }
+      }
+    },
+    {
+      "id": "get_touch_sensors",
+      "name": "Get Touch Sensors",
+      "description": "Read hand and head touch sensor states",
+      "category": "sensors",
+      "icon": "hand",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "sensor_type": {
+            "type": "string",
+            "enum": ["hand", "head"],
+            "default": "hand",
+            "description": "Touch sensor type to read"
+          }
+        },
+        "required": ["sensor_type"]
+      },
+      "ros2": {
+        "messageType": "naoqi_bridge_msgs/msg/HandTouch",
+        "topic": "/{sensor_type}_touch",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "getTouchSensors"
+        }
+      }
+    },
+    {
+      "id": "get_sonar_range",
+      "name": "Get Sonar Range",
+      "description": "Read ultrasonic range sensor data",
+      "category": "sensors",
+      "icon": "radio",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "sensor": {
+            "type": "string",
+            "enum": ["left", "right", "both"],
+            "default": "both",
+            "description": "Sonar sensor to read"
+          }
+        },
+        "required": ["sensor"]
+      },
+      "ros2": {
+        "messageType": "sensor_msgs/msg/Range",
+        "topic": "/sonar/{sensor}",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "getSonarRange"
+        }
+      }
+    },
+    {
+      "id": "get_robot_info",
+      "name": "Get Robot Info",
+      "description": "Read general robot information and status",
+      "category": "sensors",
+      "icon": "info",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {},
+        "required": []
+      },
+      "ros2": {
+        "messageType": "naoqi_bridge_msgs/msg/RobotInfo",
+        "topic": "/info",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "getRobotInfo"
+        }
+      }
+    }
+  ]
+}

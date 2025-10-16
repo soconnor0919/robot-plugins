@@ -38,7 +38,7 @@
       "description": "Robotic arms and end effectors"
     },
     {
-      "id": "humanoids",
+      "id": "humanoid-robot",
       "name": "Humanoid Robots",
       "description": "Human-like robots for social interaction"
     },
@@ -65,6 +65,6 @@
   },
   "tags": ["official", "mobile-robots", "ros2", "turtlebot"],
   "stats": {
-    "plugins": 3
+    "plugins": 4
   }
 }
