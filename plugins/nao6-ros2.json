@@ -1,9 +1,9 @@
 {
   "robotId": "nao6-ros2",
   "name": "NAO6 Robot (ROS2 Integration)",
-  "description": "NAO V6 humanoid robot with full ROS2 integration via naoqi_driver2, supporting motion control, speech, vision, and sensor data",
+  "description": "NAO V6 humanoid robot with enhanced ROS2 integration via naoqi_driver2, featuring comprehensive movement control, advanced speech synthesis, emotion expression, multilingual support, and complete sensor monitoring",
   "platform": "ROS2",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "pluginApiVersion": "1.0",
   "hriStudioVersion": ">=0.1.0",
   "trustLevel": "verified",
@@ -127,6 +127,166 @@
       }
     },
     {
+      "id": "walk_forward",
+      "name": "Walk Forward",
+      "description": "Make the robot walk forward at specified speed",
+      "category": "movement",
+      "icon": "arrow-up",
+      "timeout": 30000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "speed": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 0.3,
+            "default": 0.1,
+            "description": "Walking speed in m/s"
+          },
+          "duration": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 30,
+            "default": 0,
+            "description": "Duration to walk in seconds (0 = indefinite)"
+          }
+        },
+        "required": ["speed"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "linear": { "x": "{{speed}}", "y": 0, "z": 0 },
+            "angular": { "x": 0, "y": 0, "z": 0 }
+          }
+        }
+      }
+    },
+    {
+      "id": "walk_backward",
+      "name": "Walk Backward",
+      "description": "Make the robot walk backward at specified speed",
+      "category": "movement",
+      "icon": "arrow-down",
+      "timeout": 30000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "speed": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 0.3,
+            "default": 0.1,
+            "description": "Walking speed in m/s"
+          },
+          "duration": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 30,
+            "default": 0,
+            "description": "Duration to walk in seconds (0 = indefinite)"
+          }
+        },
+        "required": ["speed"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "linear": { "x": "-{{speed}}", "y": 0, "z": 0 },
+            "angular": { "x": 0, "y": 0, "z": 0 }
+          }
+        }
+      }
+    },
+    {
+      "id": "turn_left",
+      "name": "Turn Left",
+      "description": "Make the robot turn left at specified angular speed",
+      "category": "movement",
+      "icon": "rotate-ccw",
+      "timeout": 30000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "speed": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 1.0,
+            "default": 0.3,
+            "description": "Angular speed in rad/s"
+          },
+          "duration": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 30,
+            "default": 0,
+            "description": "Duration to turn in seconds (0 = indefinite)"
+          }
+        },
+        "required": ["speed"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "linear": { "x": 0, "y": 0, "z": 0 },
+            "angular": { "x": 0, "y": 0, "z": "{{speed}}" }
+          }
+        }
+      }
+    },
+    {
+      "id": "turn_right",
+      "name": "Turn Right",
+      "description": "Make the robot turn right at specified angular speed",
+      "category": "movement",
+      "icon": "rotate-cw",
+      "timeout": 30000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "speed": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 1.0,
+            "default": 0.3,
+            "description": "Angular speed in rad/s"
+          },
+          "duration": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 30,
+            "default": 0,
+            "description": "Duration to turn in seconds (0 = indefinite)"
+          }
+        },
+        "required": ["speed"]
+      },
+      "ros2": {
+        "messageType": "geometry_msgs/msg/Twist",
+        "topic": "/cmd_vel",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "linear": { "x": 0, "y": 0, "z": 0 },
+            "angular": { "x": 0, "y": 0, "z": "-{{speed}}" }
+          }
+        }
+      }
+    },
+    {
       "id": "stop_walking",
       "name": "Stop Walking",
       "description": "Immediately stop robot movement",
@@ -186,6 +346,254 @@
         "qos": {
           "reliability": "reliable",
           "durability": "volatile"
+        }
+      }
+    },
+    {
+      "id": "say_with_emotion",
+      "name": "Say Text with Emotion",
+      "description": "Speak text with emotional expression using SSML-like markup",
+      "category": "interaction",
+      "icon": "heart",
+      "timeout": 15000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "default": "Hello! I'm feeling great today!",
+            "description": "Text for the robot to speak"
+          },
+          "emotion": {
+            "type": "string",
+            "enum": ["neutral", "happy", "sad", "excited", "calm"],
+            "default": "neutral",
+            "description": "Emotional tone for speech"
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.5,
+            "maximum": 2.0,
+            "default": 1.0,
+            "description": "Speech speed multiplier"
+          }
+        },
+        "required": ["text"]
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "\\rspd={{speed}}\\\\rst={{emotion}}\\{{text}}"
+          }
+        }
+      }
+    },
+    {
+      "id": "set_volume",
+      "name": "Set Volume",
+      "description": "Adjust the robot's audio volume level",
+      "category": "interaction",
+      "icon": "volume-x",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "volume": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "default": 0.5,
+            "description": "Volume level (0.0 = silent, 1.0 = maximum)"
+          }
+        },
+        "required": ["volume"]
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/Float32",
+        "topic": "/audio_volume",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "{{volume}}"
+          }
+        }
+      }
+    },
+    {
+      "id": "set_language",
+      "name": "Set Language",
+      "description": "Change the robot's speech language",
+      "category": "interaction",
+      "icon": "globe",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "language": {
+            "type": "string",
+            "enum": [
+              "en-US",
+              "en-GB",
+              "fr-FR",
+              "de-DE",
+              "es-ES",
+              "it-IT",
+              "ja-JP",
+              "ko-KR",
+              "zh-CN"
+            ],
+            "default": "en-US",
+            "description": "Speech language"
+          }
+        },
+        "required": ["language"]
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/set_language",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "{{language}}"
+          }
+        }
+      }
+    },
+    {
+      "id": "move_head",
+      "name": "Move Head",
+      "description": "Control head orientation (yaw and pitch)",
+      "category": "movement",
+      "icon": "eye",
+      "timeout": 10000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "yaw": {
+            "type": "number",
+            "minimum": -2.09,
+            "maximum": 2.09,
+            "default": 0,
+            "description": "Head yaw angle in radians"
+          },
+          "pitch": {
+            "type": "number",
+            "minimum": -0.67,
+            "maximum": 0.51,
+            "default": 0,
+            "description": "Head pitch angle in radians"
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 1.0,
+            "default": 0.3,
+            "description": "Movement speed (0.1 = slow, 1.0 = fast)"
+          }
+        },
+        "required": ["yaw", "pitch"]
+      },
+      "ros2": {
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/joint_angles",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "joint_names": ["HeadYaw", "HeadPitch"],
+            "joint_angles": ["{{yaw}}", "{{pitch}}"],
+            "speed": "{{speed}}"
+          }
+        }
+      }
+    },
+    {
+      "id": "move_arm",
+      "name": "Move Arm",
+      "description": "Control arm joint positions",
+      "category": "movement",
+      "icon": "hand",
+      "timeout": 10000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "arm": {
+            "type": "string",
+            "enum": ["left", "right"],
+            "default": "right",
+            "description": "Which arm to control"
+          },
+          "shoulder_pitch": {
+            "type": "number",
+            "minimum": -2.09,
+            "maximum": 2.09,
+            "default": 1.4,
+            "description": "Shoulder pitch angle in radians"
+          },
+          "shoulder_roll": {
+            "type": "number",
+            "minimum": -0.31,
+            "maximum": 1.33,
+            "default": 0.2,
+            "description": "Shoulder roll angle in radians"
+          },
+          "elbow_yaw": {
+            "type": "number",
+            "minimum": -2.09,
+            "maximum": 2.09,
+            "default": 0,
+            "description": "Elbow yaw angle in radians"
+          },
+          "elbow_roll": {
+            "type": "number",
+            "minimum": -1.54,
+            "maximum": -0.03,
+            "default": -0.5,
+            "description": "Elbow roll angle in radians"
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.1,
+            "maximum": 1.0,
+            "default": 0.3,
+            "description": "Movement speed (0.1 = slow, 1.0 = fast)"
+          }
+        },
+        "required": [
+          "arm",
+          "shoulder_pitch",
+          "shoulder_roll",
+          "elbow_yaw",
+          "elbow_roll"
+        ]
+      },
+      "ros2": {
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/joint_angles",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "joint_names": [
+              "{{arm === 'left' ? 'L' : 'R'}}ShoulderPitch",
+              "{{arm === 'left' ? 'L' : 'R'}}ShoulderRoll",
+              "{{arm === 'left' ? 'L' : 'R'}}ElbowYaw",
+              "{{arm === 'left' ? 'L' : 'R'}}ElbowRoll"
+            ],
+            "joint_angles": [
+              "{{shoulder_pitch}}",
+              "{{shoulder_roll}}",
+              "{{elbow_yaw}}",
+              "{{elbow_roll}}"
+            ],
+            "speed": "{{speed}}"
+          }
         }
       }
     },
