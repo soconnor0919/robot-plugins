@@ -54,7 +54,10 @@
       "recommended": "0.1.0"
     },
     "ros2": {
-      "distributions": ["humble", "iron"],
+      "distributions": [
+        "humble",
+        "iron"
+      ],
       "recommended": "iron"
     }
   },
@@ -63,8 +66,13 @@
     "logo": "assets/repository-logo.png",
     "banner": "assets/repository-banner.png"
   },
-  "tags": ["official", "mobile-robots", "ros2", "turtlebot"],
+  "tags": [
+    "official",
+    "mobile-robots",
+    "ros2",
+    "turtlebot"
+  ],
   "stats": {
-    "plugins": 4
+    "plugins": 3
   }
 }
