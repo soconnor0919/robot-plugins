@@ -8,20 +8,17 @@
   "hriStudioVersion": ">=0.1.0",
   "trustLevel": "verified",
   "category": "humanoid-robot",
-
   "manufacturer": {
     "name": "SoftBank Robotics",
     "website": "https://www.softbankrobotics.com/",
     "support": "https://developer.softbankrobotics.com/"
   },
-
   "documentation": {
     "mainUrl": "https://developer.softbankrobotics.com/nao6/nao-documentation",
     "apiReference": "https://github.com/ros-naoqi/naoqi_driver2",
     "wikiUrl": "https://en.wikipedia.org/wiki/Nao_(robot)",
     "videoUrl": "https://www.youtube.com/watch?v=nNbj2G3GmAg"
   },
-
   "assets": {
     "thumbnailUrl": "assets/nao6-ros2/thumb.png",
     "images": {
@@ -38,7 +35,6 @@
       "url": "https://github.com/ros-naoqi/nao_robot/raw/master/nao_description/urdf/nao.urdf"
     }
   },
-
   "specs": {
     "dimensions": {
       "length": 0.275,
@@ -60,28 +56,26 @@
     "maxSpeed": 0.55,
     "batteryLife": 1.5
   },
-
   "ros2Config": {
     "namespace": "nao",
     "nodePrefix": "hri_studio",
     "defaultTopics": {
       "cmd_vel": "/cmd_vel",
       "odom": "/odom",
-      "joint_states": "/joint_states",
+      "joint_states": "/naoqi_driver/joint_states",
       "joint_angles": "/joint_angles",
-      "camera_front": "/camera/front/image_raw",
-      "camera_bottom": "/camera/bottom/image_raw",
-      "imu": "/imu/torso",
+      "camera_front": "/naoqi_driver/camera/front/image_raw",
+      "camera_bottom": "/naoqi_driver/camera/bottom/image_raw",
+      "imu": "/naoqi_driver/imu/torso",
       "speech": "/speech",
-      "bumper": "/bumper",
-      "hand_touch": "/hand_touch",
-      "head_touch": "/head_touch",
-      "sonar_left": "/sonar/left",
-      "sonar_right": "/sonar/right",
-      "info": "/info"
+      "bumper": "/naoqi_driver/bumper",
+      "hand_touch": "/naoqi_driver/hand_touch",
+      "head_touch": "/naoqi_driver/head_touch",
+      "sonar_left": "/naoqi_driver/sonar/left",
+      "sonar_right": "/naoqi_driver/sonar/right",
+      "info": "/naoqi_driver/info"
     }
   },
-
   "actions": [
     {
       "id": "walk_velocity",
@@ -109,7 +103,10 @@
             "description": "Angular velocity in rad/s"
           }
         },
-        "required": ["linear", "angular"]
+        "required": [
+          "linear",
+          "angular"
+        ]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -152,7 +149,9 @@
             "description": "Duration to walk in seconds (0 = indefinite)"
           }
         },
-        "required": ["speed"]
+        "required": [
+          "speed"
+        ]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -160,8 +159,16 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "linear": { "x": "{{speed}}", "y": 0, "z": 0 },
-            "angular": { "x": 0, "y": 0, "z": 0 }
+            "linear": {
+              "x": "{{speed}}",
+              "y": 0,
+              "z": 0
+            },
+            "angular": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
           }
         }
       }
@@ -192,7 +199,9 @@
             "description": "Duration to walk in seconds (0 = indefinite)"
           }
         },
-        "required": ["speed"]
+        "required": [
+          "speed"
+        ]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -200,8 +209,16 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "linear": { "x": "-{{speed}}", "y": 0, "z": 0 },
-            "angular": { "x": 0, "y": 0, "z": 0 }
+            "linear": {
+              "x": "-{{speed}}",
+              "y": 0,
+              "z": 0
+            },
+            "angular": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            }
           }
         }
       }
@@ -232,7 +249,9 @@
             "description": "Duration to turn in seconds (0 = indefinite)"
           }
         },
-        "required": ["speed"]
+        "required": [
+          "speed"
+        ]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -240,8 +259,16 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "linear": { "x": 0, "y": 0, "z": 0 },
-            "angular": { "x": 0, "y": 0, "z": "{{speed}}" }
+            "linear": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "angular": {
+              "x": 0,
+              "y": 0,
+              "z": "{{speed}}"
+            }
           }
         }
       }
@@ -272,7 +299,9 @@
             "description": "Duration to turn in seconds (0 = indefinite)"
           }
         },
-        "required": ["speed"]
+        "required": [
+          "speed"
+        ]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -280,8 +309,16 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "linear": { "x": 0, "y": 0, "z": 0 },
-            "angular": { "x": 0, "y": 0, "z": "-{{speed}}" }
+            "linear": {
+              "x": 0,
+              "y": 0,
+              "z": 0
+            },
+            "angular": {
+              "x": 0,
+              "y": 0,
+              "z": "-{{speed}}"
+            }
           }
         }
       }
@@ -305,8 +342,16 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "linear": { "x": 0.0, "y": 0.0, "z": 0.0 },
-            "angular": { "x": 0.0, "y": 0.0, "z": 0.0 }
+            "linear": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            },
+            "angular": {
+              "x": 0.0,
+              "y": 0.0,
+              "z": 0.0
+            }
           }
         },
         "qos": {
@@ -334,7 +379,9 @@
             "description": "Text to speak"
           }
         },
-        "required": ["text"]
+        "required": [
+          "text"
+        ]
       },
       "ros2": {
         "messageType": "std_msgs/msg/String",
@@ -367,7 +414,13 @@
           },
           "emotion": {
             "type": "string",
-            "enum": ["neutral", "happy", "sad", "excited", "calm"],
+            "enum": [
+              "neutral",
+              "happy",
+              "sad",
+              "excited",
+              "calm"
+            ],
             "default": "neutral",
             "description": "Emotional tone for speech"
           },
@@ -379,7 +432,9 @@
             "description": "Speech speed multiplier"
           }
         },
-        "required": ["text"]
+        "required": [
+          "text"
+        ]
       },
       "ros2": {
         "messageType": "std_msgs/msg/String",
@@ -411,7 +466,9 @@
             "description": "Volume level (0.0 = silent, 1.0 = maximum)"
           }
         },
-        "required": ["volume"]
+        "required": [
+          "volume"
+        ]
       },
       "ros2": {
         "messageType": "std_msgs/msg/Float32",
@@ -452,7 +509,9 @@
             "description": "Speech language"
           }
         },
-        "required": ["language"]
+        "required": [
+          "language"
+        ]
       },
       "ros2": {
         "messageType": "std_msgs/msg/String",
@@ -498,7 +557,10 @@
             "description": "Movement speed (0.1 = slow, 1.0 = fast)"
           }
         },
-        "required": ["yaw", "pitch"]
+        "required": [
+          "yaw",
+          "pitch"
+        ]
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
@@ -506,8 +568,14 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "joint_names": ["HeadYaw", "HeadPitch"],
-            "joint_angles": ["{{yaw}}", "{{pitch}}"],
+            "joint_names": [
+              "HeadYaw",
+              "HeadPitch"
+            ],
+            "joint_angles": [
+              "{{yaw}}",
+              "{{pitch}}"
+            ],
             "speed": "{{speed}}"
           }
         }
@@ -526,7 +594,10 @@
         "properties": {
           "arm": {
             "type": "string",
-            "enum": ["left", "right"],
+            "enum": [
+              "left",
+              "right"
+            ],
             "default": "right",
             "description": "Which arm to control"
           },
@@ -653,7 +724,10 @@
             "description": "Movement speed (fraction of max)"
           }
         },
-        "required": ["joint_name", "angle"]
+        "required": [
+          "joint_name",
+          "angle"
+        ]
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
@@ -697,7 +771,10 @@
             "description": "Movement speed fraction"
           }
         },
-        "required": ["yaw", "pitch"]
+        "required": [
+          "yaw",
+          "pitch"
+        ]
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
@@ -721,16 +798,21 @@
         "properties": {
           "camera": {
             "type": "string",
-            "enum": ["front", "bottom"],
+            "enum": [
+              "front",
+              "bottom"
+            ],
             "default": "front",
             "description": "Camera to use"
           }
         },
-        "required": ["camera"]
+        "required": [
+          "camera"
+        ]
       },
       "ros2": {
         "messageType": "sensor_msgs/msg/Image",
-        "topic": "/camera/{camera}/image_raw",
+        "topic": "/naoqi_driver/camera/{camera}/image_raw",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getCameraImage"
@@ -756,7 +838,7 @@
       },
       "ros2": {
         "messageType": "sensor_msgs/msg/JointState",
-        "topic": "/joint_states",
+        "topic": "/naoqi_driver/joint_states",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getJointStates"
@@ -782,7 +864,7 @@
       },
       "ros2": {
         "messageType": "sensor_msgs/msg/Imu",
-        "topic": "/imu/torso",
+        "topic": "/naoqi_driver/imu/torso",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getImuData"
@@ -808,7 +890,7 @@
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/Bumper",
-        "topic": "/bumper",
+        "topic": "/naoqi_driver/bumper",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getBumperStatus"
@@ -828,16 +910,21 @@
         "properties": {
           "sensor_type": {
             "type": "string",
-            "enum": ["hand", "head"],
+            "enum": [
+              "hand",
+              "head"
+            ],
             "default": "hand",
             "description": "Touch sensor type to read"
           }
         },
-        "required": ["sensor_type"]
+        "required": [
+          "sensor_type"
+        ]
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/HandTouch",
-        "topic": "/{sensor_type}_touch",
+        "topic": "/naoqi_driver/{sensor_type}_touch",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getTouchSensors"
@@ -857,16 +944,22 @@
         "properties": {
           "sensor": {
             "type": "string",
-            "enum": ["left", "right", "both"],
+            "enum": [
+              "left",
+              "right",
+              "both"
+            ],
             "default": "both",
             "description": "Sonar sensor to read"
           }
         },
-        "required": ["sensor"]
+        "required": [
+          "sensor"
+        ]
       },
       "ros2": {
         "messageType": "sensor_msgs/msg/Range",
-        "topic": "/sonar/{sensor}",
+        "topic": "/naoqi_driver/sonar/{sensor}",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getSonarRange"
@@ -888,7 +981,7 @@
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/RobotInfo",
-        "topic": "/info",
+        "topic": "/naoqi_driver/info",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getRobotInfo"
