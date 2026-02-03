@@ -1,7 +1,7 @@
 {
   "robotId": "nao6-ros2",
   "name": "NAO6 Robot (ROS2 Integration)",
-  "description": "NAO V6 humanoid robot with enhanced ROS2 integration via naoqi_driver2, featuring comprehensive movement control, advanced speech synthesis, emotion expression, multilingual support, and complete sensor monitoring",
+  "description": "NAO V6 humanoid robot with enhanced ROS2 integration via naoqi_driver2, featuring comprehensive movement control, advanced speech synthesis, emotion expression, multilingual support, and complete sensor monitoring. Verified.",
   "platform": "ROS2",
   "version": "2.1.0",
   "pluginApiVersion": "1.0",
