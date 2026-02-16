@@ -3,7 +3,7 @@
   "name": "NAO6 Robot (ROS2 Integration)",
   "description": "NAO V6 humanoid robot with enhanced ROS2 integration via naoqi_driver2, featuring comprehensive movement control, advanced speech synthesis, emotion expression, multilingual support, and complete sensor monitoring. Verified.",
   "platform": "ROS2",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "pluginApiVersion": "1.0",
   "hriStudioVersion": ">=0.1.0",
   "trustLevel": "verified",
@@ -74,6 +74,146 @@
       "sonar_left": "/naoqi_driver/sonar/left",
       "sonar_right": "/naoqi_driver/sonar/right",
       "info": "/naoqi_driver/info"
+    }
+  },
+  "settingsSchema": {
+    "type": "object",
+    "title": "NAO6 Robot Settings",
+    "description": "Configure robot behavior and connection parameters for this study",
+    "properties": {
+      "speech": {
+        "type": "object",
+        "title": "Speech Settings",
+        "properties": {
+          "voice": {
+            "type": "string",
+            "title": "Voice",
+            "description": "Text-to-speech voice language",
+            "enum": [
+              "naoenu",
+              "naofrf",
+              "naoges",
+              "naojpj",
+              "naokrk",
+              "naozhs"
+            ],
+            "enumNames": [
+              "English (US)",
+              "French",
+              "German",
+              "Japanese",
+              "Korean",
+              "Chinese"
+            ],
+            "default": "naoenu"
+          },
+          "speed": {
+            "type": "number",
+            "title": "Speech Speed",
+            "description": "Speech speed percentage (50-400%)",
+            "minimum": 50,
+            "maximum": 400,
+            "default": 100
+          },
+          "pitch": {
+            "type": "number",
+            "title": "Voice Pitch",
+            "description": "Voice pitch percentage (50-200%)",
+            "minimum": 50,
+            "maximum": 200,
+            "default": 100
+          },
+          "volume": {
+            "type": "number",
+            "title": "Volume",
+            "description": "Speech volume percentage (0-100%)",
+            "minimum": 0,
+            "maximum": 100,
+            "default": 80
+          }
+        }
+      },
+      "movement": {
+        "type": "object",
+        "title": "Movement Settings",
+        "properties": {
+          "defaultSpeed": {
+            "type": "number",
+            "title": "Default Speed",
+            "description": "Default movement speed multiplier (0.1-1.0)",
+            "minimum": 0.1,
+            "maximum": 1.0,
+            "default": 0.5
+          },
+          "safetyMode": {
+            "type": "boolean",
+            "title": "Safety Mode",
+            "description": "Enable movement safety limits and collision detection",
+            "default": true
+          },
+          "stiffness": {
+            "type": "number",
+            "title": "Joint Stiffness",
+            "description": "Default joint stiffness (0.0-1.0)",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "default": 0.9
+          }
+        }
+      },
+      "connection": {
+        "type": "object",
+        "title": "Connection Settings",
+        "properties": {
+          "rosbridgeUrl": {
+            "type": "string",
+            "title": "ROS Bridge URL",
+            "description": "WebSocket URL for ROS bridge connection",
+            "default": "ws://localhost:9090",
+            "pattern": "^wss?://.+"
+          },
+          "reconnectAttempts": {
+            "type": "integer",
+            "title": "Reconnect Attempts",
+            "description": "Number of automatic reconnection attempts",
+            "minimum": 1,
+            "maximum": 10,
+            "default": 3
+          },
+          "connectionTimeout": {
+            "type": "integer",
+            "title": "Connection Timeout",
+            "description": "Connection timeout in milliseconds",
+            "minimum": 1000,
+            "maximum": 30000,
+            "default": 5000
+          }
+        }
+      },
+      "behavior": {
+        "type": "object",
+        "title": "Behavior Settings",
+        "properties": {
+          "autonomousLifeEnabled": {
+            "type": "boolean",
+            "title": "Autonomous Life Default",
+            "description": "Default state for autonomous life on connection",
+            "default": true
+          },
+          "breathingEnabled": {
+            "type": "boolean",
+            "title": "Breathing Animation",
+            "description": "Enable idle breathing animation",
+            "default": true
+          },
+          "awarenessEnabled": {
+            "type": "boolean",
+            "title": "Basic Awareness",
+            "description": "Enable basic awareness behaviors",
+            "default": false
+          }
+        }
+      }
     }
   },
   "actions": [
