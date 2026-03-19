@@ -1127,6 +1127,52 @@
           "transformFn": "getRobotInfo"
         }
       }
+    },
+    {
+      "id": "wake_up",
+      "name": "Wake Up",
+      "description": "Initialize robot motors and stand up",
+      "category": "movement",
+      "icon": "zap",
+      "timeout": 15000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "topic": "/dummy",
+        "messageType": "std_msgs/msg/String",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "wake_up"
+          }
+        }
+      }
+    },
+    {
+      "id": "rest",
+      "name": "Rest",
+      "description": "Disable motors and sit down safely",
+      "category": "movement",
+      "icon": "moon",
+      "timeout": 15000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "topic": "/dummy",
+        "messageType": "std_msgs/msg/String",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "rest"
+          }
+        }
+      }
     }
   ]
 }
