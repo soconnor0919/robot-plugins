@@ -667,7 +667,7 @@
         "topic": "/speech",
         "messageType": "std_msgs/msg/String",
         "messageTemplate": {
-          "data": "{{text}}"
+          "data": "\\\\rspd={{speed}}\\\\rst={{emotion}}\\{{text}}"
         }
       }
     },
@@ -899,6 +899,16 @@
             ],
             "speed": "{{speed}}"
           }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["{{arm === 'left' ? 'L' : 'R'}}ShoulderPitch", "{{arm === 'left' ? 'L' : 'R'}}ShoulderRoll", "{{arm === 'left' ? 'L' : 'R'}}ElbowYaw", "{{arm === 'left' ? 'L' : 'R'}}ElbowRoll"],
+          "joint_angles": ["{{shoulder_pitch}}", "{{shoulder_roll}}", "{{elbow_yaw}}", "{{elbow_roll}}"],
+          "speed": "{{speed}}"
         }
       }
     },
