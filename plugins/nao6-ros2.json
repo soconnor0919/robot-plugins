@@ -62,18 +62,18 @@
     "defaultTopics": {
       "cmd_vel": "/cmd_vel",
       "odom": "/odom",
-      "joint_states": "/naoqi_driver/joint_states",
+      "joint_states": "/joint_states",
       "joint_angles": "/joint_angles",
-      "camera_front": "/naoqi_driver/camera/front/image_raw",
-      "camera_bottom": "/naoqi_driver/camera/bottom/image_raw",
-      "imu": "/naoqi_driver/imu/torso",
+      "camera_front": "/camera/front/image_raw",
+      "camera_bottom": "/camera/bottom/image_raw",
+      "imu": "/imu/torso",
       "speech": "/speech",
-      "bumper": "/naoqi_driver/bumper",
-      "hand_touch": "/naoqi_driver/hand_touch",
-      "head_touch": "/naoqi_driver/head_touch",
-      "sonar_left": "/naoqi_driver/sonar/left",
-      "sonar_right": "/naoqi_driver/sonar/right",
-      "info": "/naoqi_driver/info"
+      "bumper": "/bumper",
+      "hand_touch": "/hand_touch",
+      "head_touch": "/head_touch",
+      "sonar_left": "/sonar/left",
+      "sonar_right": "/sonar/right",
+      "info": "/info"
     }
   },
   "settingsSchema": {
