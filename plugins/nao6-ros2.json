@@ -1277,6 +1277,216 @@
           }
         }
       }
+    },
+    {
+      "id": "bow",
+      "name": "Bow",
+      "description": "Perform a polite bow gesture (head down + lean forward + return)",
+      "category": "gesture",
+      "icon": "user-check",
+      "timeout": 2000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "joint_names": ["HeadYaw", "HeadPitch"],
+            "joint_angles": [0, 0.5],
+            "speed": 0.3
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["HeadYaw", "HeadPitch"],
+          "joint_angles": [0, 0.5],
+          "speed": 0.3
+        }
+      }
+    },
+    {
+      "id": "wave",
+      "name": "Wave",
+      "description": "Perform a friendly wave gesture with right arm",
+      "category": "gesture",
+      "icon": "hand",
+      "timeout": 2000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
+            "joint_angles": [1.5, 0.2, -1.0, 0.5],
+            "speed": 0.4
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
+          "joint_angles": [1.5, 0.2, -1.0, 0.5],
+          "speed": 0.4
+        }
+      }
+    },
+    {
+      "id": "nod",
+      "name": "Nod",
+      "description": "Perform a nodding gesture (head up and down)",
+      "category": "gesture",
+      "icon": "chevrons-down",
+      "timeout": 1500,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "joint_names": ["HeadPitch"],
+            "joint_angles": [0.3],
+            "speed": 0.5
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["HeadPitch"],
+          "joint_angles": [0.3],
+          "speed": 0.5
+        }
+      }
+    },
+    {
+      "id": "shake_head",
+      "name": "Shake Head",
+      "description": "Perform a head shaking gesture (no)",
+      "category": "gesture",
+      "icon": "x-circle",
+      "timeout": 1500,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "joint_names": ["HeadYaw"],
+            "joint_angles": [0.4],
+            "speed": 0.5
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["HeadYaw"],
+          "joint_angles": [0.4],
+          "speed": 0.5
+        }
+      }
+    },
+    {
+      "id": "point",
+      "name": "Point",
+      "description": "Point at something with left arm",
+      "category": "gesture",
+      "icon": "finger-pointer",
+      "timeout": 1500,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "joint_names": ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw"],
+            "joint_angles": [0.8, 0.3, -1.0, 0.1, 0],
+            "speed": 0.4
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw"],
+          "joint_angles": [0.8, 0.3, -1.0, 0.1, 0],
+          "speed": 0.4
+        }
+      }
+    },
+    {
+      "id": "greet",
+      "name": "Greet",
+      "description": "Combined greeting gesture: bow + wave",
+      "category": "gesture",
+      "icon": "sparkles",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "joint_names": ["HeadYaw", "HeadPitch"],
+            "joint_angles": [0, 0.3],
+            "speed": 0.4
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["HeadYaw", "HeadPitch"],
+          "joint_angles": [0, 0.3],
+          "speed": 0.4
+        }
+      }
     }
   ]
 }
