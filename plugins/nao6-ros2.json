@@ -243,10 +243,7 @@
             "description": "Angular velocity in rad/s"
           }
         },
-        "required": [
-          "linear",
-          "angular"
-        ]
+        "required": ["linear", "angular"]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -289,9 +286,7 @@
             "description": "Duration to walk in seconds (0 = indefinite)"
           }
         },
-        "required": [
-          "speed"
-        ]
+        "required": ["speed"]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -356,9 +351,7 @@
             "description": "Duration to walk in seconds (0 = indefinite)"
           }
         },
-        "required": [
-          "speed"
-        ]
+        "required": ["speed"]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -423,9 +416,7 @@
             "description": "Duration to turn in seconds (0 = indefinite)"
           }
         },
-        "required": [
-          "speed"
-        ]
+        "required": ["speed"]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -490,9 +481,7 @@
             "description": "Duration to turn in seconds (0 = indefinite)"
           }
         },
-        "required": [
-          "speed"
-        ]
+        "required": ["speed"]
       },
       "ros2": {
         "messageType": "geometry_msgs/msg/Twist",
@@ -587,9 +576,7 @@
             "description": "Text to speak"
           }
         },
-        "required": [
-          "text"
-        ]
+        "required": ["text"]
       },
       "ros2": {
         "messageType": "std_msgs/msg/String",
@@ -615,10 +602,10 @@
     {
       "id": "say_with_emotion",
       "name": "Say Text with Emotion",
-      "description": "Speak text with emotional expression using SSML-like markup",
+      "description": "Speak text with emotional expression and animated gestures. Emotions: happy (excited gestures), sad (slower, lower pitch), neutral, excited (fast, animated), calm (slower, relaxed)",
       "category": "interaction",
       "icon": "heart",
-      "timeout": 15000,
+      "timeout": 20000,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
@@ -630,15 +617,9 @@
           },
           "emotion": {
             "type": "string",
-            "enum": [
-              "neutral",
-              "happy",
-              "sad",
-              "excited",
-              "calm"
-            ],
+            "enum": ["neutral", "happy", "sad", "excited", "calm"],
             "default": "neutral",
-            "description": "Emotional tone for speech"
+            "description": "Emotional tone: happy (animated), sad (slow/low pitch), excited (fast + gestures), calm (slower + relaxed)"
           },
           "speed": {
             "type": "number",
@@ -648,18 +629,14 @@
             "description": "Speech speed multiplier"
           }
         },
-        "required": [
-          "text"
-        ]
+        "required": ["text"]
       },
       "ros2": {
         "messageType": "std_msgs/msg/String",
         "topic": "/speech",
         "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "\\rspd={{speed}}\\\\rst={{emotion}}\\{{text}}"
-          }
+          "type": "transform",
+          "transformFn": "transformToEmotionalSpeech"
         }
       },
       "implementation": {
@@ -667,7 +644,7 @@
         "topic": "/speech",
         "messageType": "std_msgs/msg/String",
         "messageTemplate": {
-          "data": "\\\\rspd={{speed}}\\\\rst={{emotion}}\\{{text}}"
+          "data": "{{text}}"
         }
       }
     },
@@ -690,9 +667,7 @@
             "description": "Volume level (0.0 = silent, 1.0 = maximum)"
           }
         },
-        "required": [
-          "volume"
-        ]
+        "required": ["volume"]
       },
       "ros2": {
         "messageType": "std_msgs/msg/Float32",
@@ -733,9 +708,7 @@
             "description": "Speech language"
           }
         },
-        "required": [
-          "language"
-        ]
+        "required": ["language"]
       },
       "ros2": {
         "messageType": "std_msgs/msg/String",
@@ -781,10 +754,7 @@
             "description": "Movement speed (0.1 = slow, 1.0 = fast)"
           }
         },
-        "required": [
-          "yaw",
-          "pitch"
-        ]
+        "required": ["yaw", "pitch"]
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
@@ -792,14 +762,8 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "joint_names": [
-              "HeadYaw",
-              "HeadPitch"
-            ],
-            "joint_angles": [
-              "{{yaw}}",
-              "{{pitch}}"
-            ],
+            "joint_names": ["HeadYaw", "HeadPitch"],
+            "joint_angles": ["{{yaw}}", "{{pitch}}"],
             "speed": "{{speed}}"
           }
         }
@@ -828,10 +792,7 @@
         "properties": {
           "arm": {
             "type": "string",
-            "enum": [
-              "left",
-              "right"
-            ],
+            "enum": ["left", "right"],
             "default": "right",
             "description": "Which arm to control"
           },
@@ -906,8 +867,18 @@
         "topic": "/joint_angles",
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
         "messageTemplate": {
-          "joint_names": ["{{arm === 'left' ? 'L' : 'R'}}ShoulderPitch", "{{arm === 'left' ? 'L' : 'R'}}ShoulderRoll", "{{arm === 'left' ? 'L' : 'R'}}ElbowYaw", "{{arm === 'left' ? 'L' : 'R'}}ElbowRoll"],
-          "joint_angles": ["{{shoulder_pitch}}", "{{shoulder_roll}}", "{{elbow_yaw}}", "{{elbow_roll}}"],
+          "joint_names": [
+            "{{arm === 'left' ? 'L' : 'R'}}ShoulderPitch",
+            "{{arm === 'left' ? 'L' : 'R'}}ShoulderRoll",
+            "{{arm === 'left' ? 'L' : 'R'}}ElbowYaw",
+            "{{arm === 'left' ? 'L' : 'R'}}ElbowRoll"
+          ],
+          "joint_angles": [
+            "{{shoulder_pitch}}",
+            "{{shoulder_roll}}",
+            "{{elbow_yaw}}",
+            "{{elbow_roll}}"
+          ],
           "speed": "{{speed}}"
         }
       }
@@ -968,10 +939,7 @@
             "description": "Movement speed (fraction of max)"
           }
         },
-        "required": [
-          "joint_name",
-          "angle"
-        ]
+        "required": ["joint_name", "angle"]
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
@@ -1015,10 +983,7 @@
             "description": "Movement speed fraction"
           }
         },
-        "required": [
-          "yaw",
-          "pitch"
-        ]
+        "required": ["yaw", "pitch"]
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
@@ -1052,21 +1017,16 @@
         "properties": {
           "camera": {
             "type": "string",
-            "enum": [
-              "front",
-              "bottom"
-            ],
+            "enum": ["front", "bottom"],
             "default": "front",
             "description": "Camera to use"
           }
         },
-        "required": [
-          "camera"
-        ]
+        "required": ["camera"]
       },
       "ros2": {
         "messageType": "sensor_msgs/msg/Image",
-        "topic": "/naoqi_driver/camera/{camera}/image_raw",
+        "topic": "/camera/{camera}/image_raw",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getCameraImage"
@@ -1092,7 +1052,7 @@
       },
       "ros2": {
         "messageType": "sensor_msgs/msg/JointState",
-        "topic": "/naoqi_driver/joint_states",
+        "topic": "/joint_states",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getJointStates"
@@ -1118,7 +1078,7 @@
       },
       "ros2": {
         "messageType": "sensor_msgs/msg/Imu",
-        "topic": "/naoqi_driver/imu/torso",
+        "topic": "/imu/torso",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getImuData"
@@ -1144,7 +1104,7 @@
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/Bumper",
-        "topic": "/naoqi_driver/bumper",
+        "topic": "/bumper",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getBumperStatus"
@@ -1164,21 +1124,16 @@
         "properties": {
           "sensor_type": {
             "type": "string",
-            "enum": [
-              "hand",
-              "head"
-            ],
+            "enum": ["hand", "head"],
             "default": "hand",
             "description": "Touch sensor type to read"
           }
         },
-        "required": [
-          "sensor_type"
-        ]
+        "required": ["sensor_type"]
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/HandTouch",
-        "topic": "/naoqi_driver/{sensor_type}_touch",
+        "topic": "/{sensor_type}_touch",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getTouchSensors"
@@ -1198,22 +1153,16 @@
         "properties": {
           "sensor": {
             "type": "string",
-            "enum": [
-              "left",
-              "right",
-              "both"
-            ],
+            "enum": ["left", "right", "both"],
             "default": "both",
             "description": "Sonar sensor to read"
           }
         },
-        "required": [
-          "sensor"
-        ]
+        "required": ["sensor"]
       },
       "ros2": {
         "messageType": "sensor_msgs/msg/Range",
-        "topic": "/naoqi_driver/sonar/{sensor}",
+        "topic": "/sonar/{sensor}",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getSonarRange"
@@ -1235,7 +1184,7 @@
       },
       "ros2": {
         "messageType": "naoqi_bridge_msgs/msg/RobotInfo",
-        "topic": "/naoqi_driver/info",
+        "topic": "/info",
         "payloadMapping": {
           "type": "transform",
           "transformFn": "getRobotInfo"
@@ -1341,7 +1290,12 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
+            "joint_names": [
+              "RShoulderPitch",
+              "RShoulderRoll",
+              "RElbowYaw",
+              "RElbowRoll"
+            ],
             "joint_angles": [1.5, 0.2, -1.0, 0.5],
             "speed": 0.4
           }
@@ -1352,7 +1306,12 @@
         "topic": "/joint_angles",
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
         "messageTemplate": {
-          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
+          "joint_names": [
+            "RShoulderPitch",
+            "RShoulderRoll",
+            "RElbowYaw",
+            "RElbowRoll"
+          ],
           "joint_angles": [1.5, 0.2, -1.0, 0.5],
           "speed": 0.4
         }
@@ -1446,7 +1405,13 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "joint_names": ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw"],
+            "joint_names": [
+              "LShoulderPitch",
+              "LShoulderRoll",
+              "LElbowYaw",
+              "LElbowRoll",
+              "LWristYaw"
+            ],
             "joint_angles": [0.8, 0.3, -1.0, 0.1, 0],
             "speed": 0.4
           }
@@ -1457,7 +1422,13 @@
         "topic": "/joint_angles",
         "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
         "messageTemplate": {
-          "joint_names": ["LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll", "LWristYaw"],
+          "joint_names": [
+            "LShoulderPitch",
+            "LShoulderRoll",
+            "LElbowYaw",
+            "LElbowRoll",
+            "LWristYaw"
+          ],
           "joint_angles": [0.8, 0.3, -1.0, 0.1, 0],
           "speed": 0.4
         }
@@ -1486,15 +1457,89 @@
             "speed": 0.4
           }
         }
+      }
+    },
+    {
+      "id": "wave_goodbye",
+      "name": "Wave Goodbye",
+      "description": "Animated wave goodbye gesture with speech",
+      "category": "interaction",
+      "icon": "hand",
+      "timeout": 4000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "default": "Goodbye!",
+            "description": "Text to say while waving"
+          }
+        }
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToWaveGoodbye"
+        }
       },
       "implementation": {
         "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
         "messageTemplate": {
-          "joint_names": ["HeadYaw", "HeadPitch"],
-          "joint_angles": [0, 0.3],
-          "speed": 0.4
+          "data": "{{text}}"
+        }
+      }
+    },
+    {
+      "id": "play_animation",
+      "name": "Play Animation",
+      "description": "Play a predefined NAO animation/gesture",
+      "category": "movement",
+      "icon": "play",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "animation": {
+            "type": "string",
+            "enum": [
+              "Hey_1",
+              "Happy_1",
+              "Happy_4",
+              "Enthusiastic_1",
+              "Yes_1",
+              "Yes_2",
+              "No_1",
+              "Blow_1",
+              "Gesture_Ok_1",
+              "Gesture_Nice_1",
+              "Gesture_You_1"
+            ],
+            "default": "Hey_1",
+            "description": "Animation to play"
+          }
+        },
+        "required": ["animation"]
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToAnimation"
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^start(animations/Stand/Gestures/{{animation}})"
         }
       }
     }
