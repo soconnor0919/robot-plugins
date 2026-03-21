@@ -311,6 +311,23 @@
             }
           }
         }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/cmd_vel",
+        "messageType": "geometry_msgs/msg/Twist",
+        "messageTemplate": {
+          "linear": {
+            "x": "{{speed}}",
+            "y": 0,
+            "z": 0
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          }
+        }
       }
     },
     {
@@ -359,6 +376,23 @@
               "y": 0,
               "z": 0
             }
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/cmd_vel",
+        "messageType": "geometry_msgs/msg/Twist",
+        "messageTemplate": {
+          "linear": {
+            "x": "-{{speed}}",
+            "y": 0,
+            "z": 0
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": 0
           }
         }
       }
@@ -411,6 +445,23 @@
             }
           }
         }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/cmd_vel",
+        "messageType": "geometry_msgs/msg/Twist",
+        "messageTemplate": {
+          "linear": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": "{{speed}}"
+          }
+        }
       }
     },
     {
@@ -459,6 +510,23 @@
               "y": 0,
               "z": "-{{speed}}"
             }
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/cmd_vel",
+        "messageType": "geometry_msgs/msg/Twist",
+        "messageTemplate": {
+          "linear": {
+            "x": 0,
+            "y": 0,
+            "z": 0
+          },
+          "angular": {
+            "x": 0,
+            "y": 0,
+            "z": "-{{speed}}"
           }
         }
       }
@@ -534,6 +602,14 @@
           "reliability": "reliable",
           "durability": "volatile"
         }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "{{text}}"
+        }
       }
     },
     {
@@ -584,6 +660,14 @@
           "payload": {
             "data": "\\rspd={{speed}}\\\\rst={{emotion}}\\{{text}}"
           }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "{{text}}"
         }
       }
     },
@@ -718,6 +802,16 @@
             ],
             "speed": "{{speed}}"
           }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["HeadYaw", "HeadPitch"],
+          "joint_angles": ["{{yaw}}", "{{pitch}}"],
+          "speed": "{{speed}}"
         }
       }
     },
@@ -922,6 +1016,16 @@
         "payloadMapping": {
           "type": "transform",
           "transformFn": "transformToHeadMovement"
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": ["HeadYaw", "HeadPitch"],
+          "joint_angles": ["{{yaw}}", "{{pitch}}"],
+          "speed": "{{speed}}"
         }
       }
     },
