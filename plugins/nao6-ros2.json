@@ -1826,6 +1826,77 @@
           "data": "^stopAll()"
         }
       }
+    },
+    {
+      "id": "gesture_sequence",
+      "name": "Gesture Sequence",
+      "description": "Chain multiple joint movements into one gesture",
+      "category": "movement",
+      "icon": "list-ordered",
+      "timeout": 10000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "movements": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "joints": {
+                  "type": "array",
+                  "items": { "type": "string" },
+                  "description": "Joint names"
+                },
+                "angles": {
+                  "type": "array",
+                  "items": { "type": "number" },
+                  "description": "Joint angles in radians"
+                },
+                "duration": {
+                  "type": "number",
+                  "minimum": 300,
+                  "maximum": 5000,
+                  "default": 1000,
+                  "description": "Duration in ms"
+                }
+              },
+              "required": ["joints", "angles"]
+            },
+            "default": [
+              {
+                "joints": ["RShoulderPitch", "RShoulderRoll"],
+                "angles": [0.8, -0.3],
+                "duration": 800
+              },
+              {
+                "joints": ["RShoulderPitch", "RShoulderRoll"],
+                "angles": [1.2, -0.5],
+                "duration": 600
+              }
+            ]
+          }
+        },
+        "required": ["movements"]
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/joint_angles",
+        "payloadMapping": {
+          "type": "transform",
+          "transformFn": "transformToGestureSequence"
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "messageTemplate": {
+          "joint_names": "{{joints}}",
+          "joint_angles": "{{angles}}",
+          "speed": 0.5
+        }
+      }
     }
   ]
 }
