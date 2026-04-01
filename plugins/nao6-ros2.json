@@ -1194,7 +1194,7 @@
     {
       "id": "wake_up",
       "name": "Wake Up",
-      "description": "Initialize robot motors and stand up",
+      "description": "Initialize robot motors and stand up via ALMotion.wakeUp service",
       "category": "movement",
       "icon": "zap",
       "timeout": 15000,
@@ -1204,20 +1204,19 @@
         "properties": {}
       },
       "ros2": {
-        "topic": "/dummy",
-        "messageType": "std_msgs/msg/String",
+        "topic": "/naoqi_driver/ALMotion/wakeUp",
+        "messageType": "std_msgs/msg/Empty",
         "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "wake_up"
-          }
+          "type": "service",
+          "service": "/naoqi_driver/ALMotion/wakeUp",
+          "args": {}
         }
       }
     },
     {
       "id": "rest",
       "name": "Rest",
-      "description": "Disable motors and sit down safely",
+      "description": "Disable motors and sit down safely via ALMotion.rest service",
       "category": "movement",
       "icon": "moon",
       "timeout": 15000,
@@ -1227,23 +1226,22 @@
         "properties": {}
       },
       "ros2": {
-        "topic": "/dummy",
-        "messageType": "std_msgs/msg/String",
+        "topic": "/naoqi_driver/ALMotion/rest",
+        "messageType": "std_msgs/msg/Empty",
         "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "rest"
-          }
+          "type": "service",
+          "service": "/naoqi_driver/ALMotion/rest",
+          "args": {}
         }
       }
     },
     {
       "id": "bow",
       "name": "Bow",
-      "description": "Perform a polite bow gesture (head down + lean forward + return)",
+      "description": "Polite bow — head pitches down then returns to neutral",
       "category": "movement",
       "icon": "user-check",
-      "timeout": 2000,
+      "timeout": 3500,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
@@ -1255,20 +1253,24 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "joint_names": ["HeadYaw", "HeadPitch"],
-            "joint_angles": [0, 0.5],
-            "speed": 0.3
+            "type": "gesture_sequence",
+            "movements": [
+              {
+                "comment": "Head pitches down (bow)",
+                "joint_names": ["HeadYaw", "HeadPitch"],
+                "joint_angles": [0.0, 0.5],
+                "speed": 0.25,
+                "delay_after": 1000
+              },
+              {
+                "comment": "Return to neutral",
+                "joint_names": ["HeadYaw", "HeadPitch"],
+                "joint_angles": [0.0, 0.0],
+                "speed": 0.2,
+                "delay_after": 500
+              }
+            ]
           }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["HeadYaw", "HeadPitch"],
-          "joint_angles": [0, 0.5],
-          "speed": 0.3
         }
       }
     },
@@ -1320,10 +1322,10 @@
     {
       "id": "nod",
       "name": "Nod",
-      "description": "Perform a nodding gesture (head up and down)",
+      "description": "Nodding gesture — head pitches down twice then returns to neutral",
       "category": "movement",
       "icon": "chevrons-down",
-      "timeout": 1500,
+      "timeout": 3000,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
@@ -1335,30 +1337,44 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "joint_names": ["HeadPitch"],
-            "joint_angles": [0.3],
-            "speed": 0.5
+            "type": "gesture_sequence",
+            "movements": [
+              {
+                "joint_names": ["HeadPitch"],
+                "joint_angles": [0.35],
+                "speed": 0.6,
+                "delay_after": 350
+              },
+              {
+                "joint_names": ["HeadPitch"],
+                "joint_angles": [0.0],
+                "speed": 0.6,
+                "delay_after": 250
+              },
+              {
+                "joint_names": ["HeadPitch"],
+                "joint_angles": [0.35],
+                "speed": 0.6,
+                "delay_after": 350
+              },
+              {
+                "joint_names": ["HeadPitch"],
+                "joint_angles": [0.0],
+                "speed": 0.5,
+                "delay_after": 300
+              }
+            ]
           }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["HeadPitch"],
-          "joint_angles": [0.3],
-          "speed": 0.5
         }
       }
     },
     {
       "id": "shake_head",
       "name": "Shake Head",
-      "description": "Perform a head shaking gesture (no)",
+      "description": "Head-shake gesture (no) — yaws left then right twice then returns to neutral",
       "category": "movement",
       "icon": "x-circle",
-      "timeout": 1500,
+      "timeout": 3000,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
@@ -1370,20 +1386,34 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "joint_names": ["HeadYaw"],
-            "joint_angles": [0.4],
-            "speed": 0.5
+            "type": "gesture_sequence",
+            "movements": [
+              {
+                "joint_names": ["HeadYaw"],
+                "joint_angles": [0.5],
+                "speed": 0.6,
+                "delay_after": 350
+              },
+              {
+                "joint_names": ["HeadYaw"],
+                "joint_angles": [-0.5],
+                "speed": 0.6,
+                "delay_after": 350
+              },
+              {
+                "joint_names": ["HeadYaw"],
+                "joint_angles": [0.5],
+                "speed": 0.6,
+                "delay_after": 350
+              },
+              {
+                "joint_names": ["HeadYaw"],
+                "joint_angles": [0.0],
+                "speed": 0.5,
+                "delay_after": 300
+              }
+            ]
           }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["HeadYaw"],
-          "joint_angles": [0.4],
-          "speed": 0.5
         }
       }
     },
@@ -1644,10 +1674,10 @@
     {
       "id": "beckon",
       "name": "Beckon",
-      "description": "Come here gesture",
+      "description": "Come here gesture — both arms sweep open wide then draw inward, then return to neutral",
       "category": "movement",
       "icon": "arrow-right",
-      "timeout": 2500,
+      "timeout": 5000,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
@@ -1659,20 +1689,40 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
-            "joint_angles": [0.5, 0.3, -1.2, -0.5],
-            "speed": 0.3
+            "type": "gesture_sequence",
+            "movements": [
+              {
+                "comment": "Phase 1 — both arms rise and open wide",
+                "joint_names": [
+                  "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll",
+                  "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"
+                ],
+                "joint_angles": [0.4, 0.7, -1.0, -0.4, 0.4, -0.7, 1.0, 0.4],
+                "speed": 0.25,
+                "delay_after": 900
+              },
+              {
+                "comment": "Phase 2 — arms sweep inward (come here)",
+                "joint_names": [
+                  "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll",
+                  "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"
+                ],
+                "joint_angles": [0.5, 0.15, -1.0, -0.4, 0.5, -0.15, 1.0, 0.4],
+                "speed": 0.35,
+                "delay_after": 700
+              },
+              {
+                "comment": "Phase 3 — return to neutral standing position",
+                "joint_names": [
+                  "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll",
+                  "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"
+                ],
+                "joint_angles": [1.4, 0.2, -0.5, -0.1, 1.4, -0.2, 0.5, 0.1],
+                "speed": 0.2,
+                "delay_after": 600
+              }
+            ]
           }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
-          "joint_angles": [0.5, 0.3, -1.2, -0.5],
-          "speed": 0.3
         }
       }
     },
