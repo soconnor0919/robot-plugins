@@ -1,58 +1,20 @@
 {
   "robotId": "nao6-ros2",
   "name": "NAO6 Robot (ROS2 Integration)",
-  "description": "NAO V6 humanoid robot with enhanced ROS2 integration via naoqi_driver2, featuring comprehensive movement control, advanced speech synthesis, emotion expression, multilingual support, and complete sensor monitoring. Verified.",
+  "description": "NAO V6 humanoid robot with ROS2 integration. Verified working actions include speech, walking, and animations.",
   "platform": "ROS2",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "pluginApiVersion": "1.0",
   "hriStudioVersion": ">=0.1.0",
   "trustLevel": "verified",
   "category": "humanoid-robot",
   "manufacturer": {
     "name": "SoftBank Robotics",
-    "website": "https://www.softbankrobotics.com/",
-    "support": "https://developer.softbankrobotics.com/"
+    "website": "https://www.softbankrobotics.com/"
   },
-  "documentation": {
-    "mainUrl": "https://developer.softbankrobotics.com/nao6/nao-documentation",
-    "apiReference": "https://github.com/ros-naoqi/naoqi_driver2",
-    "wikiUrl": "https://en.wikipedia.org/wiki/Nao_(robot)",
-    "videoUrl": "https://www.youtube.com/watch?v=nNbj2G3GmAg"
-  },
-  "assets": {
-    "thumbnailUrl": "assets/nao6-ros2/thumb.png",
-    "images": {
-      "main": "assets/nao6-ros2/main.jpg",
-      "angles": {
-        "front": "assets/nao6-ros2/front.png",
-        "side": "assets/nao6-ros2/side.png",
-        "top": "assets/nao6-ros2/top.png"
-      },
-      "logo": "assets/nao6-ros2/logo.png"
-    },
-    "model": {
-      "format": "URDF",
-      "url": "https://github.com/ros-naoqi/nao_robot/raw/master/nao_description/urdf/nao.urdf"
-    }
-  },
+  "capabilities": ["bipedal_walking", "speech_synthesis", "gestures"],
   "specs": {
-    "dimensions": {
-      "length": 0.275,
-      "width": 0.311,
-      "height": 0.574,
-      "weight": 5.4
-    },
-    "capabilities": [
-      "bipedal_walking",
-      "speech_synthesis",
-      "speech_recognition",
-      "computer_vision",
-      "gestures",
-      "led_control",
-      "tactile_sensing",
-      "ultrasonic_ranging",
-      "inertial_measurement"
-    ],
+    "dimensions": {"length": 0.275, "width": 0.311, "height": 0.574, "weight": 5.4},
     "maxSpeed": 0.55,
     "batteryLife": 1.5
   },
@@ -61,1149 +23,169 @@
     "nodePrefix": "hri_studio",
     "defaultTopics": {
       "cmd_vel": "/cmd_vel",
-      "odom": "/odom",
-      "joint_states": "/joint_states",
-      "joint_angles": "/joint_angles",
-      "camera_front": "/camera/front/image_raw",
-      "camera_bottom": "/camera/bottom/image_raw",
-      "imu": "/imu/torso",
       "speech": "/speech",
-      "animation": "/animation",
-      "bumper": "/bumper",
-      "hand_touch": "/hand_touch",
-      "head_touch": "/head_touch",
-      "sonar_left": "/sonar/left",
-      "sonar_right": "/sonar/right",
-      "info": "/info"
-    }
-  },
-  "settingsSchema": {
-    "type": "object",
-    "title": "NAO6 Robot Settings",
-    "description": "Configure robot behavior and connection parameters for this study",
-    "properties": {
-      "speech": {
-        "type": "object",
-        "title": "Speech Settings",
-        "properties": {
-          "voice": {
-            "type": "string",
-            "title": "Voice",
-            "description": "Text-to-speech voice language",
-            "enum": [
-              "naoenu",
-              "naofrf",
-              "naoges",
-              "naojpj",
-              "naokrk",
-              "naozhs"
-            ],
-            "enumNames": [
-              "English (US)",
-              "French",
-              "German",
-              "Japanese",
-              "Korean",
-              "Chinese"
-            ],
-            "default": "naoenu"
-          },
-          "speed": {
-            "type": "number",
-            "title": "Speech Speed",
-            "description": "Speech speed percentage (50-400%)",
-            "minimum": 50,
-            "maximum": 400,
-            "default": 100
-          },
-          "pitch": {
-            "type": "number",
-            "title": "Voice Pitch",
-            "description": "Voice pitch percentage (50-200%)",
-            "minimum": 50,
-            "maximum": 200,
-            "default": 100
-          },
-          "volume": {
-            "type": "number",
-            "title": "Volume",
-            "description": "Speech volume percentage (0-100%)",
-            "minimum": 0,
-            "maximum": 100,
-            "default": 80
-          }
-        }
-      },
-      "movement": {
-        "type": "object",
-        "title": "Movement Settings",
-        "properties": {
-          "defaultSpeed": {
-            "type": "number",
-            "title": "Default Speed",
-            "description": "Default movement speed multiplier (0.1-1.0)",
-            "minimum": 0.1,
-            "maximum": 1.0,
-            "default": 0.5
-          },
-          "safetyMode": {
-            "type": "boolean",
-            "title": "Safety Mode",
-            "description": "Enable movement safety limits and collision detection",
-            "default": true
-          },
-          "stiffness": {
-            "type": "number",
-            "title": "Joint Stiffness",
-            "description": "Default joint stiffness (0.0-1.0)",
-            "minimum": 0.0,
-            "maximum": 1.0,
-            "default": 0.9
-          }
-        }
-      },
-      "connection": {
-        "type": "object",
-        "title": "Connection Settings",
-        "properties": {
-          "rosbridgeUrl": {
-            "type": "string",
-            "title": "ROS Bridge URL",
-            "description": "WebSocket URL for ROS bridge connection",
-            "default": "ws://localhost:9090",
-            "pattern": "^wss?://.+"
-          },
-          "reconnectAttempts": {
-            "type": "integer",
-            "title": "Reconnect Attempts",
-            "description": "Number of automatic reconnection attempts",
-            "minimum": 1,
-            "maximum": 10,
-            "default": 3
-          },
-          "connectionTimeout": {
-            "type": "integer",
-            "title": "Connection Timeout",
-            "description": "Connection timeout in milliseconds",
-            "minimum": 1000,
-            "maximum": 30000,
-            "default": 5000
-          }
-        }
-      },
-      "behavior": {
-        "type": "object",
-        "title": "Behavior Settings",
-        "properties": {
-          "autonomousLifeEnabled": {
-            "type": "boolean",
-            "title": "Autonomous Life Default",
-            "description": "Default state for autonomous life on connection",
-            "default": true
-          },
-          "breathingEnabled": {
-            "type": "boolean",
-            "title": "Breathing Animation",
-            "description": "Enable idle breathing animation",
-            "default": true
-          },
-          "awarenessEnabled": {
-            "type": "boolean",
-            "title": "Basic Awareness",
-            "description": "Enable basic awareness behaviors",
-            "default": false
-          }
-        }
-      }
+      "joint_angles": "/joint_angles",
+      "animation": "/animation"
     }
   },
   "actions": [
     {
-      "id": "walk_velocity",
-      "name": "Walk with Velocity",
-      "description": "Control robot walking with linear and angular velocities",
-      "category": "movement",
-      "icon": "navigation",
-      "timeout": 5000,
+      "id": "say_text",
+      "name": "Say Text",
+      "description": "Make the robot speak text",
+      "category": "speech",
+      "icon": "message-square",
+      "timeout": 10000,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
         "properties": {
-          "linear": {
-            "type": "number",
-            "minimum": -0.55,
-            "maximum": 0.55,
-            "default": 0.0,
-            "description": "Forward velocity in m/s"
-          },
-          "angular": {
-            "type": "number",
-            "minimum": -2.0,
-            "maximum": 2.0,
-            "default": 0.0,
-            "description": "Angular velocity in rad/s"
+          "text": {
+            "type": "string",
+            "title": "Text",
+            "description": "Text for the robot to speak"
           }
         },
-        "required": ["linear", "angular"]
+        "required": ["text"]
       },
       "ros2": {
-        "messageType": "geometry_msgs/msg/Twist",
-        "topic": "/cmd_vel",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {"data": "{{text}}"}
+        }
+      }
+    },
+    {
+      "id": "say_with_emotion",
+      "name": "Say with Emotion",
+      "description": "Make the robot speak with emotion",
+      "category": "speech",
+      "icon": "smile",
+      "timeout": 10000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "text": {"type": "string", "title": "Text"},
+          "emotion": {"type": "string", "title": "Emotion", "enum": ["happy", "sad", "neutral"]}
+        },
+        "required": ["text"]
+      },
+      "ros2": {
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
           "type": "transform",
-          "transformFn": "transformToTwist"
-        },
-        "qos": {
-          "reliability": "reliable",
-          "durability": "volatile",
-          "history": "keep_last",
-          "depth": 1
+          "transformFn": "transformToEmotionSpeech"
         }
       }
     },
     {
       "id": "walk_forward",
       "name": "Walk Forward",
-      "description": "Make the robot walk forward at specified speed",
+      "description": "Walk forward",
       "category": "movement",
       "icon": "arrow-up",
-      "timeout": 30000,
+      "timeout": 5000,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
         "properties": {
-          "speed": {
-            "type": "number",
-            "minimum": 0.01,
-            "maximum": 0.3,
-            "default": 0.1,
-            "description": "Walking speed in m/s"
-          },
-          "duration": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 30,
-            "default": 0,
-            "description": "Duration to walk in seconds (0 = indefinite)"
-          }
-        },
-        "required": ["speed"]
-      },
-      "ros2": {
-        "messageType": "geometry_msgs/msg/Twist",
-        "topic": "/cmd_vel",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "linear": {
-              "x": "{{speed}}",
-              "y": 0,
-              "z": 0
-            },
-            "angular": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            }
-          }
+          "speed": {"type": "number", "title": "Speed", "default": 0.1, "minimum": 0, "maximum": 0.55}
         }
       },
-      "implementation": {
-        "type": "ros2_topic",
+      "ros2": {
         "topic": "/cmd_vel",
         "messageType": "geometry_msgs/msg/Twist",
-        "messageTemplate": {
-          "linear": {
-            "x": "{{speed}}",
-            "y": 0,
-            "z": 0
-          },
-          "angular": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          }
+        "payloadMapping": {
+          "type": "static",
+          "payload": {"linear": {"x": 0.1, "y": 0, "z": 0}, "angular": {"x": 0, "y": 0, "z": 0}}
         }
       }
     },
     {
       "id": "walk_backward",
       "name": "Walk Backward",
-      "description": "Make the robot walk backward at specified speed",
+      "description": "Walk backward",
       "category": "movement",
       "icon": "arrow-down",
-      "timeout": 30000,
+      "timeout": 5000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "speed": {
-            "type": "number",
-            "minimum": 0.01,
-            "maximum": 0.3,
-            "default": 0.1,
-            "description": "Walking speed in m/s"
-          },
-          "duration": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 30,
-            "default": 0,
-            "description": "Duration to walk in seconds (0 = indefinite)"
-          }
-        },
-        "required": ["speed"]
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "geometry_msgs/msg/Twist",
         "topic": "/cmd_vel",
+        "messageType": "geometry_msgs/msg/Twist",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "linear": {
-              "x": "-{{speed}}",
-              "y": 0,
-              "z": 0
-            },
-            "angular": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            }
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/cmd_vel",
-        "messageType": "geometry_msgs/msg/Twist",
-        "messageTemplate": {
-          "linear": {
-            "x": "-{{speed}}",
-            "y": 0,
-            "z": 0
-          },
-          "angular": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          }
+          "payload": {"linear": {"x": -0.1, "y": 0, "z": 0}, "angular": {"x": 0, "y": 0, "z": 0}}
         }
       }
     },
     {
       "id": "turn_left",
       "name": "Turn Left",
-      "description": "Make the robot turn left at specified angular speed",
+      "description": "Turn left in place",
       "category": "movement",
-      "icon": "rotate-ccw",
-      "timeout": 30000,
+      "icon": "corner-up-left",
+      "timeout": 5000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "speed": {
-            "type": "number",
-            "minimum": 0.1,
-            "maximum": 1.0,
-            "default": 0.3,
-            "description": "Angular speed in rad/s"
-          },
-          "duration": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 30,
-            "default": 0,
-            "description": "Duration to turn in seconds (0 = indefinite)"
-          }
-        },
-        "required": ["speed"]
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "geometry_msgs/msg/Twist",
         "topic": "/cmd_vel",
+        "messageType": "geometry_msgs/msg/Twist",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "linear": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "angular": {
-              "x": 0,
-              "y": 0,
-              "z": "{{speed}}"
-            }
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/cmd_vel",
-        "messageType": "geometry_msgs/msg/Twist",
-        "messageTemplate": {
-          "linear": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "angular": {
-            "x": 0,
-            "y": 0,
-            "z": "{{speed}}"
-          }
+          "payload": {"linear": {"x": 0, "y": 0, "z": 0}, "angular": {"x": 0, "y": 0, "z": -0.3}}
         }
       }
     },
     {
       "id": "turn_right",
       "name": "Turn Right",
-      "description": "Make the robot turn right at specified angular speed",
+      "description": "Turn right in place",
       "category": "movement",
-      "icon": "rotate-cw",
-      "timeout": 30000,
+      "icon": "corner-up-right",
+      "timeout": 5000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "speed": {
-            "type": "number",
-            "minimum": 0.1,
-            "maximum": 1.0,
-            "default": 0.3,
-            "description": "Angular speed in rad/s"
-          },
-          "duration": {
-            "type": "number",
-            "minimum": 0,
-            "maximum": 30,
-            "default": 0,
-            "description": "Duration to turn in seconds (0 = indefinite)"
-          }
-        },
-        "required": ["speed"]
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "geometry_msgs/msg/Twist",
         "topic": "/cmd_vel",
+        "messageType": "geometry_msgs/msg/Twist",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "linear": {
-              "x": 0,
-              "y": 0,
-              "z": 0
-            },
-            "angular": {
-              "x": 0,
-              "y": 0,
-              "z": "-{{speed}}"
-            }
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/cmd_vel",
-        "messageType": "geometry_msgs/msg/Twist",
-        "messageTemplate": {
-          "linear": {
-            "x": 0,
-            "y": 0,
-            "z": 0
-          },
-          "angular": {
-            "x": 0,
-            "y": 0,
-            "z": "-{{speed}}"
-          }
+          "payload": {"linear": {"x": 0, "y": 0, "z": 0}, "angular": {"x": 0, "y": 0, "z": 0.3}}
         }
       }
     },
     {
       "id": "stop_walking",
-      "name": "Stop Walking",
-      "description": "Immediately stop robot movement",
+      "name": "Stop",
+      "description": "Stop all robot movement",
       "category": "movement",
       "icon": "square",
-      "timeout": 3000,
-      "retryable": false,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
+      "timeout": 1000,
+      "retryable": true,
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "geometry_msgs/msg/Twist",
         "topic": "/cmd_vel",
+        "messageType": "geometry_msgs/msg/Twist",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "linear": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            },
-            "angular": {
-              "x": 0.0,
-              "y": 0.0,
-              "z": 0.0
-            }
-          }
-        },
-        "qos": {
-          "reliability": "reliable",
-          "durability": "volatile",
-          "history": "keep_last",
-          "depth": 1
-        }
-      }
-    },
-    {
-      "id": "say_text",
-      "name": "Say Text",
-      "description": "Make the robot speak using text-to-speech",
-      "category": "interaction",
-      "icon": "volume-2",
-      "timeout": 15000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": "string",
-            "default": "Hello from NAO!",
-            "description": "Text to speak"
-          }
-        },
-        "required": ["text"]
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "transformToStringMessage"
-        },
-        "qos": {
-          "reliability": "reliable",
-          "durability": "volatile"
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
-        "messageTemplate": {
-          "data": "{{text}}"
-        }
-      }
-    },
-    {
-      "id": "say_with_emotion",
-      "name": "Say Text with Emotion",
-      "description": "Speak text with emotional expression and animated gestures. Emotions: happy (excited gestures), sad (slower, lower pitch), neutral, excited (fast, animated), calm (slower, relaxed)",
-      "category": "interaction",
-      "icon": "heart",
-      "timeout": 20000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": "string",
-            "default": "Hello! I'm feeling great today!",
-            "description": "Text for the robot to speak"
-          },
-          "emotion": {
-            "type": "string",
-            "enum": ["neutral", "happy", "sad", "excited", "calm"],
-            "default": "neutral",
-            "description": "Emotional tone: happy (animated), sad (slow/low pitch), excited (fast + gestures), calm (slower + relaxed)"
-          },
-          "speed": {
-            "type": "number",
-            "minimum": 0.5,
-            "maximum": 2.0,
-            "default": 1.0,
-            "description": "Speech speed multiplier"
-          }
-        },
-        "required": ["text"]
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "transformToEmotionalSpeech"
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
-        "messageTemplate": {
-          "data": "{{text}}"
-        }
-      }
-    },
-    {
-      "id": "set_volume",
-      "name": "Set Volume",
-      "description": "Adjust the robot's audio volume level",
-      "category": "interaction",
-      "icon": "volume-x",
-      "timeout": 5000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "volume": {
-            "type": "number",
-            "minimum": 0.0,
-            "maximum": 1.0,
-            "default": 0.5,
-            "description": "Volume level (0.0 = silent, 1.0 = maximum)"
-          }
-        },
-        "required": ["volume"]
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/Float32",
-        "topic": "/audio_volume",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "{{volume}}"
-          }
-        }
-      }
-    },
-    {
-      "id": "set_language",
-      "name": "Set Language",
-      "description": "Change the robot's speech language",
-      "category": "interaction",
-      "icon": "globe",
-      "timeout": 5000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "language": {
-            "type": "string",
-            "enum": [
-              "en-US",
-              "en-GB",
-              "fr-FR",
-              "de-DE",
-              "es-ES",
-              "it-IT",
-              "ja-JP",
-              "ko-KR",
-              "zh-CN"
-            ],
-            "default": "en-US",
-            "description": "Speech language"
-          }
-        },
-        "required": ["language"]
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/set_language",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "{{language}}"
-          }
-        }
-      }
-    },
-    {
-      "id": "move_head",
-      "name": "Move Head",
-      "description": "Control head orientation (yaw and pitch)",
-      "category": "movement",
-      "icon": "eye",
-      "timeout": 10000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "yaw": {
-            "type": "number",
-            "minimum": -2.09,
-            "maximum": 2.09,
-            "default": 0,
-            "description": "Head yaw angle in radians"
-          },
-          "pitch": {
-            "type": "number",
-            "minimum": -0.67,
-            "maximum": 0.51,
-            "default": 0,
-            "description": "Head pitch angle in radians"
-          },
-          "speed": {
-            "type": "number",
-            "minimum": 0.1,
-            "maximum": 1.0,
-            "default": 0.3,
-            "description": "Movement speed (0.1 = slow, 1.0 = fast)"
-          }
-        },
-        "required": ["yaw", "pitch"]
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": ["HeadYaw", "HeadPitch"],
-            "joint_angles": ["{{yaw}}", "{{pitch}}"],
-            "speed": "{{speed}}"
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["HeadYaw", "HeadPitch"],
-          "joint_angles": ["{{yaw}}", "{{pitch}}"],
-          "speed": "{{speed}}"
-        }
-      }
-    },
-    {
-      "id": "move_arm",
-      "name": "Move Arm",
-      "description": "Control arm joint positions",
-      "category": "movement",
-      "icon": "hand",
-      "timeout": 10000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "arm": {
-            "type": "string",
-            "enum": ["left", "right"],
-            "default": "right",
-            "description": "Which arm to control"
-          },
-          "shoulder_pitch": {
-            "type": "number",
-            "minimum": -2.09,
-            "maximum": 2.09,
-            "default": 1.4,
-            "description": "Shoulder pitch angle in radians"
-          },
-          "shoulder_roll": {
-            "type": "number",
-            "minimum": -0.31,
-            "maximum": 1.33,
-            "default": 0.2,
-            "description": "Shoulder roll angle in radians"
-          },
-          "elbow_yaw": {
-            "type": "number",
-            "minimum": -2.09,
-            "maximum": 2.09,
-            "default": 0,
-            "description": "Elbow yaw angle in radians"
-          },
-          "elbow_roll": {
-            "type": "number",
-            "minimum": -1.54,
-            "maximum": -0.03,
-            "default": -0.5,
-            "description": "Elbow roll angle in radians"
-          },
-          "speed": {
-            "type": "number",
-            "minimum": 0.1,
-            "maximum": 1.0,
-            "default": 0.3,
-            "description": "Movement speed (0.1 = slow, 1.0 = fast)"
-          }
-        },
-        "required": [
-          "arm",
-          "shoulder_pitch",
-          "shoulder_roll",
-          "elbow_yaw",
-          "elbow_roll"
-        ]
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": [
-              "{{arm === 'left' ? 'L' : 'R'}}ShoulderPitch",
-              "{{arm === 'left' ? 'L' : 'R'}}ShoulderRoll",
-              "{{arm === 'left' ? 'L' : 'R'}}ElbowYaw",
-              "{{arm === 'left' ? 'L' : 'R'}}ElbowRoll"
-            ],
-            "joint_angles": [
-              "{{shoulder_pitch}}",
-              "{{shoulder_roll}}",
-              "{{elbow_yaw}}",
-              "{{elbow_roll}}"
-            ],
-            "speed": "{{speed}}"
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": [
-            "{{arm === 'left' ? 'L' : 'R'}}ShoulderPitch",
-            "{{arm === 'left' ? 'L' : 'R'}}ShoulderRoll",
-            "{{arm === 'left' ? 'L' : 'R'}}ElbowYaw",
-            "{{arm === 'left' ? 'L' : 'R'}}ElbowRoll"
-          ],
-          "joint_angles": [
-            "{{shoulder_pitch}}",
-            "{{shoulder_roll}}",
-            "{{elbow_yaw}}",
-            "{{elbow_roll}}"
-          ],
-          "speed": "{{speed}}"
-        }
-      }
-    },
-    {
-      "id": "set_joint_angle",
-      "name": "Set Joint Angle",
-      "description": "Control individual joint angles",
-      "category": "movement",
-      "icon": "settings",
-      "timeout": 10000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "joint_name": {
-            "type": "string",
-            "enum": [
-              "HeadYaw",
-              "HeadPitch",
-              "LShoulderPitch",
-              "LShoulderRoll",
-              "LElbowYaw",
-              "LElbowRoll",
-              "LWristYaw",
-              "RShoulderPitch",
-              "RShoulderRoll",
-              "RElbowYaw",
-              "RElbowRoll",
-              "RWristYaw",
-              "LHipYawPitch",
-              "LHipRoll",
-              "LHipPitch",
-              "LKneePitch",
-              "LAnklePitch",
-              "LAnkleRoll",
-              "RHipRoll",
-              "RHipPitch",
-              "RKneePitch",
-              "RAnklePitch",
-              "RAnkleRoll"
-            ],
-            "default": "HeadYaw",
-            "description": "Joint to control"
-          },
-          "angle": {
-            "type": "number",
-            "minimum": -3.14159,
-            "maximum": 3.14159,
-            "default": 0.0,
-            "description": "Target angle in radians"
-          },
-          "speed": {
-            "type": "number",
-            "minimum": 0.01,
-            "maximum": 1.0,
-            "default": 0.2,
-            "description": "Movement speed (fraction of max)"
-          }
-        },
-        "required": ["joint_name", "angle"]
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "transformToJointAngles"
-        }
-      }
-    },
-    {
-      "id": "turn_head",
-      "name": "Turn Head",
-      "description": "Control head orientation",
-      "category": "movement",
-      "icon": "rotate-ccw",
-      "timeout": 8000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "yaw": {
-            "type": "number",
-            "minimum": -2.0857,
-            "maximum": 2.0857,
-            "default": 0.0,
-            "description": "Head yaw angle in radians (left-right)"
-          },
-          "pitch": {
-            "type": "number",
-            "minimum": -0.672,
-            "maximum": 0.5149,
-            "default": 0.0,
-            "description": "Head pitch angle in radians (up-down)"
-          },
-          "speed": {
-            "type": "number",
-            "minimum": 0.1,
-            "maximum": 1.0,
-            "default": 0.3,
-            "description": "Movement speed fraction"
-          }
-        },
-        "required": ["yaw", "pitch"]
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "transformToHeadMovement"
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["HeadYaw", "HeadPitch"],
-          "joint_angles": ["{{yaw}}", "{{pitch}}"],
-          "speed": "{{speed}}"
-        }
-      }
-    },
-    {
-      "id": "get_camera_image",
-      "name": "Get Camera Image",
-      "description": "Capture image from front or bottom camera",
-      "category": "sensors",
-      "icon": "camera",
-      "timeout": 5000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "camera": {
-            "type": "string",
-            "enum": ["front", "bottom"],
-            "default": "front",
-            "description": "Camera to use"
-          }
-        },
-        "required": ["camera"]
-      },
-      "ros2": {
-        "messageType": "sensor_msgs/msg/Image",
-        "topic": "/camera/{camera}/image_raw",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "getCameraImage"
-        },
-        "qos": {
-          "reliability": "reliable",
-          "durability": "volatile"
-        }
-      }
-    },
-    {
-      "id": "get_joint_states",
-      "name": "Get Joint States",
-      "description": "Read current joint positions and velocities",
-      "category": "sensors",
-      "icon": "activity",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "ros2": {
-        "messageType": "sensor_msgs/msg/JointState",
-        "topic": "/joint_states",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "getJointStates"
-        },
-        "qos": {
-          "reliability": "reliable",
-          "durability": "volatile"
-        }
-      }
-    },
-    {
-      "id": "get_imu_data",
-      "name": "Get IMU Data",
-      "description": "Read inertial measurement unit data from torso",
-      "category": "sensors",
-      "icon": "compass",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "ros2": {
-        "messageType": "sensor_msgs/msg/Imu",
-        "topic": "/imu/torso",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "getImuData"
-        },
-        "qos": {
-          "reliability": "reliable",
-          "durability": "volatile"
-        }
-      }
-    },
-    {
-      "id": "get_bumper_status",
-      "name": "Get Bumper Status",
-      "description": "Read foot bumper contact sensors",
-      "category": "sensors",
-      "icon": "zap",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/Bumper",
-        "topic": "/bumper",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "getBumperStatus"
-        }
-      }
-    },
-    {
-      "id": "get_touch_sensors",
-      "name": "Get Touch Sensors",
-      "description": "Read hand and head touch sensor states",
-      "category": "sensors",
-      "icon": "hand",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "sensor_type": {
-            "type": "string",
-            "enum": ["hand", "head"],
-            "default": "hand",
-            "description": "Touch sensor type to read"
-          }
-        },
-        "required": ["sensor_type"]
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/HandTouch",
-        "topic": "/{sensor_type}_touch",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "getTouchSensors"
-        }
-      }
-    },
-    {
-      "id": "get_sonar_range",
-      "name": "Get Sonar Range",
-      "description": "Read ultrasonic range sensor data",
-      "category": "sensors",
-      "icon": "radio",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "sensor": {
-            "type": "string",
-            "enum": ["left", "right", "both"],
-            "default": "both",
-            "description": "Sonar sensor to read"
-          }
-        },
-        "required": ["sensor"]
-      },
-      "ros2": {
-        "messageType": "sensor_msgs/msg/Range",
-        "topic": "/sonar/{sensor}",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "getSonarRange"
-        }
-      }
-    },
-    {
-      "id": "get_robot_info",
-      "name": "Get Robot Info",
-      "description": "Read general robot information and status",
-      "category": "sensors",
-      "icon": "info",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {},
-        "required": []
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/RobotInfo",
-        "topic": "/info",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "getRobotInfo"
+          "payload": {"linear": {"x": 0, "y": 0, "z": 0}, "angular": {"x": 0, "y": 0, "z": 0}}
         }
       }
     },
     {
       "id": "wake_up",
       "name": "Wake Up",
-      "description": "Initialize robot motors and stand up via ALMotion.wakeUp service",
+      "description": "Wake up the robot (stand up)",
       "category": "movement",
-      "icon": "zap",
-      "timeout": 15000,
+      "icon": "sun",
+      "timeout": 5000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
         "topic": "/naoqi_driver/ALMotion/wakeUp",
         "messageType": "std_msgs/msg/Empty",
@@ -1217,15 +199,12 @@
     {
       "id": "rest",
       "name": "Rest",
-      "description": "Disable motors and sit down safely via ALMotion.rest service",
+      "description": "Put robot to rest (sit down)",
       "category": "movement",
       "icon": "moon",
-      "timeout": 15000,
+      "timeout": 5000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
         "topic": "/naoqi_driver/ALMotion/rest",
         "messageType": "std_msgs/msg/Empty",
@@ -1237,922 +216,128 @@
       }
     },
     {
-      "id": "bow",
-      "name": "Bow",
-      "description": "Polite bow — head pitches down then returns to neutral",
-      "category": "movement",
-      "icon": "user-check",
-      "timeout": 3500,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "type": "gesture_sequence",
-            "movements": [
-              {
-                "comment": "Head pitches down (bow)",
-                "joint_names": ["HeadYaw", "HeadPitch"],
-                "joint_angles": [0.0, 0.5],
-                "speed": 0.25,
-                "delay_after": 1000
-              },
-              {
-                "comment": "Return to neutral",
-                "joint_names": ["HeadYaw", "HeadPitch"],
-                "joint_angles": [0.0, 0.0],
-                "speed": 0.2,
-                "delay_after": 500
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "id": "wave",
-      "name": "Wave",
-      "description": "Perform a friendly wave gesture with right arm",
-      "category": "movement",
-      "icon": "hand",
-      "timeout": 2000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": [
-              "RShoulderPitch",
-              "RShoulderRoll",
-              "RElbowYaw",
-              "RElbowRoll"
-            ],
-            "joint_angles": [1.5, 0.2, -1.0, 0.5],
-            "speed": 0.4
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": [
-            "RShoulderPitch",
-            "RShoulderRoll",
-            "RElbowYaw",
-            "RElbowRoll"
-          ],
-          "joint_angles": [1.5, 0.2, -1.0, 0.5],
-          "speed": 0.4
-        }
-      }
-    },
-    {
-      "id": "nod",
-      "name": "Nod",
-      "description": "Nodding gesture — head pitches down twice then returns to neutral",
-      "category": "movement",
-      "icon": "chevrons-down",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "type": "gesture_sequence",
-            "movements": [
-              {
-                "joint_names": ["HeadPitch"],
-                "joint_angles": [0.35],
-                "speed": 0.6,
-                "delay_after": 350
-              },
-              {
-                "joint_names": ["HeadPitch"],
-                "joint_angles": [0.0],
-                "speed": 0.6,
-                "delay_after": 250
-              },
-              {
-                "joint_names": ["HeadPitch"],
-                "joint_angles": [0.35],
-                "speed": 0.6,
-                "delay_after": 350
-              },
-              {
-                "joint_names": ["HeadPitch"],
-                "joint_angles": [0.0],
-                "speed": 0.5,
-                "delay_after": 300
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "id": "shake_head",
-      "name": "Shake Head",
-      "description": "Head-shake gesture (no) — yaws left then right twice then returns to neutral",
-      "category": "movement",
-      "icon": "x-circle",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "type": "gesture_sequence",
-            "movements": [
-              {
-                "joint_names": ["HeadYaw"],
-                "joint_angles": [0.5],
-                "speed": 0.6,
-                "delay_after": 350
-              },
-              {
-                "joint_names": ["HeadYaw"],
-                "joint_angles": [-0.5],
-                "speed": 0.6,
-                "delay_after": 350
-              },
-              {
-                "joint_names": ["HeadYaw"],
-                "joint_angles": [0.5],
-                "speed": 0.6,
-                "delay_after": 350
-              },
-              {
-                "joint_names": ["HeadYaw"],
-                "joint_angles": [0.0],
-                "speed": 0.5,
-                "delay_after": 300
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "id": "point",
-      "name": "Point",
-      "description": "Point at something with left arm",
-      "category": "movement",
-      "icon": "finger-pointer",
-      "timeout": 1500,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": [
-              "LShoulderPitch",
-              "LShoulderRoll",
-              "LElbowYaw",
-              "LElbowRoll",
-              "LWristYaw"
-            ],
-            "joint_angles": [0.8, 0.3, -1.0, 0.1, 0],
-            "speed": 0.4
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": [
-            "LShoulderPitch",
-            "LShoulderRoll",
-            "LElbowYaw",
-            "LElbowRoll",
-            "LWristYaw"
-          ],
-          "joint_angles": [0.8, 0.3, -1.0, 0.1, 0],
-          "speed": 0.4
-        }
-      }
-    },
-    {
-      "id": "greet",
-      "name": "Greet",
-      "description": "Combined greeting gesture: bow + wave",
-      "category": "movement",
-      "icon": "sparkles",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": ["HeadYaw", "HeadPitch"],
-            "joint_angles": [0, 0.3],
-            "speed": 0.4
-          }
-        }
-      }
-    },
-    {
-      "id": "wave_goodbye",
-      "name": "Wave Goodbye",
-      "description": "Animated wave goodbye gesture with speech",
-      "category": "interaction",
-      "icon": "hand",
-      "timeout": 4000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": "string",
-            "default": "Goodbye!",
-            "description": "Text to say while waving"
-          }
-        }
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "transformToWaveGoodbye"
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
-        "messageTemplate": {
-          "data": "{{text}}"
-        }
-      }
-    },
-    {
-      "id": "play_animation",
-      "name": "Say Phrase",
-      "description": "Say a phrase with animated speech",
-      "category": "interaction",
-      "icon": "message-circle",
-      "timeout": 5000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "text": {
-            "type": "string",
-            "default": "Hello!",
-            "description": "Text to say"
-          },
-          "emotion": {
-            "type": "string",
-            "enum": ["neutral", "happy", "sad", "excited", "calm"],
-            "default": "neutral",
-            "description": "Speech emotion"
-          }
-        },
-        "required": ["text"]
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "transformToEmotionalSpeech"
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
-        "messageTemplate": {
-          "data": "{{text}}"
-        }
-      }
-    },
-    {
-      "id": "open_hand_wave",
-      "name": "Open Hand Wave",
-      "description": "Raise arm with open palm",
-      "category": "movement",
-      "icon": "hand",
-      "timeout": 2500,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"],
-            "joint_angles": [0.8, -0.2, -1.5, -0.1, 0.0],
-            "speed": 0.3
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"],
-          "joint_angles": [0.8, -0.2, -1.5, -0.1, 0.0],
-          "speed": 0.3
-        }
-      }
-    },
-    {
-      "id": "show_sole",
-      "name": "Show Sole",
-      "description": "Show open palm with fingers spread",
-      "category": "movement",
-      "icon": "hand",
-      "timeout": 2000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
-            "joint_angles": [0.5, -0.8, -0.5, 0.0],
-            "speed": 0.3
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
-          "joint_angles": [0.5, -0.8, -0.5, 0.0],
-          "speed": 0.3
-        }
-      }
-    },
-    {
-      "id": "present_object",
-      "name": "Present Object",
-      "description": "Present something to the participant with open hand",
-      "category": "movement",
-      "icon": "hand",
-      "timeout": 2000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
-            "joint_angles": [0.3, -0.5, -1.0, -0.2],
-            "speed": 0.3
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
-          "joint_angles": [0.3, -0.5, -1.0, -0.2],
-          "speed": 0.3
-        }
-      }
-    },
-    {
-      "id": "beckon",
-      "name": "Beckon",
-      "description": "Come here gesture — both arms sweep open wide then draw inward, then return to neutral",
-      "category": "movement",
-      "icon": "arrow-right",
-      "timeout": 5000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "type": "gesture_sequence",
-            "movements": [
-              {
-                "comment": "Phase 1 — both arms rise and open wide",
-                "joint_names": [
-                  "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll",
-                  "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"
-                ],
-                "joint_angles": [0.4, 0.7, -1.0, -0.4, 0.4, -0.7, 1.0, 0.4],
-                "speed": 0.25,
-                "delay_after": 900
-              },
-              {
-                "comment": "Phase 2 — arms sweep inward (come here)",
-                "joint_names": [
-                  "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll",
-                  "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"
-                ],
-                "joint_angles": [0.5, 0.15, -1.0, -0.4, 0.5, -0.15, 1.0, 0.4],
-                "speed": 0.35,
-                "delay_after": 700
-              },
-              {
-                "comment": "Phase 3 — return to neutral standing position",
-                "joint_names": [
-                  "LShoulderPitch", "LShoulderRoll", "LElbowYaw", "LElbowRoll",
-                  "RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"
-                ],
-                "joint_angles": [1.4, 0.2, -0.5, -0.1, 1.4, -0.2, 0.5, 0.1],
-                "speed": 0.2,
-                "delay_after": 600
-              }
-            ]
-          }
-        }
-      }
-    },
-    {
-      "id": "think",
-      "name": "Think",
-      "description": "Thinking gesture - hand to chin",
-      "category": "movement",
-      "icon": "help-circle",
-      "timeout": 2000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "joint_names": ["RElbowRoll", "RElbowYaw", "RShoulderPitch", "RShoulderRoll"],
-            "joint_angles": [-1.5, 0.3, 1.5, 0.2],
-            "speed": 0.2
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": ["RElbowRoll", "RElbowYaw", "RShoulderPitch", "RShoulderRoll"],
-          "joint_angles": [-1.5, 0.3, 1.5, 0.2],
-          "speed": 0.2
-        }
-      }
-    },
-    {
-      "id": "set_posture",
-      "name": "Set Posture",
-      "description": "Return robot to a specific posture using ALRobotPosture",
-      "category": "movement",
-      "icon": "user",
-      "timeout": 5000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "posture": {
-            "type": "string",
-            "enum": ["Stand", "Crouch", "Sit", "SitRelief", "StandInit", "StandZero", "LyingBelly", "LyingBack"],
-            "default": "Stand",
-            "description": "Target posture"
-          },
-          "speed": {
-            "type": "number",
-            "minimum": 0.0,
-            "maximum": 1.0,
-            "default": 0.5,
-            "description": "Transition speed (0-1)"
-          }
-        },
-        "required": ["posture"]
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "^runPosture({{posture}}, {{math.round(speed * 100)}})"
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
-        "messageTemplate": {
-          "data": "^runPosture({{posture}}, {{math.round(speed * 100)}})"
-        }
-      }
-    },
-    {
-      "id": "pause_motion",
-      "name": "Pause Motion",
-      "description": "Freeze all robot motion by setting stiffness to 0",
-      "category": "movement",
-      "icon": "pause",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "stiffness": {
-            "type": "number",
-            "minimum": 0.0,
-            "maximum": 1.0,
-            "default": 0.0,
-            "description": "Stiffness value (0 = relax, 1 = full)"
-          }
-        }
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "^setStiffnesses([[Body]], {{stiffness}})"
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
-        "messageTemplate": {
-          "data": "^setStiffnesses([[Body]], {{stiffness}})"
-        }
-      }
-    },
-    {
-      "id": "stop_motion",
-      "name": "Stop Motion",
-      "description": "Stop all movement and hold current position",
-      "category": "movement",
-      "icon": "square",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "^stopAll()"
-          }
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
-        "messageTemplate": {
-          "data": "^stopAll()"
-        }
-      }
-    },
-    {
-      "id": "gesture_sequence",
-      "name": "Gesture Sequence",
-      "description": "Chain multiple joint movements into one gesture",
-      "category": "movement",
-      "icon": "list-ordered",
-      "timeout": 10000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {
-          "movements": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "joints": {
-                  "type": "array",
-                  "items": { "type": "string" },
-                  "description": "Joint names"
-                },
-                "angles": {
-                  "type": "array",
-                  "items": { "type": "number" },
-                  "description": "Joint angles in radians"
-                },
-                "duration": {
-                  "type": "number",
-                  "minimum": 300,
-                  "maximum": 5000,
-                  "default": 1000,
-                  "description": "Duration in ms"
-                }
-              },
-              "required": ["joints", "angles"]
-            },
-            "default": [
-              {
-                "joints": ["RShoulderPitch", "RShoulderRoll"],
-                "angles": [0.8, -0.3],
-                "duration": 800
-              },
-              {
-                "joints": ["RShoulderPitch", "RShoulderRoll"],
-                "angles": [1.2, -0.5],
-                "duration": 600
-              }
-            ]
-          }
-        },
-        "required": ["movements"]
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/joint_angles",
-        "payloadMapping": {
-          "type": "transform",
-          "transformFn": "transformToGestureSequence"
-        }
-      },
-      "implementation": {
-        "type": "ros2_topic",
-        "topic": "/joint_angles",
-        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
-        "messageTemplate": {
-          "joint_names": "{{joints}}",
-          "joint_angles": "{{angles}}",
-          "speed": 0.5
-        }
-      }
-    },
-    {
       "id": "play_animation_bow",
-      "name": "Bow Animation",
-      "description": "Play built-in bow animation",
+      "name": "Bow",
+      "description": "Polite bow gesture",
       "category": "movement",
       "icon": "user-check",
       "timeout": 3000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "std_msgs/msg/String",
         "topic": "/animation",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/BowShort_1"
-          }
+          "payload": {"data": "animations/Stand/Gestures/BowShort_1"}
         }
       }
     },
     {
       "id": "play_animation_hey",
-      "name": "Hey Animation",
-      "description": "Play built-in hey animation",
+      "name": "Hey",
+      "description": "Hey/get attention gesture",
       "category": "movement",
       "icon": "hand",
       "timeout": 3000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "std_msgs/msg/String",
         "topic": "/animation",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/Hey_1"
-          }
+          "payload": {"data": "animations/Stand/Gestures/Hey_1"}
         }
       }
     },
     {
       "id": "play_animation_show_floor",
-      "name": "Show Floor Animation",
-      "description": "Play built-in show floor animation",
+      "name": "Show Floor",
+      "description": "Show the floor gesture",
       "category": "movement",
       "icon": "footprints",
       "timeout": 3000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "std_msgs/msg/String",
         "topic": "/animation",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/ShowFloor_1"
-          }
-        }
-      }
-    },
-    {
-      "id": "play_animation_show_sole",
-      "name": "Show Sole Animation",
-      "description": "Play built-in show sole animation",
-      "category": "movement",
-      "icon": "footprints",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/animation",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/ShowSole_1"
-          }
+          "payload": {"data": "animations/Stand/Gestures/ShowFloor_1"}
         }
       }
     },
     {
       "id": "play_animation_enthusiastic",
-      "name": "Enthusiastic Animation",
-      "description": "Play built-in enthusiastic animation",
+      "name": "Enthusiastic",
+      "description": "Enthusiastic arm wave",
       "category": "movement",
       "icon": "sparkles",
       "timeout": 3000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "std_msgs/msg/String",
         "topic": "/animation",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/Enthusiastic_4"
-          }
-        }
-      }
-    },
-    {
-      "id": "play_animation_think",
-      "name": "Think Animation",
-      "description": "Play built-in think animation",
-      "category": "movement",
-      "icon": "help-circle",
-      "timeout": 3000,
-      "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
-      "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/animation",
-        "payloadMapping": {
-          "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/Think_1"
-          }
+          "payload": {"data": "animations/Stand/Gestures/Enthusiastic_4"}
         }
       }
     },
     {
       "id": "play_animation_yes",
-      "name": "Yes Animation",
-      "description": "Play built-in yes (nodding) animation",
+      "name": "Yes (Nod)",
+      "description": "Nodding yes gesture",
       "category": "movement",
       "icon": "thumbs-up",
       "timeout": 3000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "std_msgs/msg/String",
         "topic": "/animation",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/Yes_1"
-          }
+          "payload": {"data": "animations/Stand/Gestures/Yes_1"}
         }
       }
     },
     {
       "id": "play_animation_no",
-      "name": "No Animation",
-      "description": "Play built-in no (head shake) animation",
+      "name": "No (Head Shake)",
+      "description": "Head shaking no gesture",
       "category": "movement",
       "icon": "thumbs-down",
       "timeout": 3000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "std_msgs/msg/String",
         "topic": "/animation",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/No_3"
-          }
+          "payload": {"data": "animations/Stand/Gestures/No_3"}
         }
       }
     },
     {
       "id": "play_animation_idontknow",
-      "name": "I Don't Know Animation",
-      "description": "Play built-in I don't know animation",
+      "name": "I Don't Know",
+      "description": "I don't know shrug gesture",
       "category": "movement",
       "icon": "help-circle",
       "timeout": 3000,
       "retryable": true,
-      "parameterSchema": {
-        "type": "object",
-        "properties": {}
-      },
+      "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "messageType": "std_msgs/msg/String",
         "topic": "/animation",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
           "type": "static",
-          "payload": {
-            "data": "animations/Stand/Gestures/IDontKnow_1"
-          }
+          "payload": {"data": "animations/Stand/Gestures/IDontKnow_1"}
         }
       }
     }
