@@ -1496,45 +1496,35 @@
     },
     {
       "id": "play_animation",
-      "name": "Play Animation",
-      "description": "Play a predefined NAO animation/gesture",
-      "category": "movement",
-      "icon": "play",
+      "name": "Say Phrase",
+      "description": "Say a phrase with animated speech",
+      "category": "interaction",
+      "icon": "message-circle",
       "timeout": 5000,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
         "properties": {
-"animation": {
-              "type": "string",
-              "enum": [
-                "Hey_1",
-                "Happy_1",
-                "Happy_4",
-                "Enthusiastic_1",
-                "Yes_1",
-                "Yes_2",
-                "No_1",
-                "Blow_1",
-                "Gesture_Ok_1",
-                "Gesture_Nice_1",
-                "Gesture_You_1",
-                "Open_1",
-                "ShowSole_1",
-                "Show_1"
-              ],
-            "default": "Hey_1",
-            "description": "Animation to play"
+          "text": {
+            "type": "string",
+            "default": "Hello!",
+            "description": "Text to say"
+          },
+          "emotion": {
+            "type": "string",
+            "enum": ["neutral", "happy", "sad", "excited", "calm"],
+            "default": "neutral",
+            "description": "Speech emotion"
           }
         },
-        "required": ["animation"]
+        "required": ["text"]
       },
       "ros2": {
         "messageType": "std_msgs/msg/String",
         "topic": "/speech",
         "payloadMapping": {
           "type": "transform",
-          "transformFn": "transformToAnimation"
+          "transformFn": "transformToEmotionalSpeech"
         }
       },
       "implementation": {
@@ -1542,14 +1532,14 @@
         "topic": "/speech",
         "messageType": "std_msgs/msg/String",
         "messageTemplate": {
-          "data": "^start(animations/Stand/Gestures/{{animation}})"
+          "data": "{{text}}"
         }
       }
     },
     {
       "id": "open_hand_wave",
       "name": "Open Hand Wave",
-      "description": "Wave with open palm gesture",
+      "description": "Raise arm with open palm",
       "category": "movement",
       "icon": "hand",
       "timeout": 2500,
@@ -1559,21 +1549,25 @@
         "properties": {}
       },
       "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/joint_angles",
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "data": "^start(animations/Stand/Gestures/Open_1)"
+            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"],
+            "joint_angles": [0.8, -0.2, -1.5, -0.1, 0.0],
+            "speed": 0.3
           }
         }
       },
       "implementation": {
         "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
         "messageTemplate": {
-          "data": "^start(animations/Stand/Gestures/Open_1)"
+          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll", "RWristYaw"],
+          "joint_angles": [0.8, -0.2, -1.5, -0.1, 0.0],
+          "speed": 0.3
         }
       }
     },
@@ -1590,21 +1584,25 @@
         "properties": {}
       },
       "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/joint_angles",
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "data": "^start(animations/Stand/Gestures/ShowSole_1)"
+            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
+            "joint_angles": [0.5, -0.8, -0.5, 0.0],
+            "speed": 0.3
           }
         }
       },
       "implementation": {
         "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
         "messageTemplate": {
-          "data": "^start(animations/Stand/Gestures/ShowSole_1)"
+          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
+          "joint_angles": [0.5, -0.8, -0.5, 0.0],
+          "speed": 0.3
         }
       }
     },
@@ -1621,21 +1619,25 @@
         "properties": {}
       },
       "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/joint_angles",
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "data": "^start(animations/Stand/Gestures/Show_1)"
+            "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
+            "joint_angles": [0.3, -0.5, -1.0, -0.2],
+            "speed": 0.3
           }
         }
       },
       "implementation": {
         "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
         "messageTemplate": {
-          "data": "^start(animations/Stand/Gestures/Show_1)"
+          "joint_names": ["RShoulderPitch", "RShoulderRoll", "RElbowYaw", "RElbowRoll"],
+          "joint_angles": [0.3, -0.5, -1.0, -0.2],
+          "speed": 0.3
         }
       }
     },
@@ -1687,21 +1689,25 @@
         "properties": {}
       },
       "ros2": {
-        "messageType": "std_msgs/msg/String",
-        "topic": "/speech",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
+        "topic": "/joint_angles",
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "data": "^start(animations/Stand/Gestures/Gesture_You_1)"
+            "joint_names": ["RElbowRoll", "RElbowYaw", "RShoulderPitch", "RShoulderRoll"],
+            "joint_angles": [-1.5, 0.3, 1.5, 0.2],
+            "speed": 0.2
           }
         }
       },
       "implementation": {
         "type": "ros2_topic",
-        "topic": "/speech",
-        "messageType": "std_msgs/msg/String",
+        "topic": "/joint_angles",
+        "messageType": "naoqi_bridge_msgs/msg/JointAnglesWithSpeed",
         "messageTemplate": {
-          "data": "^start(animations/Stand/Gestures/Gesture_You_1)"
+          "joint_names": ["RElbowRoll", "RElbowYaw", "RShoulderPitch", "RShoulderRoll"],
+          "joint_angles": [-1.5, 0.3, 1.5, 0.2],
+          "speed": 0.2
         }
       }
     },
