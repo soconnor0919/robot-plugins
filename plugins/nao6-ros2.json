@@ -68,6 +68,7 @@
       "camera_bottom": "/camera/bottom/image_raw",
       "imu": "/imu/torso",
       "speech": "/speech",
+      "animation": "/animation",
       "bumper": "/bumper",
       "hand_touch": "/hand_touch",
       "head_touch": "/head_touch",
@@ -1945,6 +1946,213 @@
           "joint_names": "{{joints}}",
           "joint_angles": "{{angles}}",
           "speed": 0.5
+        }
+      }
+    },
+    {
+      "id": "play_animation_bow",
+      "name": "Bow Animation",
+      "description": "Play built-in bow animation",
+      "category": "movement",
+      "icon": "user-check",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/BowShort_1"
+          }
+        }
+      }
+    },
+    {
+      "id": "play_animation_hey",
+      "name": "Hey Animation",
+      "description": "Play built-in hey animation",
+      "category": "movement",
+      "icon": "hand",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/Hey_1"
+          }
+        }
+      }
+    },
+    {
+      "id": "play_animation_show_floor",
+      "name": "Show Floor Animation",
+      "description": "Play built-in show floor animation",
+      "category": "movement",
+      "icon": "footprints",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/ShowFloor_1"
+          }
+        }
+      }
+    },
+    {
+      "id": "play_animation_show_sole",
+      "name": "Show Sole Animation",
+      "description": "Play built-in show sole animation",
+      "category": "movement",
+      "icon": "footprints",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/ShowSole_1"
+          }
+        }
+      }
+    },
+    {
+      "id": "play_animation_enthusiastic",
+      "name": "Enthusiastic Animation",
+      "description": "Play built-in enthusiastic animation",
+      "category": "movement",
+      "icon": "sparkles",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/Enthusiastic_4"
+          }
+        }
+      }
+    },
+    {
+      "id": "play_animation_think",
+      "name": "Think Animation",
+      "description": "Play built-in think animation",
+      "category": "movement",
+      "icon": "help-circle",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/Think_1"
+          }
+        }
+      }
+    },
+    {
+      "id": "play_animation_yes",
+      "name": "Yes Animation",
+      "description": "Play built-in yes (nodding) animation",
+      "category": "movement",
+      "icon": "thumbs-up",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/Yes_1"
+          }
+        }
+      }
+    },
+    {
+      "id": "play_animation_no",
+      "name": "No Animation",
+      "description": "Play built-in no (head shake) animation",
+      "category": "movement",
+      "icon": "thumbs-down",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/No_3"
+          }
+        }
+      }
+    },
+    {
+      "id": "play_animation_idontknow",
+      "name": "I Don't Know Animation",
+      "description": "Play built-in I don't know animation",
+      "category": "movement",
+      "icon": "help-circle",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/animation",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "animations/Stand/Gestures/IDontKnow_1"
+          }
         }
       }
     }
