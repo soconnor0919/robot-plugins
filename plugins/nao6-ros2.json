@@ -1642,10 +1642,10 @@
     {
       "id": "beckon",
       "name": "Beckon",
-      "description": "Come here gesture",
+      "description": "Come here gesture using wave",
       "category": "movement",
       "icon": "arrow-right",
-      "timeout": 2000,
+      "timeout": 2500,
       "retryable": true,
       "parameterSchema": {
         "type": "object",
@@ -1657,7 +1657,7 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "data": "^start(animations/Stand/Gestures/Beckon_1)"
+            "data": "^start(animations/Stand/Gestures/Hello_1)"
           }
         }
       },
@@ -1666,14 +1666,14 @@
         "topic": "/speech",
         "messageType": "std_msgs/msg/String",
         "messageTemplate": {
-          "data": "^start(animations/Stand/Gestures/Beckon_1)"
+          "data": "^start(animations/Stand/Gestures/Hello_1)"
         }
       }
     },
     {
       "id": "think",
       "name": "Think",
-      "description": "Thinking gesture with hand near head",
+      "description": "Thinking gesture - hand to chin",
       "category": "movement",
       "icon": "help-circle",
       "timeout": 2000,
@@ -1688,7 +1688,7 @@
         "payloadMapping": {
           "type": "static",
           "payload": {
-            "data": "^start(animations/Stand/Gestures/Thinking_1)"
+            "data": "^start(animations/Stand/Gestures/Gesture_You_1)"
           }
         }
       },
@@ -1697,7 +1697,7 @@
         "topic": "/speech",
         "messageType": "std_msgs/msg/String",
         "messageTemplate": {
-          "data": "^start(animations/Stand/Gestures/Thinking_1)"
+          "data": "^start(animations/Stand/Gestures/Gesture_You_1)"
         }
       }
     },
