@@ -187,12 +187,11 @@
       "retryable": true,
       "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "topic": "/naoqi_driver/ALMotion/wakeUp",
-        "messageType": "std_msgs/msg/Empty",
+        "topic": "/ssh",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
-          "type": "service",
-          "service": "/naoqi_driver/ALMotion/wakeUp",
-          "args": {}
+          "type": "ssh",
+          "sshCommand": "qicli call ALMotion.wakeUp"
         }
       }
     },
@@ -206,12 +205,83 @@
       "retryable": true,
       "parameterSchema": {"type": "object", "properties": {}},
       "ros2": {
-        "topic": "/naoqi_driver/ALMotion/rest",
-        "messageType": "std_msgs/msg/Empty",
+        "topic": "/ssh",
+        "messageType": "std_msgs/msg/String",
         "payloadMapping": {
-          "type": "service",
-          "service": "/naoqi_driver/ALMotion/rest",
-          "args": {}
+          "type": "ssh",
+          "sshCommand": "qicli call ALMotion.rest"
+        }
+      }
+    },
+    {
+      "id": "stand",
+      "name": "Stand",
+      "description": "Robot stands in neutral position",
+      "category": "movement",
+      "icon": "user",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {"type": "object", "properties": {}},
+      "ros2": {
+        "topic": "/ssh",
+        "messageType": "std_msgs/msg/String",
+        "payloadMapping": {
+          "type": "ssh",
+          "sshCommand": "qicli call ALRobotPosture.goToPosture Stand 0.5"
+        }
+      }
+    },
+    {
+      "id": "stand_init",
+      "name": "Stand Init",
+      "description": "Robot stands in initialized position",
+      "category": "movement",
+      "icon": "user-check",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {"type": "object", "properties": {}},
+      "ros2": {
+        "topic": "/ssh",
+        "messageType": "std_msgs/msg/String",
+        "payloadMapping": {
+          "type": "ssh",
+          "sshCommand": "qicli call ALRobotPosture.goToPosture StandInit 0.5"
+        }
+      }
+    },
+    {
+      "id": "sit",
+      "name": "Sit",
+      "description": "Robot sits down",
+      "category": "movement",
+      "icon": "armchair",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {"type": "object", "properties": {}},
+      "ros2": {
+        "topic": "/ssh",
+        "messageType": "std_msgs/msg/String",
+        "payloadMapping": {
+          "type": "ssh",
+          "sshCommand": "qicli call ALRobotPosture.goToPosture Sit 0.5"
+        }
+      }
+    },
+    {
+      "id": "crouch",
+      "name": "Crouch",
+      "description": "Robot crouches",
+      "category": "movement",
+      "icon": "arrow-down-to-line",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {"type": "object", "properties": {}},
+      "ros2": {
+        "topic": "/ssh",
+        "messageType": "std_msgs/msg/String",
+        "payloadMapping": {
+          "type": "ssh",
+          "sshCommand": "qicli call ALRobotPosture.goToPosture Crouch 0.5"
         }
       }
     },
