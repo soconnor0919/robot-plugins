@@ -1505,21 +1505,24 @@
       "parameterSchema": {
         "type": "object",
         "properties": {
-          "animation": {
-            "type": "string",
-            "enum": [
-              "Hey_1",
-              "Happy_1",
-              "Happy_4",
-              "Enthusiastic_1",
-              "Yes_1",
-              "Yes_2",
-              "No_1",
-              "Blow_1",
-              "Gesture_Ok_1",
-              "Gesture_Nice_1",
-              "Gesture_You_1"
-            ],
+"animation": {
+              "type": "string",
+              "enum": [
+                "Hey_1",
+                "Happy_1",
+                "Happy_4",
+                "Enthusiastic_1",
+                "Yes_1",
+                "Yes_2",
+                "No_1",
+                "Blow_1",
+                "Gesture_Ok_1",
+                "Gesture_Nice_1",
+                "Gesture_You_1",
+                "Open_1",
+                "ShowSole_1",
+                "Show_1"
+              ],
             "default": "Hey_1",
             "description": "Animation to play"
           }
@@ -1540,6 +1543,277 @@
         "messageType": "std_msgs/msg/String",
         "messageTemplate": {
           "data": "^start(animations/Stand/Gestures/{{animation}})"
+        }
+      }
+    },
+    {
+      "id": "open_hand_wave",
+      "name": "Open Hand Wave",
+      "description": "Wave with open palm gesture",
+      "category": "movement",
+      "icon": "hand",
+      "timeout": 2500,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "^start(animations/Stand/Gestures/Open_1)"
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^start(animations/Stand/Gestures/Open_1)"
+        }
+      }
+    },
+    {
+      "id": "show_sole",
+      "name": "Show Sole",
+      "description": "Show open palm with fingers spread",
+      "category": "movement",
+      "icon": "hand",
+      "timeout": 2000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "^start(animations/Stand/Gestures/ShowSole_1)"
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^start(animations/Stand/Gestures/ShowSole_1)"
+        }
+      }
+    },
+    {
+      "id": "present_object",
+      "name": "Present Object",
+      "description": "Present something to the participant with open hand",
+      "category": "movement",
+      "icon": "hand",
+      "timeout": 2000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "^start(animations/Stand/Gestures/Show_1)"
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^start(animations/Stand/Gestures/Show_1)"
+        }
+      }
+    },
+    {
+      "id": "beckon",
+      "name": "Beckon",
+      "description": "Come here gesture",
+      "category": "movement",
+      "icon": "arrow-right",
+      "timeout": 2000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "^start(animations/Stand/Gestures/Beckon_1)"
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^start(animations/Stand/Gestures/Beckon_1)"
+        }
+      }
+    },
+    {
+      "id": "think",
+      "name": "Think",
+      "description": "Thinking gesture with hand near head",
+      "category": "movement",
+      "icon": "help-circle",
+      "timeout": 2000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "^start(animations/Stand/Gestures/Thinking_1)"
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^start(animations/Stand/Gestures/Thinking_1)"
+        }
+      }
+    },
+    {
+      "id": "set_posture",
+      "name": "Set Posture",
+      "description": "Return robot to a specific posture using ALRobotPosture",
+      "category": "movement",
+      "icon": "user",
+      "timeout": 5000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "posture": {
+            "type": "string",
+            "enum": ["Stand", "Crouch", "Sit", "SitRelief", "StandInit", "StandZero", "LyingBelly", "LyingBack"],
+            "default": "Stand",
+            "description": "Target posture"
+          },
+          "speed": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "default": 0.5,
+            "description": "Transition speed (0-1)"
+          }
+        },
+        "required": ["posture"]
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "^runPosture({{posture}}, {{math.round(speed * 100)}})"
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^runPosture({{posture}}, {{math.round(speed * 100)}})"
+        }
+      }
+    },
+    {
+      "id": "pause_motion",
+      "name": "Pause Motion",
+      "description": "Freeze all robot motion by setting stiffness to 0",
+      "category": "movement",
+      "icon": "pause",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {
+          "stiffness": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "default": 0.0,
+            "description": "Stiffness value (0 = relax, 1 = full)"
+          }
+        }
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "^setStiffnesses([[Body]], {{stiffness}})"
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^setStiffnesses([[Body]], {{stiffness}})"
+        }
+      }
+    },
+    {
+      "id": "stop_motion",
+      "name": "Stop Motion",
+      "description": "Stop all movement and hold current position",
+      "category": "movement",
+      "icon": "square",
+      "timeout": 3000,
+      "retryable": true,
+      "parameterSchema": {
+        "type": "object",
+        "properties": {}
+      },
+      "ros2": {
+        "messageType": "std_msgs/msg/String",
+        "topic": "/speech",
+        "payloadMapping": {
+          "type": "static",
+          "payload": {
+            "data": "^stopAll()"
+          }
+        }
+      },
+      "implementation": {
+        "type": "ros2_topic",
+        "topic": "/speech",
+        "messageType": "std_msgs/msg/String",
+        "messageTemplate": {
+          "data": "^stopAll()"
         }
       }
     }
